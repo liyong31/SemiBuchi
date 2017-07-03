@@ -1,0 +1,103 @@
+// Testfile dumped by Ultimate at 2017/06/11 23:50:17
+//
+// 
+
+FiniteAutomaton inclusionLHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 s21 s22 s23 s24 s25 s26 s27 s28 s29 s30 },
+	initialStates = {s23 },
+	finalStates = {s1 s2 s5 s8 s9 s11 s14 s17 s20 s23 s24 },
+	transitions = {
+		(s0 a2 s17)
+		(s0 a2 s27)
+		(s1 a2 s17)
+		(s1 a2 s2)
+		(s2 a7 s8)
+		(s3 a7 s21)
+		(s4 a2 s7)
+		(s4 a2 s27)
+		(s5 a1 s1)
+		(s6 a2 s2)
+		(s6 a2 s7)
+		(s7 a7 s25)
+		(s8 a11 s5)
+		(s9 a2 s10)
+		(s9 a2 s11)
+		(s10 a7 s18)
+		(s11 a7 s20)
+		(s12 a2 s11)
+		(s12 a2 s13)
+		(s13 a7 s19)
+		(s14 a1 s9)
+		(s15 a3 s16)
+		(s16 a2 s3)
+		(s16 a2 s10)
+		(s16 a2 s11)
+		(s16 a2 s13)
+		(s17 a7 s18)
+		(s18 a11 s15)
+		(s19 a10 s6)
+		(s19 a11 s29)
+		(s20 a11 s14)
+		(s21 a10 s22)
+		(s22 a2 s3)
+		(s22 a2 s10)
+		(s23 a0 s24)
+		(s24 a2 s3)
+		(s24 a2 s10)
+		(s24 a2 s11)
+		(s24 a2 s13)
+		(s25 a10 s12)
+		(s25 a11 s26)
+		(s26 a1 s1)
+		(s26 a1 s4)
+		(s27 a7 s28)
+		(s28 a10 s0)
+		(s29 a1 s9)
+		(s29 a1 s30)
+		(s30 a2 s27)
+		(s30 a2 s13)
+	}
+);
+// Testfile dumped by Ultimate at 2017/06/11 23:50:17
+//
+// RefinementSetting [mInterpolantAutomaton=ScroogeNondeterminism, mBouncerStem=false, mBouncerLoop=false, mScroogeNondeterminismStem=true, mScroogeNondeterminismLoop=false, mCannibalizeLoop=true]
+
+FiniteAutomaton inclusionRHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 },
+	states = {s0 s1 s2 s3 s4 s5 },
+	initialStates = {s4 },
+	finalStates = {s0 s2 },
+	transitions = {
+		(s0 a1 s1)
+		(s0 a2 s5)
+		(s0 a3 s5)
+		(s0 a7 s3)
+		(s1 a2 s1)
+		(s1 a7 s2)
+		(s2 a10 s3)
+		(s2 a11 s3)
+		(s3 a1 s0)
+		(s3 a2 s3)
+		(s3 a3 s3)
+		(s3 a7 s3)
+		(s3 a10 s3)
+		(s3 a11 s3)
+		(s4 a0 s0)
+		(s4 a0 s4)
+		(s4 a1 s0)
+		(s4 a1 s4)
+		(s4 a2 s0)
+		(s4 a2 s4)
+		(s4 a3 s0)
+		(s4 a3 s4)
+		(s4 a7 s2)
+		(s4 a7 s4)
+		(s4 a10 s0)
+		(s4 a10 s4)
+		(s4 a11 s0)
+		(s4 a11 s4)
+		(s5 a2 s5)
+		(s5 a7 s3)
+	}
+);

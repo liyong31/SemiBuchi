@@ -1,0 +1,76 @@
+// Testfile dumped by Ultimate at 2017/06/11 23:50:04
+//
+// 
+
+FiniteAutomaton inclusionLHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 },
+	states = {s0 s1 s2 s3 s4 s5 s6 },
+	initialStates = {s5 },
+	finalStates = {s0 s1 s2 s3 s4 s5 s6 },
+	transitions = {
+		(s0 a9 s1)
+		(s1 a10 s2)
+		(s1 a11 s0)
+		(s2 a13 s4)
+		(s3 a3 s4)
+		(s4 a6 s6)
+		(s5 a1 s3)
+		(s6 a8 s0)
+	}
+);
+// Testfile dumped by Ultimate at 2017/06/11 23:50:04
+//
+// RefinementSetting [mInterpolantAutomaton=ScroogeNondeterminism, mBouncerStem=false, mBouncerLoop=false, mScroogeNondeterminismStem=true, mScroogeNondeterminismLoop=false, mCannibalizeLoop=true]
+
+FiniteAutomaton inclusionRHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 },
+	initialStates = {s1 },
+	finalStates = {s4 s5 s8 },
+	transitions = {
+		(s0 a9 s0)
+		(s0 a10 s0)
+		(s0 a6 s0)
+		(s0 a11 s0)
+		(s0 a13 s0)
+		(s0 a8 s6)
+		(s1 a1 s1)
+		(s1 a1 s4)
+		(s1 a9 s1)
+		(s1 a9 s4)
+		(s1 a3 s1)
+		(s1 a3 s4)
+		(s1 a10 s1)
+		(s1 a10 s4)
+		(s1 a6 s1)
+		(s1 a6 s4)
+		(s1 a11 s1)
+		(s1 a11 s4)
+		(s1 a13 s1)
+		(s1 a13 s4)
+		(s1 a8 s1)
+		(s1 a8 s8)
+		(s2 a9 s2)
+		(s2 a10 s7)
+		(s2 a11 s3)
+		(s2 a8 s2)
+		(s3 a9 s3)
+		(s3 a10 s3)
+		(s3 a11 s3)
+		(s3 a13 s0)
+		(s3 a8 s2)
+		(s4 a9 s3)
+		(s4 a10 s3)
+		(s4 a6 s3)
+		(s4 a11 s3)
+		(s4 a13 s0)
+		(s4 a8 s2)
+		(s5 a13 s8)
+		(s6 a9 s6)
+		(s6 a10 s5)
+		(s6 a11 s0)
+		(s7 a13 s8)
+		(s8 a9 s2)
+		(s8 a6 s2)
+	}
+);
