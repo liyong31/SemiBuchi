@@ -1,0 +1,187 @@
+package operation.emptiness;
+
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import automata.BuchiGeneral;
+import automata.IBuchi;
+import automata.IState;
+import util.IPair;
+import util.IntStack;
+import util.Timer;
+
+// from paper Comparison of Algorithms for Checking Emptiness on B¨uchi Automata
+// by Andreas Gaiser and Stefan Schwoon
+public class BuchiIsEmptyASCC implements BuchiIsEmpty {
+	
+	private final IBuchi mBuchi;
+	private int mDepth;
+	private final IntStack mRootsStack;             // C99 's root stack
+	private final IntStack mActiveStack;            // tarjan's stack
+	private final Map<Integer, Integer> mDfsNum;
+	private final BitSet mCurrent;
+	private final long TIME_LIMIT;
+	private final Timer mTimer;
+	private Boolean mIsEmpty = true;
+	
+	public BuchiIsEmptyASCC(IBuchi buchi, int timeLimit) {
+		
+		this.mBuchi = buchi;
+		this.TIME_LIMIT = timeLimit;
+		this.mRootsStack = new IntStack();
+		this.mActiveStack = new IntStack();
+		this.mDfsNum = new HashMap<>();
+		this.mCurrent = new BitSet();
+		this.mTimer = new Timer();
+		mTimer.start();
+		explore();
+	}
+
+	private void explore() {
+		// TODO Auto-generated method stub
+		mDepth = 0;
+		for(int n = mBuchi.getInitialStates().nextSetBit(0);
+				n >= 0;
+				n = mBuchi.getInitialStates().nextSetBit(n + 1)) {
+			if(!mDfsNum.containsKey(n) && !terminate()){
+				dfs(n);
+				if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
+			}
+		}
+	}
+	
+	private boolean terminate() {
+		if(mTimer.tick() > TIME_LIMIT) 
+			return true;
+		return false;
+	}
+
+	private void dfs(int n) {
+		
+		if(terminate()) {
+			mIsEmpty = null;
+			return ;
+		}
+		
+		++ mDepth;
+		mDfsNum.put(n, mDepth);
+		mRootsStack.push(n);
+		mActiveStack.push(n);
+		mCurrent.set(n);
+		
+		IState state = mBuchi.getState(n);
+		//TODO only get enabled letters
+		for(int letter = 0; letter < mBuchi.getAlphabetSize(); letter ++) {
+			BitSet succs = state.getSuccessors(letter);
+			for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+				// successor succ
+				if(! mDfsNum.containsKey(succ)) {
+					dfs(succ);
+					if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
+				}else if(mCurrent.get(succ)) {
+					// we have already seen it before, there is a loop
+					while(true) {
+						//pop element u
+						int u = mRootsStack.pop();
+						if(mBuchi.isFinal(u)) {
+							mIsEmpty = false;
+							return;
+						}
+						
+						if(mDfsNum.get(u) <= mDfsNum.get(succ)) {
+							mRootsStack.push(u); // push back
+							break;
+						}
+					}
+					return ;
+				}
+			}
+		}
+		
+		// if current number is done, 
+		// then we should remove all 
+		// active states in the same scc
+		if(mRootsStack.peek() == n) {
+			mRootsStack.pop();
+			while(true) {
+				int u = mActiveStack.pop(); // Tarjan' Stack
+				mCurrent.clear(u);
+				if(u == n) break;
+			}
+		}
+	}
+			
+
+	@Override
+	public Boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return mIsEmpty;
+	}
+
+	@Override
+	public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	public static IBuchi getA() {
+		IBuchi buchi = new BuchiGeneral(2);
+		IState a = buchi.addState();
+		IState b = buchi.addState();
+		IState c = buchi.addState();
+		IState d = buchi.addState();
+		IState e = buchi.addState();
+		
+		a.addSuccessor(0, b.getId());
+		b.addSuccessor(0, c.getId());
+		
+		c.addSuccessor(0, d.getId());
+		d.addSuccessor(1, b.getId());
+		
+		b.addSuccessor(1, e.getId());
+		
+		e.addSuccessor(1, d.getId());
+		
+		buchi.setFinal(e);
+		
+		buchi.setInitial(a);
+		return buchi;
+	}
+	
+	public static IBuchi getB() {
+		IBuchi buchi = new BuchiGeneral(2);
+		IState a = buchi.addState();
+		IState b = buchi.addState();
+		IState c = buchi.addState();
+		
+		a.addSuccessor(0, b.getId());
+//		b.addSuccessor(1, c.getId());
+		
+//		c.addSuccessor(0, c.getId());
+		
+		
+		buchi.setFinal(b);
+		
+		buchi.setInitial(a);
+		return buchi;
+	}
+	
+	public static void main(String[] args) {
+
+		IBuchi A = getA();
+		IBuchi B = getB();
+		
+		System.out.println(A.toDot());
+		
+		BuchiIsEmptyASCC dfs = new BuchiIsEmptyASCC(A, 10*1000);
+		System.out.println(dfs.isEmpty());
+		
+		dfs = new BuchiIsEmptyASCC(B, 10*1000);
+		System.out.println(B.toDot() + "\n" + dfs.isEmpty());
+	}
+			
+
+}
