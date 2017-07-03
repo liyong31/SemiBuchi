@@ -11,7 +11,7 @@ import util.Timer;
 public class RunRabit {
 
 	/**
-	 * Specifying the directory for RABIT executable 
+	 * Specifying the directory for RABIT executable, should later put in resource 
 	 */
 	public static final File ENVIRONMENT =
 			new File(new File(System.getProperty("user.home"), "Desktop"), "rabit");
