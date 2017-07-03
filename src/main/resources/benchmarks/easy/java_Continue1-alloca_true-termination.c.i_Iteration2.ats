@@ -1,0 +1,116 @@
+// Testfile dumped by Ultimate at 2017/06/12 01:44:42
+//
+// 
+
+FiniteAutomaton inclusionLHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 s21 s22 s23 s24 s25 },
+	initialStates = {s19 },
+	finalStates = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 s20 s21 s22 s23 s24 s25 },
+	transitions = {
+		(s0 a14 s1)
+		(s1 a15 s6)
+		(s2 a5 s3)
+		(s3 a8 s25)
+		(s4 a3 s5)
+		(s5 a4 s2)
+		(s6 a16 s7)
+		(s7 a17 s9)
+		(s8 a8 s9)
+		(s9 a9 s18)
+		(s10 a22 s8)
+		(s11 a19 s12)
+		(s12 a20 s15)
+		(s13 a15 s14)
+		(s14 a16 s21)
+		(s15 a21 s10)
+		(s16 a12 s17)
+		(s17 a13 s22)
+		(s18 a11 s16)
+		(s19 a0 s4)
+		(s20 a13 s0)
+		(s21 a17 s9)
+		(s21 a18 s11)
+		(s22 a14 s13)
+		(s23 a12 s20)
+		(s24 a11 s23)
+		(s25 a9 s24)
+	}
+);
+// Testfile dumped by Ultimate at 2017/06/12 01:44:43
+//
+// RefinementSetting [mInterpolantAutomaton=ScroogeNondeterminism, mBouncerStem=false, mBouncerLoop=false, mScroogeNondeterminismStem=true, mScroogeNondeterminismLoop=false, mCannibalizeLoop=true]
+
+FiniteAutomaton inclusionRHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 },
+	initialStates = {s3 },
+	finalStates = {s2 s5 s7 },
+	transitions = {
+		(s0 a14 s1)
+		(s1 a15 s1)
+		(s1 a16 s8)
+		(s1 a19 s1)
+		(s1 a20 s1)
+		(s2 a17 s6)
+		(s2 a18 s6)
+		(s3 a0 s3)
+		(s3 a0 s7)
+		(s3 a3 s3)
+		(s3 a3 s7)
+		(s3 a4 s3)
+		(s3 a4 s7)
+		(s3 a5 s3)
+		(s3 a5 s7)
+		(s3 a8 s3)
+		(s3 a8 s7)
+		(s3 a9 s3)
+		(s3 a9 s7)
+		(s3 a11 s3)
+		(s3 a11 s7)
+		(s3 a12 s3)
+		(s3 a12 s5)
+		(s3 a13 s3)
+		(s3 a13 s7)
+		(s3 a14 s3)
+		(s3 a14 s7)
+		(s3 a15 s3)
+		(s3 a15 s7)
+		(s3 a16 s2)
+		(s3 a16 s3)
+		(s3 a17 s3)
+		(s3 a17 s7)
+		(s3 a18 s3)
+		(s3 a18 s7)
+		(s3 a19 s3)
+		(s3 a19 s7)
+		(s3 a20 s3)
+		(s3 a20 s7)
+		(s3 a21 s3)
+		(s3 a21 s7)
+		(s3 a22 s3)
+		(s3 a22 s7)
+		(s4 a17 s6)
+		(s4 a18 s6)
+		(s5 a13 s0)
+		(s6 a12 s9)
+		(s6 a16 s4)
+		(s6 a8 s6)
+		(s6 a9 s6)
+		(s6 a19 s6)
+		(s6 a20 s6)
+		(s6 a11 s6)
+		(s7 a12 s9)
+		(s7 a15 s6)
+		(s7 a16 s4)
+		(s7 a8 s6)
+		(s7 a9 s6)
+		(s7 a19 s6)
+		(s7 a20 s6)
+		(s7 a22 s6)
+		(s7 a11 s6)
+		(s8 a17 s7)
+		(s8 a18 s1)
+		(s9 a13 s0)
+	}
+);
