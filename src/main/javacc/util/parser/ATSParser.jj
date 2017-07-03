@@ -58,6 +58,7 @@ private void parseFile() :
     {
       fst = buchi;
       buchi = null;
+      parser.clearStateMap();
     }
     parseAutomaton()
     {
