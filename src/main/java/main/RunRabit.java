@@ -18,11 +18,11 @@ public class RunRabit {
 	/**
 	 * The maximal heap size in gigabyte to use for the Rabit tool.
 	 */
-	public static final int MAX_HEAP_SIZE_GB = 1;
+	public static final int MAX_HEAP_SIZE_GB = 3;
 	/**
 	 * The minimal heap size in gigabyte to use for the Rabit tool.
 	 */
-	public static final int MIN_HEAP_SIZE_GB = 1;
+	public static final int MIN_HEAP_SIZE_GB = 3;
 	/**
 	 * Name of the tool to use.
 	 */

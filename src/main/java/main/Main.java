@@ -29,7 +29,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		
-		File fileDir = new File("src/main/resources/benchmarks");
+		File fileDir = new File("src/main/resources/benchmarks/difficult/");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		CSVGenerator generator = new CSVGenerator("./result-" + dateFormat.format(new Date()) + ".csv");
 		long time = 20*1000;
@@ -68,6 +68,7 @@ public class Main {
 							new BuchiInclusionComplement(pair.getFstElement(), pair.getSndElement())
 						, f.getAbsolutePath()
 						, time));
+
 					
 					for(TaskInfo task : tasks) {
 						System.out.println("\n\n" + task.getOperation().getName() + " is running....");
@@ -75,6 +76,8 @@ public class Main {
 							task.runTask();
 						}catch(Exception e) {
 							e.printStackTrace();
+						}catch(OutOfMemoryError e)	{
+						    e.printStackTrace();
 						}finally {
 //							generator.end();
 						}

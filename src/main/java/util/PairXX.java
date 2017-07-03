@@ -14,5 +14,11 @@ public class PairXX<X> extends PairXY<X, X> {
 		return getFstElement().equals(other.getFstElement())
 			&& getSndElement().equals(other.getSndElement());
 	}
+	
+    @Override
+    public int hashCode(){
+      return getFstElement().hashCode() + 31*getSndElement().hashCode();
+    }   
+
 
 }

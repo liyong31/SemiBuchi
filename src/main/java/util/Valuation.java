@@ -40,6 +40,7 @@ public class Valuation extends BitSet implements Comparable<Valuation>, Iterable
 		return false;
 	}
 	
+	
 	@Override
 	public Valuation clone() {
 		Valuation copy = new Valuation(this.size());
