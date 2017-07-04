@@ -53,8 +53,8 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 	}
 	
 	private boolean terminate() {
-		if(mTimer.tick() > TIME_LIMIT) 
-			return true;
+//		if(mTimer.tick() > TIME_LIMIT) 
+//			return true;
 		return false;
 	}
 
@@ -95,7 +95,6 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 							break;
 						}
 					}
-					return ;
 				}
 			}
 		}
@@ -124,63 +123,6 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 	public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	
-	public static IBuchi getA() {
-		IBuchi buchi = new BuchiGeneral(2);
-		IState a = buchi.addState();
-		IState b = buchi.addState();
-		IState c = buchi.addState();
-		IState d = buchi.addState();
-		IState e = buchi.addState();
-		
-		a.addSuccessor(0, b.getId());
-		b.addSuccessor(0, c.getId());
-		
-		c.addSuccessor(0, d.getId());
-		d.addSuccessor(1, b.getId());
-		
-		b.addSuccessor(1, e.getId());
-		
-		e.addSuccessor(1, d.getId());
-		
-		buchi.setFinal(e);
-		
-		buchi.setInitial(a);
-		return buchi;
-	}
-	
-	public static IBuchi getB() {
-		IBuchi buchi = new BuchiGeneral(2);
-		IState a = buchi.addState();
-		IState b = buchi.addState();
-		IState c = buchi.addState();
-		
-		a.addSuccessor(0, b.getId());
-//		b.addSuccessor(1, c.getId());
-		
-//		c.addSuccessor(0, c.getId());
-		
-		
-		buchi.setFinal(b);
-		
-		buchi.setInitial(a);
-		return buchi;
-	}
-	
-	public static void main(String[] args) {
-
-		IBuchi A = getA();
-		IBuchi B = getB();
-		
-		System.out.println(A.toDot());
-		
-		BuchiIsEmptyASCC dfs = new BuchiIsEmptyASCC(A, 10*1000);
-		System.out.println(dfs.isEmpty());
-		
-		dfs = new BuchiIsEmptyASCC(B, 10*1000);
-		System.out.println(B.toDot() + "\n" + dfs.isEmpty());
 	}
 			
 

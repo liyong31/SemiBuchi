@@ -15,11 +15,7 @@ import operation.inclusion.BuchiInclusionASCC;
 import operation.inclusion.BuchiInclusionASCCAntichain;
 import operation.inclusion.BuchiInclusionComplement;
 import operation.inclusion.BuchiInclusionRABIT;
-import operation.inclusion.IBuchiInclusion;
-import operation.universality.BuchiUniversalityNestedDFS;
-import operation.universality.BuchiUniversalityNestedDFSAntichain;
-import operation.universality.BuchiUniversalityTarjan;
-import operation.universality.BuchiUniversalityTarjanOriginal;
+
 import util.PairXX;
 import util.parser.ATSFileParser;
 
@@ -35,6 +31,7 @@ public class Main {
 		long time = 40*1000;
 		generator.start();
 		int numFile = 0;
+		if( fileDir.listFiles() == null) return ;
 		for(File f : fileDir.listFiles()) {
 			System.out.println(f.getName());
 			
@@ -48,23 +45,23 @@ public class Main {
 					List<TaskInfo> tasks = new ArrayList<TaskInfo>();
 					tasks.add(new TaskInfo(
 							new BuchiInclusionRABIT(pair.getFstElement(), pair.getSndElement())
-						, f.getAbsolutePath()
+						, f.getName()
 						, time));
 					
 					
 					tasks.add(new TaskInfo(
 							new BuchiInclusionASCC(pair.getFstElement(), pair.getSndElement())
-						, f.getAbsolutePath()
+						, f.getName()
 						, time));
 					
 					tasks.add(new TaskInfo(
 							new BuchiInclusionASCCAntichain(pair.getFstElement(), pair.getSndElement())
-						, f.getAbsolutePath()
+						, f.getName()
 						, time));
 					
 					tasks.add(new TaskInfo(
 							new BuchiInclusionComplement(pair.getFstElement(), pair.getSndElement())
-						, f.getAbsolutePath()
+						, f.getName()
 						, time));
 
 					

@@ -2,6 +2,7 @@ package operation.inclusion;
 
 import java.util.BitSet;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -92,8 +93,8 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 
 
 		
-//		private final LinkedList<Integer> mPrefix = new LinkedList<>();
-//		private final LinkedList<Integer> mLoop = new LinkedList<>();
+		private final LinkedList<Integer> mPrefix = new LinkedList<>();
+		private final LinkedList<Integer> mLoop = new LinkedList<>();
 //		
 		
 		// make use of tarjan algorithm
@@ -139,18 +140,18 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 				boolean hasFstAcc = false, hasSndAcc = false;
 				// In order to get the accepting run, we have to use list in the future
 				scc.clear();
-//				mLoop.clear();
+				mLoop.clear();
 				while(! mStack.empty()){
 					Integer t = mStack.pop();
 					scc.set(t);
-//					mLoop.addFirst(t);
+					mLoop.addFirst(t);
 					InclusionPairNCSB sp = mPairNCSBArray.get(t);
 					if(mFstOperand.isFinal(sp.getFstElement())) hasFstAcc = true;
 					if(mSndComplement.isFinal(sp.getSndElement())) hasSndAcc = true;
 					if(t.intValue() == v)
 						break;
 				}
-				
+
 				mIsEmpty = ! (hasFstAcc && hasSndAcc);
 				if(scc.cardinality() == 1 // only has a single state
 						&& ! mIsEmpty     // it is an accepting states
@@ -163,13 +164,18 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 					if(!hasSelfLoop) mIsEmpty = true;
 				}
 								
-//				if(!mIsEmpty) {
-//					mPrefix.addFirst(v);
-//					while(! mStack.empty()){
-//						Integer t = mStack.pop();
-//						mPrefix.addFirst(t);
-//					}
-//				}
+				if(!mIsEmpty) {
+					mPrefix.addFirst(v);
+					while(! mStack.empty()){
+						Integer t = mStack.pop();
+						mPrefix.addFirst(t);
+					}
+				}
+				
+				if(! mIsEmpty) {
+					System.out.println("" + mPrefix);
+					System.out.println("" + mLoop);
+				}
 			}
 		}
 		

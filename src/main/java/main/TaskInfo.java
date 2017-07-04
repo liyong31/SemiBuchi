@@ -81,4 +81,8 @@ public class TaskInfo {
 		return mRunTime;
 	}
 	
+	public Boolean getResult() {
+		return mResult;
+	}
+	
 }

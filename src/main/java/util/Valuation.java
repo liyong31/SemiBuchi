@@ -34,7 +34,7 @@ public class Valuation extends BitSet implements Comparable<Valuation>, Iterable
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Valuation) {
+		if(obj instanceof BitSet) {
 			return this.compareTo((Valuation)obj) == 0;
 		}
 		return false;

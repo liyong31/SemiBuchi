@@ -183,7 +183,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	
 
 	public boolean equals(Object otherState) {
-		if(!(otherState instanceof StateNCSB)) {
+		if(!(otherState instanceof IStateComplement)) {
 			return false;
 		}
 		StateNCSB state = (StateNCSB)otherState;

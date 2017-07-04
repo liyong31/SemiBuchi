@@ -27,16 +27,19 @@ public class Antichain {
 	public boolean addPair(int fst, StateNCSB snd) {
 		
 		List<StateNCSB> sndElem = mPairMap.get(fst);
+		
 		if(sndElem == null) {
 			sndElem = new ArrayList<>();
 		}
 		//avoid to add pairs are covered by other pairs
 		for(int i = 0; i < sndElem.size(); i ++) {
 			StateNCSB s = sndElem.get(i);
-			if(s.coveredBy(snd)) { // current pair covered by new pair
+			//TODO should remove all pairs covered by the new pair
+			if(s.coveredBy(snd)) { 
 				sndElem.set(i, snd);
 				return true;
-			}else if(snd.coveredBy(s)) { // no need to add it
+			}else if(snd.coveredBy(s)) {
+				// no need to add it
 				return false;
 			}
 		}
