@@ -30,6 +30,8 @@ public class RunRabit {
 	
 	public static final String NOT_INCLUDED = "Not included";
 	
+	public static final String INCLUDED = "Included";
+	
 	public static final String A_FILE = ENVIRONMENT.getAbsolutePath() + "/A.ba";
 
 	public static final String B_FILE = ENVIRONMENT.getAbsolutePath() + "/B.ba";
@@ -72,10 +74,12 @@ public class RunRabit {
 		
 		final BufferedReader reader = new  BufferedReader(new InputStreamReader(proc.getInputStream()));
 		String line = null;
-		boolean result = true;
+		Boolean result = null;
 		while((line = reader.readLine()) != null) {
 			if(line.contains(NOT_INCLUDED)) {
 				result = false;
+			}else if(line.contains(INCLUDED)) {
+				result = true;
 			}
 			System.out.println(line);
 		}
