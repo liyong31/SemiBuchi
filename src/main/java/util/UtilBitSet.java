@@ -8,13 +8,19 @@ public class UtilBitSet {
 		
 	}
 	
+	// hope will faster
 	public static boolean subsetOf(final BitSet A, final BitSet B) {
+		
 		if(A.cardinality() > B.cardinality()) return false;
-		for(int n = A.nextSetBit(0); n >= 0; n = A.nextSetBit(n + 1)) {
-			if(n >= B.size()) return false;
-			if(! B.get(n)) return false;
-		}
-		return true;
+		BitSet AP = (BitSet) A.clone();
+		AP.andNot(B);
+		if(AP.isEmpty()) return true;
+		return false;
+//		for(int n = A.nextSetBit(0); n >= 0; n = A.nextSetBit(n + 1)) {
+//			if(n >= B.size()) return false;
+//			if(! B.get(n)) return false;
+//		}
+//		return true;
 	}
 	
 	public static boolean contentEq(final BitSet A, final BitSet B) {
