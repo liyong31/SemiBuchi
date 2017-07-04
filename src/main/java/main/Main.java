@@ -114,15 +114,15 @@ public class Main {
 //				, BuchiInclusionASCC.class, BuchiInclusionASCCAntichain.class};
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		CSVGenerator generator = new CSVGenerator("./result-" + dateFormat.format(new Date()) + ".csv");
-		long time = 20*1000;
+		long time = 40*1000;
 		generator.start();
 		int numFile = 0;
 		for(File f : fileDir.listFiles()) {
 			System.out.println(f.getName());
 			
 			if(f.getName().endsWith(FILE_EXT)) {
-				if(!f.getName().endsWith("token_ring.08_true-unreach-call_false-termination.cil.c_Iteration33.ats")) continue;
-				if(numFile > 20) break;
+				if(!f.getName().equals("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats")) continue;
+				if(numFile > 2) break;
 				numFile ++;
 				ATSFileParser atsParser =  new ATSFileParser();
 				atsParser.parse(f.getAbsolutePath());
