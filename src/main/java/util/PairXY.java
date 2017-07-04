@@ -30,6 +30,9 @@ public class PairXY<X, Y> implements IPair<X, Y> {
 			&& y.equals(other.y);
 	}
 	
-	
+	@Override
+    public int hashCode(){
+      return x.hashCode() + 31*y.hashCode();
+    }	
 
 }

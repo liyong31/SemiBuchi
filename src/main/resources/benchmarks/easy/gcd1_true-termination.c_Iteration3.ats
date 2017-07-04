@@ -1,0 +1,90 @@
+// Testfile dumped by Ultimate at 2017/06/11 23:49:36
+//
+// 
+
+FiniteAutomaton inclusionLHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 },
+	initialStates = {s11 },
+	finalStates = {s0 s1 s5 s7 s8 s9 s11 s13 },
+	transitions = {
+		(s0 a16 s1)
+		(s1 a14 s0)
+		(s2 a15 s3)
+		(s2 a16 s4)
+		(s3 a3 s12)
+		(s4 a14 s2)
+		(s5 a2 s6)
+		(s5 a2 s7)
+		(s5 a4 s6)
+		(s5 a4 s7)
+		(s6 a10 s10)
+		(s7 a7 s8)
+		(s7 a10 s9)
+		(s8 a11 s13)
+		(s8 a11 s14)
+		(s9 a11 s13)
+		(s10 a11 s14)
+		(s11 a0 s5)
+		(s12 a11 s13)
+		(s12 a11 s14)
+		(s13 a13 s1)
+		(s14 a13 s4)
+	}
+);
+// Testfile dumped by Ultimate at 2017/06/11 23:49:36
+//
+// RefinementSetting [mInterpolantAutomaton=ScroogeNondeterminism, mBouncerStem=false, mBouncerLoop=false, mScroogeNondeterminismStem=true, mScroogeNondeterminismLoop=false, mCannibalizeLoop=true]
+
+FiniteAutomaton inclusionRHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 },
+	states = {s0 s1 s2 s3 s4 s5 },
+	initialStates = {s4 },
+	finalStates = {s0 s1 },
+	transitions = {
+		(s0 a2 s5)
+		(s0 a4 s5)
+		(s0 a13 s2)
+		(s0 a7 s3)
+		(s0 a14 s5)
+		(s0 a10 s5)
+		(s0 a15 s5)
+		(s0 a11 s5)
+		(s1 a14 s3)
+		(s1 a11 s3)
+		(s2 a14 s2)
+		(s2 a15 s2)
+		(s2 a16 s2)
+		(s3 a13 s2)
+		(s3 a15 s3)
+		(s3 a11 s3)
+		(s3 a16 s1)
+		(s4 a0 s0)
+		(s4 a0 s4)
+		(s4 a2 s0)
+		(s4 a2 s4)
+		(s4 a3 s0)
+		(s4 a3 s4)
+		(s4 a4 s0)
+		(s4 a4 s4)
+		(s4 a13 s1)
+		(s4 a13 s4)
+		(s4 a7 s1)
+		(s4 a7 s4)
+		(s4 a14 s0)
+		(s4 a14 s4)
+		(s4 a10 s0)
+		(s4 a10 s4)
+		(s4 a15 s0)
+		(s4 a15 s4)
+		(s4 a11 s0)
+		(s4 a11 s4)
+		(s4 a16 s0)
+		(s4 a16 s4)
+		(s5 a13 s2)
+		(s5 a7 s3)
+		(s5 a10 s5)
+		(s5 a15 s5)
+		(s5 a11 s5)
+	}
+);
