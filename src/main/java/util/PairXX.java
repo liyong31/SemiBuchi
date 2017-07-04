@@ -9,9 +9,9 @@ public class PairXX<X> extends PairXY<X, X> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(! (o instanceof PairXX)) return false;
-		PairXX<X> other = (PairXX<X>)o;
-		return getFstElement().equals(other.getFstElement())
+		if(!(o instanceof IPair)) return false;
+		IPair other = (IPair)o;
+ 		return getFstElement().equals(other.getFstElement())
 			&& getSndElement().equals(other.getSndElement());
 	}
 

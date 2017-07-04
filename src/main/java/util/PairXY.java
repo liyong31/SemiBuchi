@@ -24,7 +24,7 @@ public class PairXY<X, Y> implements IPair<X, Y> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if(! (o instanceof PairXY)) return false;
+		if(! (o instanceof IPair)) return false;
 		PairXY<X, Y> other = (PairXY<X, Y>)o;
 		return x.equals(other.x)
 			&& y.equals(other.y);
