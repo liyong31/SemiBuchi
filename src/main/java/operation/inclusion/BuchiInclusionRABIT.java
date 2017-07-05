@@ -5,14 +5,17 @@ import java.util.List;
 import automata.IBuchi;
 import automata.IState;
 import main.RunRabit;
+import main.TaskInfo;
 import util.IPair;
 
 public class BuchiInclusionRABIT implements IBuchiInclusion {
 
 	private final IBuchi mFstOperand;
 	private final IBuchi mSndOperand;
+	private final TaskInfo mTask;
 	
-	public BuchiInclusionRABIT(IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionRABIT(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
 	}
@@ -41,10 +44,10 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	}
 
 	@Override
-	public Boolean isIncluded(long timeLimit) {
+	public Boolean isIncluded() {
 		// TODO Auto-generated method stub
 		try {
-			return RunRabit.executeRabit(mFstOperand, mSndOperand, timeLimit);
+			return RunRabit.executeRabit(mFstOperand, mSndOperand, mTask.getTimeBound());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

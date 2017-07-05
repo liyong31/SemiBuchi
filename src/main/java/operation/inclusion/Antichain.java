@@ -31,21 +31,23 @@ public class Antichain {
 		if(sndElem == null) {
 			sndElem = new ArrayList<>();
 		}
+		List<StateNCSB> copy = new ArrayList<>();
 		//avoid to add pairs are covered by other pairs
 		for(int i = 0; i < sndElem.size(); i ++) {
 			StateNCSB s = sndElem.get(i);
-			//TODO should remove all pairs covered by the new pair
+			//pairs covered by the new pair
+			//will not be kept in copy
 			if(s.coveredBy(snd)) { 
-				sndElem.set(i, snd);
-				return true;
+				continue;
 			}else if(snd.coveredBy(s)) {
 				// no need to add it
 				return false;
 			}
+			copy.add(s);
 		}
 		
-		sndElem.add(snd); // should add snd
-		mPairMap.put(fst, sndElem);
+		copy.add(snd); // should add snd
+		mPairMap.put(fst, copy);
 		return true;
 	}
 	

@@ -10,6 +10,7 @@ import java.util.Stack;
 import automata.BuchiGeneral;
 import automata.IState;
 import complement.StateNCSB;
+import main.TaskInfo;
 import automata.IBuchi;
 import util.IPair;
 import util.Timer;
@@ -20,8 +21,8 @@ import util.Timer;
  * **/
 public class BuchiInclusionComplement extends BuchiInclusion {
 		
-	public BuchiInclusionComplement(IBuchi fstOp, IBuchi sndOp) {
-		super(fstOp, sndOp);
+	public BuchiInclusionComplement(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+		super(task, fstOp, sndOp);
 	}
 		
 	/**
@@ -29,8 +30,8 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 	 * by constructing the complement of mSndOperand
 	 * */
 	
-	public Boolean isIncluded(long timeLimit) {
-		Tarjan scc = new Tarjan(timeLimit);
+	public Boolean isIncluded() {
+		Tarjan scc = new Tarjan();
 //		System.out.println(mResult.toString());
 //		System.out.println(mFstFinalStates + ", " + mSndFinalStates);
 //		System.out.println("acc:" + scc.getAcceptedSCC());
@@ -64,12 +65,9 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 		
 		private Boolean mIsEmpty = true;
 		
-		private final long TIME_LIMIT;
-		
 		private final Timer mTimer;
 		
-		public Tarjan(long timeLimit) {
-			this.TIME_LIMIT = timeLimit;
+		public Tarjan() {
 			this.mTimer = new Timer();
 			
 			mTimer.start();
@@ -86,7 +84,7 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 
 		
 		private boolean terminate() {
-			if(mTimer.tick() > TIME_LIMIT) 
+			if(mTimer.tick() > mTask.getTimeBound()) 
 				return true;
 			return false;
 		}
@@ -180,71 +178,7 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 		}
 		
 	}
-	
-	private static BuchiGeneral getA() {
-		
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());	
-		aState.addSuccessor(0, bState.getId());		
 
-		bState.addSuccessor(0, bState.getId());
-//		bState.addSuccessor(0, aState.getId());
-		bState.addSuccessor(1, aState.getId());
-		bState.addSuccessor(0, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getB() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getC() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	public static void main(String[] args) {
-		
-		BuchiGeneral A = getA();
-		BuchiGeneral B = getB();
-		BuchiGeneral C = getC();
-		
-		BuchiInclusionComplement inclusionChecker = new BuchiInclusionComplement(A, B);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(1000));
-		
-		inclusionChecker = new BuchiInclusionComplement(A, C);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(1000));
-	}
 
 	@Override
 	public String getName() {

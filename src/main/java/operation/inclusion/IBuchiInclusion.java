@@ -13,7 +13,7 @@ public interface IBuchiInclusion {
 	IBuchi getSndBuchiComplement();
 	IBuchi getBuchiDifference();
 	
-	Boolean isIncluded(long timeLimit);
+	Boolean isIncluded();
 	
     IPair<List<Integer>, List<Integer>> getCounterexampleWord();
     IPair<List<IState>, List<IState>> getCounterexampleRun();

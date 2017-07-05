@@ -78,7 +78,7 @@ public class BuchiInclusionAntichain implements IBuchiInclusion {
 	 * and avoid exploring unnecessary states as much as possible
 	 * */
 	
-	public Boolean isIncluded(long timeLimit) {
+	public Boolean isIncluded() {
 		Tarjan scc = new Tarjan();
 		System.out.println(mAntichain.toString() );
 		System.out.println(mResult.toString());
@@ -141,71 +141,6 @@ public class BuchiInclusionAntichain implements IBuchiInclusion {
 		
 	}
 	
-	private static BuchiGeneral getA() {
-		
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());	
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-//		bState.addSuccessor(0, aState.getId());
-		bState.addSuccessor(1, aState.getId());
-		bState.addSuccessor(0, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getB() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getC() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	public static void main(String[] args) {
-		
-		BuchiGeneral A = getA();
-		BuchiGeneral B = getB();
-		BuchiGeneral C = getC();
-		
-		BuchiInclusionAntichain inclusionChecker = new BuchiInclusionAntichain(A, B);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(10));
-		
-		inclusionChecker = new BuchiInclusionAntichain(A, C);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(10));
-	}
-
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub

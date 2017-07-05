@@ -5,12 +5,29 @@ import util.Timer;
 
 public class TaskInfo {
 
-	private static final String[] COLUMN_NAMES = {"FILE", "TIME_LIMIT", "LHS_SEMIDETERMINISTIC"
-			, "RHS_SEMIDETERMINISTIC", "STATES_LHS", "STATES_RHS", "ALGORITHM", "RUNTIME(ms)", "RESULT"};
+	private static final String[] COLUMN_NAMES = {
+			"FILE"
+			//, "TIME_LIMIT"
+			, "LHS_SEMIDETERMINISTIC"
+			, "RHS_SEMIDETERMINISTIC"
+			, "STATES_LHS"
+			, "STATES_RHS"
+			, "TRANS_LHS"
+			, "TRANS_RHS"
+			, "ALPHABET_LHS"
+			, "ALPHABET_RHS"
+			, "PAIR_REJ_ANTICHAIN"
+			, "PAIR_DEL_ANTICHAIN"
+			, "PAIR_LEFT_ANTICHAIN"
+			, "TRANS_USED_SND_BUCHI"
+			, "ALGORITHM"
+			, "RUNTIME(ms)"
+			, "RESULT"
+			};
 	
 	private String mFileName;
 	
-	private long mTimeLimit;
+	private final long mTimeLimit;
 	
 	private boolean mIsLHSSemiDet;
 	
@@ -20,19 +37,35 @@ public class TaskInfo {
 	
 	private int mRHSStateNum;
 	
+	private int mLHSTransNum;
+	
+	private int mRHSTransNum;
+	
 	private String mOperation;
 	
 	private long mRunTime;
 	
 	private Boolean mResult;
 	
-	private final IBuchiInclusion mChecker;
+	private IBuchiInclusion mChecker;
 	
-	public TaskInfo(IBuchiInclusion checker, String fileName, long timeLimit) {
-		this.mChecker = checker;
+	
+	/**
+	 *  some runtime data
+	 *  */
+	public int mNumPairsRejectedByAntichain; // number of pairs covered by some current pair
+	
+	public int mNumPairsDeletedInAntichain;  // number of pairs deleted since it is covered by a new pair
+	
+	public int mNumPairsInAntichain;         // number of pairs left in Antichain
+	
+	public int mNumTransUsedInSndBuchi;      // number of transition used in the second Buchi (no duplicate)
+	
+	
+	
+	public TaskInfo(String fileName, final long timeLimit) {
 		this.mFileName = fileName;
 		this.mTimeLimit = timeLimit;
-		this.mOperation = checker.getName();
 	}
 	
 	
@@ -47,13 +80,21 @@ public class TaskInfo {
 	}
 	
 	public String toString() {
-		
+		assert mChecker != null;
 		return mFileName 
-		+ "," + mTimeLimit
+//		+ "," + mTimeLimit
 		+ "," + mIsLHSSemiDet
 		+ "," + mIsRHSSemiDet
 		+ "," + mLHSStateNum
 		+ "," + mRHSStateNum
+		+ "," + mLHSTransNum
+		+ "," + mRHSTransNum
+		+ "," + mChecker.getFstBuchi().getAlphabetSize()
+		+ "," + mChecker.getSndBuchi().getAlphabetSize()
+		+ "," + mNumPairsRejectedByAntichain
+		+ "," + mNumPairsDeletedInAntichain
+		+ "," + mNumPairsInAntichain
+		+ "," + mNumPairsInAntichain
 		+ "," + mOperation
 		+ "," + mRunTime
 		+ "," + mResult;
@@ -63,7 +104,7 @@ public class TaskInfo {
 	public void runTask() {
 		Timer timer = new Timer();
 		timer.start();
-		mResult = mChecker.isIncluded(mTimeLimit);
+		mResult = mChecker.isIncluded();
 		timer.stop();
 		mRunTime = timer.getTimeElapsed();
 		// get sizes
@@ -73,12 +114,21 @@ public class TaskInfo {
 		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
 	}
 	
+	public void setOperation(IBuchiInclusion checker) {
+		this.mChecker = checker;
+		this.mOperation = checker.getName();
+	}
+	
 	public IBuchiInclusion getOperation() {
 		return mChecker;
 	}
 	
 	public long getRuntime() {
 		return mRunTime;
+	}
+	
+	public long getTimeBound() {
+		return mTimeLimit;
 	}
 	
 	public Boolean getResult() {

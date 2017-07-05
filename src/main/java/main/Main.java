@@ -25,7 +25,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		
-		File fileDir = new File("src/main/resources/benchmarks/difficult/");
+		File fileDir = new File("src/main/resources/benchmarks/bug/");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		CSVGenerator generator = new CSVGenerator("./result-" + dateFormat.format(new Date()) + ".csv");
 		long time = 40*1000;
@@ -34,7 +34,7 @@ public class Main {
 		if( fileDir.listFiles() == null) return ;
 		for(File f : fileDir.listFiles()) {
 			System.out.println(f.getName());
-			
+			if(! f.getName().equals("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats")) continue;
 			if(f.getName().endsWith(FILE_EXT)) {
 				numFile ++;
 				ATSFileParser atsParser =  new ATSFileParser();
@@ -43,26 +43,21 @@ public class Main {
 				
 				for(PairXX<IBuchi> pair : pairs) {
 					List<TaskInfo> tasks = new ArrayList<TaskInfo>();
-					tasks.add(new TaskInfo(
-							new BuchiInclusionRABIT(pair.getFstElement(), pair.getSndElement())
-						, f.getName()
-						, time));
+					TaskInfo taskRabit = new TaskInfo(f.getName(), time);
+					taskRabit.setOperation(new BuchiInclusionRABIT(taskRabit, pair.getFstElement(), pair.getSndElement()));
+					tasks.add(taskRabit);
 					
+					TaskInfo taskAscc = new TaskInfo(f.getName(), time);
+					taskAscc.setOperation(new BuchiInclusionASCC(taskAscc, pair.getFstElement(), pair.getSndElement()));
+					tasks.add(taskAscc);
 					
-					tasks.add(new TaskInfo(
-							new BuchiInclusionASCC(pair.getFstElement(), pair.getSndElement())
-						, f.getName()
-						, time));
-					
-					tasks.add(new TaskInfo(
-							new BuchiInclusionASCCAntichain(pair.getFstElement(), pair.getSndElement())
-						, f.getName()
-						, time));
-					
-					tasks.add(new TaskInfo(
-							new BuchiInclusionComplement(pair.getFstElement(), pair.getSndElement())
-						, f.getName()
-						, time));
+					TaskInfo taskAsccAnti = new TaskInfo(f.getName(), time);
+					taskAsccAnti.setOperation(new BuchiInclusionASCCAntichain(taskAsccAnti, pair.getFstElement(), pair.getSndElement()));
+					tasks.add(taskAsccAnti);
+
+					TaskInfo taskNscb = new TaskInfo(f.getName(), time);
+					taskNscb.setOperation(new BuchiInclusionComplement(taskNscb, pair.getFstElement(), pair.getSndElement()));
+					tasks.add(taskNscb);
 
 					
 					for(TaskInfo task : tasks) {

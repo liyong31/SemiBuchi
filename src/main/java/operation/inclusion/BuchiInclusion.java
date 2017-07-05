@@ -11,6 +11,7 @@ import automata.IBuchi;
 import automata.IState;
 import complement.BuchiComplementSDBA;
 import complement.StateNCSB;
+import main.TaskInfo;
 
 
 public abstract class BuchiInclusion implements IBuchiInclusion{
@@ -21,12 +22,15 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	
 	protected final IBuchi mResult;
 	// use antichain to accelerate inclusion check
+	protected final TaskInfo mTask;
 	
-	protected BuchiInclusion(IBuchi fstOp, IBuchi sndOp) {
+	protected BuchiInclusion(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
 		this.mSndComplement = new BuchiComplementSDBA(sndOp);
 		this.mResult = new BuchiGeneral(fstOp.getAlphabetSize());
+		this.mTask.setOperation(this);
 		computeInitalStates();
 	}
 	

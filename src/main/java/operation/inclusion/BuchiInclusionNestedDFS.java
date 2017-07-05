@@ -8,13 +8,14 @@ import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
 import complement.StateNCSB;
+import main.TaskInfo;
 import util.IPair;
 
 public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	
 
-	public BuchiInclusionNestedDFS(IBuchi fstOp, IBuchi sndOp) {
-		super(fstOp, sndOp);
+	public BuchiInclusionNestedDFS(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+		super(task, fstOp, sndOp);
 	}
 	
 	@Override
@@ -34,8 +35,8 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	 * and avoid exploring unnecessary states as much as possible
 	 * */
 	
-	public Boolean isIncluded(long timeLimit) {
-		NestedDFS finder = new NestedDFS(timeLimit);
+	public Boolean isIncluded() {
+		NestedDFS finder = new NestedDFS();
 //		System.out.println(mFstOperand.toDot());
 //		System.out.println(mSndOperand.toDot());
 ////		System.out.println(mSndComplement.toDot());
@@ -54,7 +55,7 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 		private Boolean mIsEmpty = true;
 		private final BitSet mOnlyInFstStack;
 		
-		NestedDFS(long timeLimit) {
+		NestedDFS() {
 
 			this.mFstStack = new Stack<>();
 			this.mSndStack = new Stack<>();
@@ -192,75 +193,6 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 
 	}
 		
-		
-	
-	
-	// -----------------------------------
-	
-	private static BuchiGeneral getA() {
-		
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());	
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-//		bState.addSuccessor(0, aState.getId());
-		bState.addSuccessor(1, aState.getId());
-		bState.addSuccessor(0, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getB() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getC() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	public static void main(String[] args) {
-		
-		BuchiGeneral A = getA();
-		BuchiGeneral B = getB();
-		BuchiGeneral C = getC();
-		
-		BuchiInclusionNestedDFS inclusionChecker = new BuchiInclusionNestedDFS(A, B);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(10));
-		
-		inclusionChecker = new BuchiInclusionNestedDFS(A, C);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(10));
-	}
 
 	@Override
 	public String getName() {

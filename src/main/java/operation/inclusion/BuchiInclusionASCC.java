@@ -11,6 +11,7 @@ import automata.BuchiGeneral;
 import automata.IState;
 import automata.IBuchi;
 import complement.StateNCSB;
+import main.TaskInfo;
 import util.IPair;
 import util.IntStack;
 import util.PairXY;
@@ -22,8 +23,8 @@ import util.Timer;
  * **/
 public class BuchiInclusionASCC extends BuchiInclusion {
 		
-	public BuchiInclusionASCC(IBuchi fstOp, IBuchi sndOp) {
-		super(fstOp, sndOp);
+	public BuchiInclusionASCC(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+		super(task, fstOp, sndOp);
 	}
 		
 	/**
@@ -31,8 +32,8 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 	 * by constructing the complement of mSndOperand
 	 * */
 	
-	public Boolean isIncluded(long timeLimit) {
-		ASCC scc = new ASCC(timeLimit);
+	public Boolean isIncluded() {
+		ASCC scc = new ASCC();
 //		System.out.println(mResult.toString());
 //		System.out.println(mFstFinalStates + ", " + mSndFinalStates);
 //		System.out.println("acc:" + scc.getAcceptedSCC());
@@ -64,12 +65,10 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 		
 		private Boolean mIsEmpty = true;
 		
-		private final long TIME_LIMIT;
 		private final Timer mTimer;
 		
-		public ASCC(long timeLimit) {
+		public ASCC() {
 			
-			this.TIME_LIMIT = timeLimit;
 			this.mRootsStack = new Stack<>();
 			this.mActiveStack = new IntStack();
 			this.mDfsNum = new HashMap<>();
@@ -90,7 +89,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 		}
 		
 		private boolean terminate() {
-			if(mTimer.tick() > TIME_LIMIT) 
+			if(mTimer.tick() > mTask.getTimeBound()) 
 				return true;
 			return false;
 		}
@@ -171,97 +170,6 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 		
 	}
 	
-	private static BuchiGeneral getA() {
-		
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());	
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-//		bState.addSuccessor(0, aState.getId());
-		bState.addSuccessor(1, aState.getId());
-		bState.addSuccessor(0, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getB() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(0, bState.getId());
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		return buchi;
-	}
-	
-	private static BuchiGeneral getC() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());		
-
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	private static BuchiGeneral getD() {
-		BuchiGeneral buchi = new BuchiGeneral(1);
-		IState aState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());		
-		
-		buchi.setFinal(aState);
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	private static BuchiGeneral getE() {
-		BuchiGeneral buchi = new BuchiGeneral(1);
-		IState aState = buchi.addState();
-		
-		aState.addSuccessor(0, aState.getId());	
-		
-		buchi.setInitial(aState);
-		return buchi;
-	}
-	
-	public static void main(String[] args) {
-		
-		BuchiGeneral A = getA();
-		BuchiGeneral B = getB();
-		BuchiGeneral C = getC();
-		BuchiGeneral D = getD();
-		BuchiGeneral E = getE();
-		
-		BuchiInclusionASCC inclusionChecker = new BuchiInclusionASCC(A, B);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(1000));
-		
-		inclusionChecker = new BuchiInclusionASCC(A, C);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(1000));
-		
-		inclusionChecker = new BuchiInclusionASCC(D, E);
-//		System.out.println(inclusionChecker.isIncluded2());
-		System.out.println(inclusionChecker.isIncluded(1000));
-	}
 
 	@Override
 	public String getName() {
