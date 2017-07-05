@@ -11,7 +11,7 @@ import automata.IBuchi;
 import automata.IState;
 import complement.BuchiComplementSDBA;
 import complement.StateNCSB;
-import main.TaskInfo;
+import main.TaskInclusion;
 
 
 public abstract class BuchiInclusion implements IBuchiInclusion{
@@ -22,9 +22,9 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	
 	protected final IBuchi mResult;
 	// use antichain to accelerate inclusion check
-	protected final TaskInfo mTask;
+	protected final TaskInclusion mTask;
 	
-	protected BuchiInclusion(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+	protected BuchiInclusion(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
 		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;

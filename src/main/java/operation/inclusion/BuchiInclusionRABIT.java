@@ -5,16 +5,16 @@ import java.util.List;
 import automata.IBuchi;
 import automata.IState;
 import main.RunRabit;
-import main.TaskInfo;
+import main.TaskInclusion;
 import util.IPair;
 
 public class BuchiInclusionRABIT implements IBuchiInclusion {
 
 	private final IBuchi mFstOperand;
 	private final IBuchi mSndOperand;
-	private final TaskInfo mTask;
+	private final TaskInclusion mTask;
 	
-	public BuchiInclusionRABIT(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionRABIT(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
 		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;

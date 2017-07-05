@@ -11,7 +11,7 @@ import automata.BuchiGeneral;
 import automata.IState;
 import automata.IBuchi;
 import complement.StateNCSB;
-import main.TaskInfo;
+import main.TaskInclusion;
 import util.IPair;
 import util.IntStack;
 import util.PairXY;
@@ -23,7 +23,7 @@ import util.Timer;
  * **/
 public class BuchiInclusionASCC extends BuchiInclusion {
 		
-	public BuchiInclusionASCC(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionASCC(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
 		super(task, fstOp, sndOp);
 	}
 		

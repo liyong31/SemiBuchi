@@ -10,7 +10,7 @@ import java.util.Stack;
 import automata.BuchiGeneral;
 import automata.IState;
 import complement.StateNCSB;
-import main.TaskInfo;
+import main.TaskInclusion;
 import automata.IBuchi;
 import util.IPair;
 import util.Timer;
@@ -21,7 +21,7 @@ import util.Timer;
  * **/
 public class BuchiInclusionComplement extends BuchiInclusion {
 		
-	public BuchiInclusionComplement(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionComplement(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
 		super(task, fstOp, sndOp);
 	}
 		

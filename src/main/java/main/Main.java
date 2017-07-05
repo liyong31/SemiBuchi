@@ -42,25 +42,25 @@ public class Main {
 				List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
 				
 				for(PairXX<IBuchi> pair : pairs) {
-					List<TaskInfo> tasks = new ArrayList<TaskInfo>();
-					TaskInfo taskRabit = new TaskInfo(f.getName(), time);
+					List<TaskInclusion> tasks = new ArrayList<TaskInclusion>();
+					TaskInclusion taskRabit = new TaskInclusion(f.getName(), time);
 					taskRabit.setOperation(new BuchiInclusionRABIT(taskRabit, pair.getFstElement(), pair.getSndElement()));
 					tasks.add(taskRabit);
 					
-					TaskInfo taskAscc = new TaskInfo(f.getName(), time);
+					TaskInclusion taskAscc = new TaskInclusion(f.getName(), time);
 					taskAscc.setOperation(new BuchiInclusionASCC(taskAscc, pair.getFstElement(), pair.getSndElement()));
 					tasks.add(taskAscc);
 					
-					TaskInfo taskAsccAnti = new TaskInfo(f.getName(), time);
+					TaskInclusion taskAsccAnti = new TaskInclusion(f.getName(), time);
 					taskAsccAnti.setOperation(new BuchiInclusionASCCAntichain(taskAsccAnti, pair.getFstElement(), pair.getSndElement()));
 					tasks.add(taskAsccAnti);
 
-					TaskInfo taskNscb = new TaskInfo(f.getName(), time);
+					TaskInclusion taskNscb = new TaskInclusion(f.getName(), time);
 					taskNscb.setOperation(new BuchiInclusionComplement(taskNscb, pair.getFstElement(), pair.getSndElement()));
 					tasks.add(taskNscb);
 
 					
-					for(TaskInfo task : tasks) {
+					for(TaskInclusion task : tasks) {
 						System.out.println("\n\n" + task.getOperation().getName() + " is running....");
 						try {
 							task.runTask();

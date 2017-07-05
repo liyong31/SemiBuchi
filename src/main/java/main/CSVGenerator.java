@@ -16,10 +16,10 @@ public class CSVGenerator {
 	
 	public void start() throws IOException {
 		System.out.println("Writing results to " + mFileName);
-		mFileWriter.write(TaskInfo.getColumns() + "\n");
+		mFileWriter.write(TaskInclusion.getColumns() + "\n");
 	}
 	
-	public void addRows(TaskInfo info) throws IOException {
+	public void addRows(TaskInclusion info) throws IOException {
 		mFileWriter.write(info + "\n");
 	}
 	

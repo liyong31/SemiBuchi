@@ -8,13 +8,13 @@ import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
 import complement.StateNCSB;
-import main.TaskInfo;
+import main.TaskInclusion;
 import util.IPair;
 
 public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	
 
-	public BuchiInclusionNestedDFS(TaskInfo task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionNestedDFS(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
 		super(task, fstOp, sndOp);
 	}
 	

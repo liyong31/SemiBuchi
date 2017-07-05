@@ -3,7 +3,7 @@ package main;
 import operation.inclusion.IBuchiInclusion;
 import util.Timer;
 
-public class TaskInfo {
+public class TaskInclusion implements ITask {
 
 	private static final String[] COLUMN_NAMES = {
 			"FILE"
@@ -63,7 +63,7 @@ public class TaskInfo {
 	
 	
 	
-	public TaskInfo(String fileName, final long timeLimit) {
+	public TaskInclusion(String fileName, final long timeLimit) {
 		this.mFileName = fileName;
 		this.mTimeLimit = timeLimit;
 	}
@@ -101,6 +101,7 @@ public class TaskInfo {
 		
 	}
 	
+	@Override
 	public void runTask() {
 		Timer timer = new Timer();
 		timer.start();
@@ -123,14 +124,17 @@ public class TaskInfo {
 		return mChecker;
 	}
 	
+	@Override
 	public long getRuntime() {
 		return mRunTime;
 	}
 	
+	@Override
 	public long getTimeBound() {
 		return mTimeLimit;
 	}
 	
+	@Override
 	public Boolean getResult() {
 		return mResult;
 	}
