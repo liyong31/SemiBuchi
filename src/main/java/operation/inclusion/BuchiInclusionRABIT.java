@@ -2,6 +2,7 @@ package operation.inclusion;
 
 import java.util.List;
 
+import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
 import main.RunRabit;
@@ -40,7 +41,7 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	@Override
 	public IBuchi getBuchiDifference() {
 		// TODO Auto-generated method stub
-		return null;
+		return new BuchiGeneral(1);
 	}
 
 	@Override

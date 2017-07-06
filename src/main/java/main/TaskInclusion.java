@@ -20,6 +20,7 @@ public class TaskInclusion implements ITask {
 			, "PAIR_DEL_ANTICHAIN"
 			, "PAIR_LEFT_ANTICHAIN"
 			, "TRANS_USED_SND_BUCHI"
+			, "RESULT_STATES"
 			, "ALGORITHM"
 			, "RUNTIME(ms)"
 			, "RESULT"
@@ -53,13 +54,13 @@ public class TaskInclusion implements ITask {
 	/**
 	 *  some runtime data
 	 *  */
-	public int mNumPairsRejectedByAntichain; // number of pairs covered by some current pair
+	private int mNumPairsRejectedByAntichain; // number of pairs covered by some current pair
 	
-	public int mNumPairsDeletedInAntichain;  // number of pairs deleted since it is covered by a new pair
+	private int mNumPairsDeletedInAntichain;  // number of pairs deleted since it is covered by a new pair
 	
-	public int mNumPairsInAntichain;         // number of pairs left in Antichain
+	private int mNumPairsInAntichain;         // number of pairs left in Antichain
 	
-	public int mNumTransUsedInSndBuchi;      // number of transition used in the second Buchi (no duplicate)
+	private int mNumTransUsedInSndBuchi;      // number of transition used in the second Buchi (no duplicate)
 	
 	
 	
@@ -94,7 +95,8 @@ public class TaskInclusion implements ITask {
 		+ "," + mNumPairsRejectedByAntichain
 		+ "," + mNumPairsDeletedInAntichain
 		+ "," + mNumPairsInAntichain
-		+ "," + mNumPairsInAntichain
+		+ "," + mNumTransUsedInSndBuchi
+		+ "," + mChecker.getBuchiDifference().getStateSize()
 		+ "," + mOperation
 		+ "," + mRunTime
 		+ "," + mResult;
@@ -138,5 +140,24 @@ public class TaskInclusion implements ITask {
 	public Boolean getResult() {
 		return mResult;
 	}
+	
+	@Override
+	public void increaseRejPairByAntichain() {
+		mNumPairsRejectedByAntichain ++;
+	}
+	
+	@Override
+	public void increaseDelPairInAntichain() {
+		mNumPairsDeletedInAntichain ++;
+	}
+	
+	@Override
+	public void setNumPairInAntichain(int num) {
+		mNumPairsInAntichain = num;
+	}
+	
+//	public void useTransition() {
+//		mNumTransUsedInSndBuchi
+//	}
 	
 }

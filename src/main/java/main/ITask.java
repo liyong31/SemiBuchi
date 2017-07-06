@@ -9,5 +9,13 @@ public interface ITask {
 	void runTask();
 	
 	Boolean getResult();
+	
+	
+	// for Antichain
+	void increaseRejPairByAntichain();
+	
+	void increaseDelPairInAntichain();
+	
+	void setNumPairInAntichain(int num);
 
 }

@@ -8,12 +8,16 @@ import java.util.Map.Entry;
 
 
 import complement.StateNCSB;
+import main.ITask;
+import main.TaskInclusion;
 
 public class Antichain {
 	
 	private Map<Integer, List<StateNCSB>> mPairMap;
+	private final ITask mTask;
 	
-	public Antichain() {
+	public Antichain(ITask task) {
+		mTask = task;
 		mPairMap = new HashMap<>();
 	}
 	
@@ -37,10 +41,12 @@ public class Antichain {
 			StateNCSB s = sndElem.get(i);
 			//pairs covered by the new pair
 			//will not be kept in copy
-			if(s.coveredBy(snd)) { 
+			if(s.coveredBy(snd)) {
+				mTask.increaseDelPairInAntichain();
 				continue;
 			}else if(snd.coveredBy(s)) {
 				// no need to add it
+				mTask.increaseRejPairByAntichain();
 				return false;
 			}
 			copy.add(s);
@@ -72,6 +78,14 @@ public class Antichain {
 			sb.append(entry.getKey() + " -> " + entry.getValue() + "\n");
 		}
 		return sb.toString();
+	}
+	
+	public int size() {
+		int num = 0;
+		for(Map.Entry<Integer, List<StateNCSB>> entry : mPairMap.entrySet()) {
+			num += entry.getValue().size();
+		}
+		return num;
 	}
 
 }

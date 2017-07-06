@@ -28,7 +28,7 @@ public class Main {
 		File fileDir = new File("src/main/resources/benchmarks/bug/");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		CSVGenerator generator = new CSVGenerator("./result-" + dateFormat.format(new Date()) + ".csv");
-		long time = 40*1000;
+		long time = 10*1_000;
 		generator.start();
 		int numFile = 0;
 		if( fileDir.listFiles() == null) return ;

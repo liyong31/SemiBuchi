@@ -34,7 +34,7 @@ public class BuchiInclusionAntichain implements IBuchiInclusion {
 		this.mSndOperand = sndOp;
 		this.mSndComplement = new BuchiComplementSDBA(sndOp);
 		this.mResult = new BuchiGeneral(fstOp.getAlphabetSize());
-		this.mAntichain = new Antichain();
+		this.mAntichain = new Antichain(null);
 		computeInitalStates();
 	}
 	

@@ -170,10 +170,10 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 					}
 				}
 				
-				if(! mIsEmpty) {
-					System.out.println("" + mPrefix);
-					System.out.println("" + mLoop);
-				}
+//				if(! mIsEmpty) {
+//					System.out.println("" + mPrefix);
+//					System.out.println("" + mLoop);
+//				}
 			}
 		}
 		
