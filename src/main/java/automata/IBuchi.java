@@ -129,8 +129,9 @@ public interface IBuchi {
         	visited.set(s.getId());
         	for(int i = 0; i < getAlphabetSize(); i ++) {
         		BitSet succs = s.getSuccessors(i);
-        		if(succs.cardinality() > 1) return false;
         		if(succs.isEmpty()) continue;
+        		if(succs.cardinality() > 1) return false;
+
         		int succ = succs.nextSetBit(0);
     			if(! visited.get(succ)) {
     				walkList.addFirst(getState(succ));

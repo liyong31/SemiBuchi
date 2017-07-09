@@ -14,8 +14,8 @@ public class TaskInclusion implements ITask {
 			, "RHS_STATES"
 			, "LHS_TRANS"
 			, "RHS_TRANS"
-			, "LHS_ALPHABET" // shoud be the same as RHS_ALPHABET
-			, "RHS_ALPHABET"
+			, "ALPHABET_SIZE" // shoud be the same as RHS_ALPHABET
+//			, "RHS_ALPHABET"
 			, "PAIR_REJ_ANTICHAIN"
 			, "PAIR_DEL_ANTICHAIN"
 			, "PAIR_LEFT_ANTICHAIN"
@@ -91,7 +91,7 @@ public class TaskInclusion implements ITask {
 		+ "," + mLHSTransNum
 		+ "," + mRHSTransNum
 		+ "," + mChecker.getFstBuchi().getAlphabetSize()
-		+ "," + mChecker.getSndBuchi().getAlphabetSize()
+//		+ "," + mChecker.getSndBuchi().getAlphabetSize()
 		+ "," + mNumPairsRejectedByAntichain
 		+ "," + mNumPairsDeletedInAntichain
 		+ "," + mNumPairsInAntichain
