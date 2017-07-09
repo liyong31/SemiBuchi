@@ -28,8 +28,11 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	private void computeInitialStates() {
 		// TODO Auto-generated method stub
 		StateNCSB state = new StateNCSB(0, this);
-		state.setSets(mOperand.getInitialStates(), new BitSet(), new BitSet(), new BitSet());
-		this.setFinal(0);
+		// TODO get also the initial states where initial state is also final state
+		BitSet csets = (BitSet) mOperand.getInitialStates().clone();
+		csets.and(getFinalStates()); // goto C
+		state.setSets(mOperand.getInitialStates(), csets, new BitSet(), csets);
+		if(csets.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
 		mState2Int.put(state, id);
