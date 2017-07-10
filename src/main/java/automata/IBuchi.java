@@ -113,6 +113,16 @@ public interface IBuchi {
 		return sb.toString();
 	}
 	
+	default int getNumTransition() {
+		int num = 0;
+		for(IState s : getStates()) {
+			for(Integer letter : s.getEnabledLetters()) {
+				num += s.getSuccessors(letter).cardinality();
+			}
+		}
+		return num;
+	}
+	
 	// a Buchi automaton is semideterministic if all transitions after the accepting states are deterministic
 	default boolean isSemiDeterministic() {
 		BitSet finIds = getFinalStates();

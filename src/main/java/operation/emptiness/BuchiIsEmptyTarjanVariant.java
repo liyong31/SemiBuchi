@@ -110,34 +110,6 @@ public class BuchiIsEmptyTarjanVariant implements BuchiIsEmpty {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public static void main(String[] args) {
-		IBuchi buchi = new BuchiGeneral(2);
-		IState a = buchi.addState();
-		IState b = buchi.addState();
-		IState c = buchi.addState();
-		IState d = buchi.addState();
-		IState e = buchi.addState();
-		
-		a.addSuccessor(0, b.getId());
-		b.addSuccessor(0, c.getId());
-		
-		c.addSuccessor(0, d.getId());
-		d.addSuccessor(1, b.getId());
-		
-		b.addSuccessor(1, e.getId());
-		
-		e.addSuccessor(1, d.getId());
-		
-		buchi.setFinal(e);
-		
-		buchi.setInitial(a);
-		
-		System.out.println(buchi.toDot());
-		
-		BuchiIsEmptyTarjanVariant dfs = new BuchiIsEmptyTarjanVariant(buchi, 10*1000);
-		System.out.println(dfs.isEmpty());
-	}
 			
 
 }
