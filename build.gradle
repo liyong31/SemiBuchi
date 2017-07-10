@@ -18,12 +18,24 @@ sourceSets {
         java {
             srcDirs = ["src/main/java", "src/main/javacc"]
         }
+//        java.outputDir = file('target/classes')
     }
     test {
         java {
             srcDirs = ["src/test/java"]
         }
     }
+}
+
+jar {
+    baseName = 'semibuchi'
+    version =  '0.1'
+    manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'main.Main'
+    )
+  }
 }
 
 task execute(type:JavaExec) {
