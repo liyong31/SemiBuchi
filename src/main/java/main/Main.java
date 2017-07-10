@@ -25,7 +25,7 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		
-		File fileDir = new File("src/main/resources/benchmarks/bug/");
+		File fileDir = new File("src/main/resources/benchmarks/normal/");
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 		CSVGenerator generator = new CSVGenerator("./result-" + dateFormat.format(new Date()) + ".csv");
 		long time = 10*1_000;

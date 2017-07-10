@@ -85,9 +85,10 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 				if(! mDfsNum.containsKey(n)){
 					dfs(n);
 					if(mIsEmpty == null ||  ! mIsEmpty.booleanValue())
-						return ;
+						break ;
 				}
 			}
+			System.out.println("Antichain size =" + mAntichain.size());
 			mTask.setNumPairInAntichain(mAntichain.size());
 		}
 		
