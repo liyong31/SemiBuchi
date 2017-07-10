@@ -1,0 +1,11 @@
+There are some Buchi automata which are not semi-deterministic.
+
+Folder easy: 1 out of 376 ATS files
+
+GulwaniJainKoskinen-PLDI2009-Fig1_true-termination.c_Iteration4.ats
+
+Folder difficult: 0 out of 19 ATS files
+
+Folder normal: 0 out 10 ATS files 
+
+
