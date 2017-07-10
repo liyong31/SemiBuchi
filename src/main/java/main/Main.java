@@ -34,7 +34,7 @@ public class Main {
 		if( fileDir.listFiles() == null) return ;
 		for(File f : fileDir.listFiles()) {
 			System.out.println(f.getName());
-			if(! f.getName().equals("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats")) continue;
+			if(! f.getName().equals("bist_cell_true-unreach-call_false-termination.cil.c_Iteration21.ats")) continue;
 			if(f.getName().endsWith(FILE_EXT)) {
 				numFile ++;
 				ATSFileParser atsParser =  new ATSFileParser();

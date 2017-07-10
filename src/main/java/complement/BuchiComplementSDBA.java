@@ -1,8 +1,10 @@
 package complement;
 
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import automata.BuchiGeneral;
@@ -16,10 +18,16 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 
 	private final IBuchi mOperand;
 	
+	private final List<BitSet> mOpTransUsed;
+	
 	public BuchiComplementSDBA(IBuchi buchi) {
 		super(buchi.getAlphabetSize());
 		// TODO Auto-generated constructor stub
 		this.mOperand = buchi;
+		this.mOpTransUsed = new ArrayList<>();
+		for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
+			this.mOpTransUsed.add(new BitSet());
+		}
 		computeInitialStates();
 	}
 	
@@ -98,36 +106,26 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         	}
         }
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		IBuchi buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
-		
-		aState.addSuccessor(0, bState.getId());
-		aState.addSuccessor(1, aState.getId());
-//		aState.addSuccessor(1, aState.getId());
-		
-//		aState.addSuccessor(1, bState.getId());
-		bState.addSuccessor(0, bState.getId());
-//		bState.addSuccessor(0, aState.getId());
-		bState.addSuccessor(1, aState.getId());
-		
-		buchi.setFinal(bState);
-		buchi.setInitial(aState);
-		
-		System.out.println(buchi.toString());
-		System.out.println(buchi.isSemiDeterministic());
-		
-		System.out.println("----------- complement buchi ---------");
-		BuchiComplementSDBA complement = new BuchiComplementSDBA(buchi);
-		
-		complement.explore();
-		System.out.println(complement.toString());
-		System.out.println(complement.isSemiDeterministic());
 
+
+	@Override
+	public void useOpTransition(int letter, BitSet states) {
+		// TODO Auto-generated method stub
+		this.mOpTransUsed.get(letter).or(states);
+	}
+
+
+	@Override
+	public int getNumUsedOpTransition() {
+		// TODO Auto-generated method stub
+		int num = 0;
+		for(int i = 0; i < mOpTransUsed.size(); i ++) {
+			BitSet sources = mOpTransUsed.get(i);
+			for(int source = sources.nextSetBit(0); source >= 0; source = sources.nextSetBit(source + 1)) {
+				num += mOperand.getState(source).getSuccessors(i).cardinality();
+			}
+		}
+		return num;
 	}
 	
 	

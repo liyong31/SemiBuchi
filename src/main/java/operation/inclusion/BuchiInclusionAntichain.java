@@ -11,6 +11,7 @@ import automata.BuchiGeneral;
 import automata.IState;
 import automata.IBuchi;
 import complement.BuchiComplementSDBA;
+import complement.IBuchiComplement;
 import complement.StateNCSB;
 import util.IPair;
 
@@ -98,7 +99,7 @@ public class BuchiInclusionAntichain implements IBuchiInclusion {
 	}
 
 	@Override
-	public IBuchi getSndBuchiComplement() {
+	public IBuchiComplement getSndBuchiComplement() {
 		return mSndComplement;
 	}
 	

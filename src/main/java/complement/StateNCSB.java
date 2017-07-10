@@ -105,6 +105,11 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		BitSet CSuccs = mOperand.getSuccessors(currCSet, letter);
 		BitSet SSuccs = mOperand.getSuccessors(currSSet, letter);
 		BitSet BSuccs = mOperand.getSuccessors(currBSet, letter);
+		
+		// record used transition (NOT necessary in complement)
+		mComplement.useOpTransition(letter, currNSet);
+		mComplement.useOpTransition(letter, currCSet);
+		mComplement.useOpTransition(letter, currSSet);
 		/* ------------------------------------------------*/
 		
 		// N successors

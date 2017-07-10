@@ -10,6 +10,7 @@ import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
 import complement.BuchiComplementSDBA;
+import complement.IBuchiComplement;
 import complement.StateNCSB;
 import main.TaskInclusion;
 
@@ -81,7 +82,7 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 
 	@Override
-	public IBuchi getSndBuchiComplement() {
+	public IBuchiComplement getSndBuchiComplement() {
 		return mSndComplement;
 	}
 	
