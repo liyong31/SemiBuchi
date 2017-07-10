@@ -88,7 +88,6 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 						break ;
 				}
 			}
-			System.out.println("Antichain size =" + mAntichain.size());
 			mTask.setNumPairInAntichain(mAntichain.size());
 		}
 		
