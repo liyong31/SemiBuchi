@@ -83,7 +83,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 				if(! mDfsNum.containsKey(n)){
 					dfs(n);
 					if(mIsEmpty == null ||  ! mIsEmpty.booleanValue())
-						return ;
+						break ;
 				}
 			}
 		}

@@ -77,7 +77,7 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 				if(! mIndexMap.containsKey(n)){
 					tarjan(n);
 					if(mIsEmpty == null || !mIsEmpty.booleanValue()) 
-						return;
+						break;
 				}
 			}
 		}

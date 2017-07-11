@@ -32,7 +32,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 	 * */
 	
 	public Boolean isIncluded() {
-		ASCC scc = new ASCC();
+		ASCCAntichain scc = new ASCCAntichain();
 //		System.out.println(mResult.toString());
 //		System.out.println(mFstFinalStates + ", " + mSndFinalStates);
 //		System.out.println("acc:" + scc.getAcceptedSCC());
@@ -54,7 +54,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 	/**
 	 * SCC Decomposition
 	 * */
-	private class ASCC {
+	private class ASCCAntichain {
 		
 		private int mIndex=0;
 		private final Stack<PairXY<Integer, BitSet>> mRootsStack ;
@@ -68,7 +68,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 		
 		private final Antichain mAntichain;
 		
-		public ASCC() {
+		public ASCCAntichain() {
 			
 			this.mRootsStack = new Stack<>();
 			this.mActiveStack = new IntStack();
