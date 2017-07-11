@@ -110,6 +110,9 @@ public class TaskInclusion implements ITask {
 		mResult = mChecker.isIncluded();
 		timer.stop();
 		mRunTime = timer.getTimeElapsed();
+		// first get the used transition in mSndOperation
+		if(mChecker.getSndBuchiComplement() != null)
+			mNumTransUsedInSndBuchi = mChecker.getSndBuchiComplement().getNumUsedOpTransition();
 		// get sizes
 		mLHSStateNum = mChecker.getFstBuchi().getStateSize();
 		mRHSStateNum = mChecker.getSndBuchi().getStateSize();
@@ -117,8 +120,6 @@ public class TaskInclusion implements ITask {
 		mRHSTransNum = mChecker.getSndBuchi().getNumTransition();
 		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
 		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
-		if(mChecker.getSndBuchiComplement() != null)
-			mNumTransUsedInSndBuchi = mChecker.getSndBuchiComplement().getNumUsedOpTransition();
 	}
 	
 	public void setOperation(IBuchiInclusion checker) {
