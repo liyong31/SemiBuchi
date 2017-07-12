@@ -120,6 +120,7 @@ public class Main {
 			timer.stop();
 			System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
 			System.out.println("Included = " + task.getResult()
+			                + " Result_States = " + task.getOperation().getBuchiDifference().getStateSize()
 			                + " TotalTime = " + timer.getTimeElapsed() + " (ms)"
 			                + " ChecingTime = " + task.getRuntime() + " (ms)");
 
