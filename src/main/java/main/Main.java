@@ -133,7 +133,7 @@ public class Main {
 				System.out.println("\n" + task.toStringVerbose());
 				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
 			}else {
-				System.out.print(task.toString());
+				System.out.println(task.toString());
 			}
 
 		}
