@@ -14,7 +14,7 @@ public class RunRabit {
 	 * Specifying the directory for RABIT executable, should later put in resource 
 	 */
 	public static final File ENVIRONMENT =
-			new File("src/main/resources/rabit");
+			new File("classes/rabit");
 	/**
 	 * The maximal heap size in gigabyte to use for the Rabit tool.
 	 */
