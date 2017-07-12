@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # jump to target folder
 cd target
