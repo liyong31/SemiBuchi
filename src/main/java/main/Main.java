@@ -151,7 +151,7 @@ public class Main {
 			if( fileDir.listFiles() == null) return ;
 			
 			for(File f : fileDir.listFiles()) {
-				System.out.println(f.getName());
+				System.out.println(f.getAbsolutePath());
 
 				if(f.getName().endsWith(FILE_EXT)) {
 					ATSFileParser atsParser =  new ATSFileParser();
