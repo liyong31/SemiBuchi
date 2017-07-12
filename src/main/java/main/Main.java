@@ -122,7 +122,7 @@ public class Main {
 			System.out.println("Included = " + task.getResult()
 			                + " Result_States = " + task.getOperation().getBuchiDifference().getStateSize()
 			                + " TotalTime = " + timer.getTimeElapsed() + " (ms)"
-			                + " ChecingTime = " + task.getRuntime() + " (ms)");
+			                + " CheckingTime = " + task.getRuntime() + " (ms)");
 
 		}
 		
@@ -181,7 +181,7 @@ public class Main {
 						for(TaskInclusion task : tasks) {
 							System.out.println("\n\n" + task.getOperation().getName() + " is running....");
 							try {
-								System.gc();
+//								System.gc();
 //								Thread.sleep(2000);
 								task.runTask();
 							}catch(Exception e) {
