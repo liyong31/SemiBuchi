@@ -14,7 +14,7 @@ public class FilterSemiDeterminism {
 	
 	public static void main(String[] args) {
 		
-		String dir = "src/main/resources/benchmarks/normal";
+		String dir = "/home/liyong/workspace-neon/SemiBuchi/src/main/resources/benchmarks/difficult";
 		
 		File fileDir = new File(dir);
 		List<String> nonSemiDetFiles = new ArrayList<>();
@@ -29,6 +29,9 @@ public class FilterSemiDeterminism {
 			numBA ++;
 			for(PairXX<IBuchi> pair : pairs) {
 				IBuchi buchi = pair.getSndElement();
+				if(pair.getFstElement().isSemiDeterministic()) {
+					System.out.println("fst is semideterministic");
+				}
 				if(! buchi.isSemiDeterministic()) {
 					nonSemiDetFiles.add(f.getName());
 					buchis.add(buchi);
