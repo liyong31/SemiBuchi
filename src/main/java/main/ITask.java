@@ -16,6 +16,11 @@ public interface ITask {
 	
 	void increaseDelPairInAntichain();
 	
+	void increaseIngPairByAntichain();
+	
 	void setNumPairInAntichain(int num);
+	
+	String toString();
+	String toStringVerbose();
 
 }

@@ -139,7 +139,10 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 						IState stateSucc = getOrAddState(pairSucc);
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
 						//OPT1
-						if(mAntichain.covers(pairSucc)) continue;
+						if(mAntichain.covers(pairSucc)) {
+							mTask.increaseIngPairByAntichain();
+							continue;
+						}
 						
 						if(! mDfsNum.containsKey(stateSucc.getId())){
 							dfs(stateSucc.getId());

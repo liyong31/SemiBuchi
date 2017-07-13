@@ -16,8 +16,9 @@ public class TaskInclusion implements ITask {
 			, "RHS_TRANS"
 			, "ALPHABET_SIZE" // shoud be the same as RHS_ALPHABET
 //			, "RHS_ALPHABET"
-			, "PAIR_REJ_ANTICHAIN"
-			, "PAIR_DEL_ANTICHAIN"
+			, "PAIR_REJECT_ANTICHAIN"
+			, "PAIR_DELETE_ANTICHAIN"
+			, "PAIR_INGNORE_ANTICHAIN"
 			, "PAIR_LEFT_ANTICHAIN"
 			, "TRANS_USED_SND_BUCHI"
 			, "RESULT_STATES"
@@ -58,6 +59,8 @@ public class TaskInclusion implements ITask {
 	
 	private int mNumPairsDeletedInAntichain;  // number of pairs deleted since it is covered by a new pair
 	
+	private int mNumPairsIgnoredByAntichain; // number of pairs ignored by some current pair
+	
 	private int mNumPairsInAntichain;         // number of pairs left in Antichain
 	
 	private int mNumTransUsedInSndBuchi;      // number of transition used in the second Buchi (no duplicate)
@@ -80,6 +83,32 @@ public class TaskInclusion implements ITask {
 		return sb.toString();
 	}
 	
+	@Override
+	public String toStringVerbose() {
+		assert mChecker != null;
+		return 
+		COLUMN_NAMES[0] + " = "	+ mFileName + "\n"
+//		+ "," + mTimeLimit
+		+ COLUMN_NAMES[1] + " = "	+ mIsLHSSemiDet  + "\n"
+		+ COLUMN_NAMES[2] + " = "	+ mIsRHSSemiDet + "\n"
+		+ COLUMN_NAMES[3] + " = "	+ mLHSStateNum + "\n"
+		+ COLUMN_NAMES[4] + " = "	+ mRHSStateNum + "\n"
+		+ COLUMN_NAMES[5] + " = "	+ mLHSTransNum + "\n"
+		+ COLUMN_NAMES[6] + " = "	+ mRHSTransNum + "\n"
+		+ COLUMN_NAMES[7] + " = "	+ mChecker.getFstBuchi().getAlphabetSize() + "\n"
+//		+ "," + mChecker.getSndBuchi().getAlphabetSize()
+		+ COLUMN_NAMES[8] + " = "	+ mNumPairsRejectedByAntichain + "\n"
+		+ COLUMN_NAMES[9] + " = "	+ mNumPairsDeletedInAntichain + "\n"
+		+ COLUMN_NAMES[10] + " = "	+ mNumPairsIgnoredByAntichain + "\n"
+		+ COLUMN_NAMES[11] + " = "	+ mNumPairsInAntichain + "\n"
+		+ COLUMN_NAMES[12] + " = "	+ mNumTransUsedInSndBuchi + "\n"
+		+ COLUMN_NAMES[13] + " = "	+ mChecker.getBuchiDifference().getStateSize() + "\n"
+		+ COLUMN_NAMES[14] + " = "	+ mOperation + "\n"
+		+ COLUMN_NAMES[15] + " = "	+ mRunTime + "\n"
+		+ COLUMN_NAMES[16] + " = "	+ mResult  + "\n";
+		
+	}
+	@Override
 	public String toString() {
 		assert mChecker != null;
 		return mFileName 
@@ -94,6 +123,7 @@ public class TaskInclusion implements ITask {
 //		+ "," + mChecker.getSndBuchi().getAlphabetSize()
 		+ "," + mNumPairsRejectedByAntichain
 		+ "," + mNumPairsDeletedInAntichain
+		+ "," + mNumPairsIgnoredByAntichain
 		+ "," + mNumPairsInAntichain
 		+ "," + mNumTransUsedInSndBuchi
 		+ "," + mChecker.getBuchiDifference().getStateSize()
@@ -154,6 +184,11 @@ public class TaskInclusion implements ITask {
 	@Override
 	public void increaseDelPairInAntichain() {
 		mNumPairsDeletedInAntichain ++;
+	}
+	
+	@Override
+	public void increaseIngPairByAntichain() {
+		mNumPairsIgnoredByAntichain ++;
 	}
 	
 	@Override

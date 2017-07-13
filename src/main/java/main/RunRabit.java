@@ -54,7 +54,7 @@ public class RunRabit {
 		command += " " + A_FILE + " " + B_FILE;
 		command += " -fast";
 		final Process proc = rt.exec(command);
-		System.out.println(command);
+//		System.out.println(command);
 		
 //		proc.waitFor();
 //		System.out.println("while loop");
@@ -62,11 +62,11 @@ public class RunRabit {
 		timer.start();
 		while(true) {
 			if(! proc.isAlive()) {
-				System.out.println("Rabit exit normally");
+//				System.out.println("Rabit exit normally");
 				break;
 			}
 			if(timer.tick() > timeLimit) {
-				System.err.println("Rabit Time out exception");
+//				System.err.println("Rabit Time out exception");
 				proc.destroyForcibly();
 				return null;
 			}
@@ -81,7 +81,7 @@ public class RunRabit {
 			}else if(line.contains(INCLUDED)) {
 				result = true;
 			}
-			System.out.println(line);
+//			System.out.println(line);
 		}
 
 		return result;

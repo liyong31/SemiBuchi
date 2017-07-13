@@ -22,6 +22,7 @@ public class Main {
 	
 	private static final String FILE_EXT = "ats";
 	private static final long TIME_LIMIT = 20;
+	private static boolean verbose = false;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -29,6 +30,8 @@ public class Main {
 			printUsage();
 			System.exit(0);
 		}
+		
+		System.gc();
 		
 		long time = TIME_LIMIT;
 		boolean test = false;
@@ -41,7 +44,9 @@ public class Main {
 			}else if(args[i].equals("-h")) {
 				printUsage();
 				System.exit(0);
-			} 
+			}else if(args[i].equals("-v")) {
+				verbose = true;
+			}
 		}
 		time = time * 1_000; // miliseconds
 		if(test) {
@@ -63,6 +68,7 @@ public class Main {
 		System.out.println("-v: Verbose mode");
 		System.out.println("-test: Test all benchmarks");
 		System.out.println("-tarjan: Use Tarjan algorithm");
+		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
 		System.out.println("-ac: Use Antichain optimization");
 		System.out.println("-dfs: Use Double DFS algorithm");
@@ -73,12 +79,12 @@ public class Main {
 	private static void checkInclusion(String[] args, long time) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println("Time stamp: " + dateFormat.format(new Date()));
+		if(verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
 		
 		File file = null;
 		TaskInclusion task = null;
 		
-		boolean tarjan = false, antichain = false, dfs = false;
+		boolean tarjan = false, antichain = false, dfs = false, rabit = false;
 		for(int i = 0; i < args.length; i ++) {
 			
 			if(args[i].endsWith(FILE_EXT)) {
@@ -89,12 +95,14 @@ public class Main {
 				antichain = true;
 			}else if(args[i].equals("-dfs")) {
 				dfs = true;
+			}else if(args[i].equals("-rabit")) {
+				rabit = true;
 			}
 		}
 		
 		assert file != null;
 		
-		System.out.println("Parsing file " + file.getName() + " ....");
+		if(verbose) System.out.println("Parsing file " + file.getName() + " ....");
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(file.getAbsolutePath());
 		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
@@ -106,6 +114,8 @@ public class Main {
 			}else if(dfs) {
 				System.err.println("Not support yet");
 				System.exit(-1);
+			}else if(rabit){
+				task.setOperation(new BuchiInclusionRABIT(task, pair.getFstElement(), pair.getSndElement()));
 			}else {
 				if(antichain) {
 					task.setOperation(new BuchiInclusionASCCAntichain(task, pair.getFstElement(), pair.getSndElement()));
@@ -113,16 +123,18 @@ public class Main {
 					task.setOperation(new BuchiInclusionASCC(task, pair.getFstElement(), pair.getSndElement()));
 				}
 			}
-			System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
+			if(verbose)  System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
 			Timer timer = new Timer();
 			timer.start();
 			task.runTask();
 			timer.stop();
-			System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
-			System.out.println("Included = " + task.getResult()
-			                + " Result_States = " + task.getOperation().getBuchiDifference().getStateSize()
-			                + " TotalTime = " + timer.getTimeElapsed() + " (ms)"
-			                + " CheckingTime = " + task.getRuntime() + " (ms)");
+			if(verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
+			if(verbose)  {
+				System.out.println("\n" + task.toStringVerbose());
+				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
+			}else {
+				System.out.println(task.toString());
+			}
 
 		}
 		
