@@ -1,16 +1,18 @@
 package automata;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import util.IntSet;
+import util.UtilIntSet;
+
 public class BuchiGeneral implements IBuchi {
 
-	private final BitSet mInitStates;
+	private final IntSet mInitStates;
 	
-	private final BitSet mFinalStates;
+	private final IntSet mFinalStates;
 	
 	private final List<IState> mStates;
 	
@@ -18,8 +20,8 @@ public class BuchiGeneral implements IBuchi {
 	
 	public BuchiGeneral(int alphabetSize) {
 		this.mAlphabetSize = alphabetSize;
-		this.mInitStates  = new BitSet();
-		this.mFinalStates = new BitSet();
+		this.mInitStates  = UtilIntSet.newIntSet();
+		this.mFinalStates = UtilIntSet.newIntSet();
 		this.mStates = new ArrayList<>();
 	}
 	
@@ -55,9 +57,9 @@ public class BuchiGeneral implements IBuchi {
 	}
 
 	@Override
-	public BitSet getInitialStates() {
+	public IntSet getInitialStates() {
 		// TODO Auto-generated method stub
-		return (BitSet) mInitStates.clone();
+		return mInitStates.clone();
 	}
 
 	@Override
@@ -91,9 +93,9 @@ public class BuchiGeneral implements IBuchi {
 	}
 
 	@Override
-	public BitSet getFinalStates() {
+	public IntSet getFinalStates() {
 		// TODO Auto-generated method stub
-		return (BitSet) mFinalStates.clone();
+		return mFinalStates.clone();
 	}
 
 	@Override
@@ -107,7 +109,7 @@ public class BuchiGeneral implements IBuchi {
 	}
 
 	@Override
-	public BitSet getSuccessors(int state, int letter) {
+	public IntSet getSuccessors(int state, int letter) {
 		// TODO Auto-generated method stub
 		return mStates.get(state).getSuccessors(letter);
 	}

@@ -1,7 +1,8 @@
 package automata;
 
-import java.util.BitSet;
 import java.util.Set;
+
+import util.IntSet;
 
 public interface IState {
 	
@@ -9,7 +10,7 @@ public interface IState {
 		
 	void addSuccessor(int letter, int state);
 	
-	BitSet getSuccessors(int letter);
+	IntSet getSuccessors(int letter);
 	
 	Set<Integer> getEnabledLetters();
 

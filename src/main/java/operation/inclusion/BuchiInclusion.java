@@ -13,6 +13,7 @@ import complement.BuchiComplementSDBA;
 import complement.IBuchiComplement;
 import complement.StateNCSB;
 import main.TaskInclusion;
+import util.IntIterator;
 
 
 public abstract class BuchiInclusion implements IBuchiInclusion{
@@ -36,13 +37,12 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 	
 	private void computeInitalStates() {
-		// TODO Auto-generated method stub
-		for(int fst = mFstOperand.getInitialStates().nextSetBit(0);
-				fst >= 0;
-				fst = mFstOperand.getInitialStates().nextSetBit(fst + 1)) {
-			for(int snd = mSndComplement.getInitialStates().nextSetBit(0);
-					snd >= 0;
-					snd = mSndComplement.getInitialStates().nextSetBit(snd + 1)) {
+		IntIterator fstIter = mFstOperand.getInitialStates().iterator();
+		while(fstIter.hasNext()) {
+		    int fst = fstIter.next();
+		    IntIterator sndIter = mSndComplement.getInitialStates().iterator();
+		    while(sndIter.hasNext()) {
+		    	int snd = sndIter.next();
 				StateNCSB sndState = (StateNCSB)mSndComplement.getState(snd);
 				InclusionPairNCSB pair = new InclusionPairNCSB(fst, sndState);
 				IState state = getOrAddState(pair);

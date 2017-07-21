@@ -7,6 +7,8 @@ import automata.IBuchi;
 import automata.IState;
 import util.IPair;
 import util.IntArray;
+import util.IntIterator;
+import util.IntSet;
 import util.IntStack;
 import util.Timer;
 
@@ -56,9 +58,10 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 		private void explore() {
 			// TODO Auto-generated method stub
 			mDepth = 0;
-			for(int n = mBuchiComplement.getInitialStates().nextSetBit(0);
-					n >= 0;
-					n = mBuchiComplement.getInitialStates().nextSetBit(n + 1)) {
+			IntIterator iter = mBuchiComplement.getInitialStates().iterator();
+			while(iter.hasNext()) {
+			    int n = iter.next();
+					
 				if(!mTable.get(n) && !terminate()){
 					dfs(n, false);
 					if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
@@ -94,10 +97,8 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 			IState state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
-				BitSet succs = state.getSuccessors(letter);
-				for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+				IntSet succs = state.getSuccessors(letter);
 
-				}
 			}
 			
 			mStateMap.clear(n);

@@ -8,13 +8,13 @@ public class IntStack implements Cloneable {
 
 	private int[] data;
 	private int top;
-	private BitSet bits; // no duplicate elements
+	private IntSet bits; // no duplicate elements
 
 	public IntStack() {
 		final int INITIAL_CAPACITY = 30;
 		top = 0;
 		data = new int[INITIAL_CAPACITY];
-		bits = new BitSet();
+		bits = UtilIntSet.newIntSet();
 	}
 
 	public IntStack(int initialCapacity) {
@@ -22,7 +22,7 @@ public class IntStack implements Cloneable {
 			throw new IllegalArgumentException("Negative initialCapacity " + initialCapacity);
 		top = 0;
 		data = new int[initialCapacity];
-		bits = new BitSet();
+		bits = UtilIntSet.newIntSet();
 	}
 	
 
@@ -36,7 +36,7 @@ public class IntStack implements Cloneable {
 		}
 
 		result.data = (int[]) data.clone();
-		result.bits = (BitSet) bits.clone();
+		result.bits = bits.clone();
 		return result;
 	}
 
@@ -96,8 +96,8 @@ public class IntStack implements Cloneable {
 		return sb.toString();
 	}
 	
-	public BitSet getItems() {
-		return (BitSet) bits.clone();
+	public IntSet getItems() {
+		return bits.clone();
 	}
 	
 	public int get(int index) {

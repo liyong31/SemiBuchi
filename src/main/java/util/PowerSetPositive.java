@@ -1,22 +1,22 @@
 package util;
 
-import java.util.BitSet;
 import java.util.Iterator;
 
-class PowerSetPositive implements Iterator<BitSet> {
+class PowerSetPositive implements Iterator<IntSet> {
 
 	private Valuation mValuation;
 	
-	private final BitSet mSet;
+	private final IntSet mSet;
 	private final int[] mIntArr;
 	
-	public PowerSetPositive(BitSet set) {
+	public PowerSetPositive(IntSet set) {
 		assert ! set.isEmpty();
 		this.mSet = set;
 		mIntArr = new int[mSet.cardinality()];
 		int index = 0;
-		for(int n = mSet.nextSetBit(0); n >= 0; n = mSet.nextSetBit(n + 1)) {
-			mIntArr[index ++] = n;
+		IntIterator iter = mSet.iterator();
+		while(iter.hasNext()) {
+			mIntArr[index ++] = iter.next();
 		}
 		this.mValuation = new Valuation(mSet.cardinality());
 	}
@@ -28,11 +28,11 @@ class PowerSetPositive implements Iterator<BitSet> {
 	}
 
 	@Override
-	public BitSet next() {
+	public IntSet next() {
 		assert hasNext();
 		Valuation val = mValuation.clone();
 		mValuation.increment();
-		BitSet bits = new BitSet();
+		IntSet bits = UtilIntSet.newIntSet();
 		for(int n = val.nextSetBit(0); n >= 0 ; n = val.nextSetBit(n + 1)) {
 			bits.set(mIntArr[n]);
 		}

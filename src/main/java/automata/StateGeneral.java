@@ -1,15 +1,19 @@
 package automata;
 
-import java.util.BitSet;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import util.IntSet;
+import util.UtilIntSet;
+
+
 //TODO deal with automata with large alphabet
 public class StateGeneral implements IState, Comparable<StateGeneral> {
 
 	private final int mId;
-	private final Map<Integer, BitSet> mSuccessors;
+	private final Map<Integer, IntSet> mSuccessors;
 	public StateGeneral(int id) {
 		this.mId = id;
 		this.mSuccessors = new HashMap<>();
@@ -22,34 +26,30 @@ public class StateGeneral implements IState, Comparable<StateGeneral> {
 
 	@Override
 	public void addSuccessor(int letter, int state) {
-		// TODO Auto-generated method stub
-		BitSet succs = mSuccessors.get(letter);
+		IntSet succs = mSuccessors.get(letter);
 		if(succs == null) {
-			succs = new BitSet();
+			succs =  UtilIntSet.newIntSet();
 		}
 		succs.set(state);
 		mSuccessors.put(letter, succs);
 	}
 
 	@Override
-	public BitSet getSuccessors(int letter) {
-		// TODO Auto-generated method stub
-		BitSet succs = mSuccessors.get(letter);
+	public IntSet getSuccessors(int letter) {
+		IntSet succs = mSuccessors.get(letter);
 		if(succs == null) { // transition function may not be complete
-			return new BitSet();
+			return UtilIntSet.newIntSet();
 		}
-		return (BitSet)succs.clone();
+		return succs.clone();
 	}
 
 	@Override
 	public Set<Integer> getEnabledLetters() {
-		// TODO Auto-generated method stub
 		return Collections.unmodifiableSet(mSuccessors.keySet());
 	}
 
 	@Override
 	public int compareTo(StateGeneral other) {
-		// TODO Auto-generated method stub
 		return mId - other.mId;
 	}
 	

@@ -1,12 +1,11 @@
 package util;
 
-import java.util.BitSet;
 import java.util.Iterator;
 
-public class PowerSet implements Iterator<BitSet> {
+public class PowerSet implements Iterator<IntSet> {
 	
-	private Iterator<BitSet> iterator;
-	public PowerSet(BitSet set) {
+	private Iterator<IntSet> iterator;
+	public PowerSet(IntSet set) {
 		if(set.isEmpty()) {
 			iterator = new PowerSetEmpty();
 		}else {
@@ -20,14 +19,14 @@ public class PowerSet implements Iterator<BitSet> {
 	}
 
 	@Override
-	public BitSet next() {
+	public IntSet next() {
 		assert hasNext();
 		return iterator.next();
 	}
 	
 	
 	public static void main(String[] args) {
-		BitSet bits = new BitSet();
+		IntSetBits bits = new IntSetBits();
 		bits.set(2);
 		bits.set(3);
 		bits.set(6);
@@ -37,7 +36,7 @@ public class PowerSet implements Iterator<BitSet> {
 		PowerSet ps = new PowerSet(bits);
 		int i = 0;
 		while(ps.hasNext()) {
-			BitSet subset = ps.next();
+			IntSet subset = ps.next();
 			i ++;
 			System.out.println(" " + subset);
 		}
@@ -49,7 +48,7 @@ public class PowerSet implements Iterator<BitSet> {
 		ps = new PowerSet(bits);
 		i = 0;
 		while(ps.hasNext()) {
-			BitSet subset = ps.next();
+			IntSet subset = ps.next();
 			i ++;
 			System.out.println(" " + subset);
 		}

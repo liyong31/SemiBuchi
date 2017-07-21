@@ -10,6 +10,9 @@ import java.util.Map;
 import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
+import util.IntIterator;
+import util.IntSet;
+import util.UtilIntSet;
 
 /**
  * only valid for semi-deterministic Buchi automaton
@@ -18,7 +21,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 
 	private final IBuchi mOperand;
 	
-	private final List<BitSet> mOpTransUsed;
+	private final List<IntSet> mOpTransUsed;
 	
 	public BuchiComplementSDBA(IBuchi buchi) {
 		super(buchi.getAlphabetSize());
@@ -26,7 +29,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		this.mOperand = buchi;
 		this.mOpTransUsed = new ArrayList<>();
 		for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
-			this.mOpTransUsed.add(new BitSet());
+			this.mOpTransUsed.add(UtilIntSet.newIntSet());
 		}
 		computeInitialStates();
 	}
@@ -37,9 +40,9 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		// TODO Auto-generated method stub
 		StateNCSB state = new StateNCSB(0, this);
 		// TODO get also the initial states where initial state is also final state
-		BitSet csets = (BitSet) mOperand.getInitialStates().clone();
+		IntSet csets = mOperand.getInitialStates().clone();
 		csets.and(getFinalStates()); // goto C
-		state.setSets(mOperand.getInitialStates(), csets, new BitSet(), csets);
+		state.setSets(mOperand.getInitialStates(), csets, UtilIntSet.newIntSet(), csets);
 		if(csets.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
@@ -47,7 +50,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	}
 	
 
-	public StateNCSB addState(BitSet N, BitSet C, BitSet S, BitSet B) {
+	public StateNCSB addState(IntSet N, IntSet C, IntSet S, IntSet B) {
 		
 		StateNCSB state = new StateNCSB(0, this);
 		state.setSets(N, C, S, B);
@@ -84,11 +87,13 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		mExplored = true;
 		
 		LinkedList<IState> walkList = new LinkedList<>();
-		BitSet initialStates = getInitialStates();
+		IntSet initialStates = getInitialStates();
 		
-		for(int i = initialStates.nextSetBit(0); i >= 0; i = initialStates.nextSetBit(i + 1)) {
-			walkList.addFirst(getState(i));
+		IntIterator iter = initialStates.iterator();
+		while(iter.hasNext()) {
+			walkList.addFirst(getState(iter.next()));
 		}
+
 		
         BitSet visited = new BitSet();
         
@@ -96,8 +101,10 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         	IState s = walkList.remove();
         	visited.set(s.getId());
         	for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
-        		BitSet succs = s.getSuccessors(i);
-        		for(int n = succs.nextSetBit(0); n >= 0; n = succs.nextSetBit(n + 1)) {
+        		IntSet succs = s.getSuccessors(i);
+        		iter = succs.iterator();
+        		while(iter.hasNext()) {
+        			int n = iter.next();
         			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));
@@ -109,7 +116,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 
 
 	@Override
-	public void useOpTransition(int letter, BitSet states) {
+	public void useOpTransition(int letter, IntSet states) {
 		// TODO Auto-generated method stub
 		this.mOpTransUsed.get(letter).or(states);
 	}
@@ -120,9 +127,10 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		// TODO Auto-generated method stub
 		int num = 0;
 		for(int i = 0; i < mOpTransUsed.size(); i ++) {
-			BitSet sources = mOpTransUsed.get(i);
-			for(int source = sources.nextSetBit(0); source >= 0; source = sources.nextSetBit(source + 1)) {
-				num += mOperand.getState(source).getSuccessors(i).cardinality();
+			IntSet sources = mOpTransUsed.get(i);
+			IntIterator iter = sources.iterator();
+			while(iter.hasNext()) {
+				num += mOperand.getState(iter.next()).getSuccessors(i).cardinality();
 			}
 		}
 		return num;

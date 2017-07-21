@@ -7,6 +7,8 @@ import automata.IBuchi;
 import automata.IState;
 import complement.StateNCSB;
 import util.IPair;
+import util.IntIterator;
+import util.IntSet;
 import util.IntStack;
 import util.Timer;
 
@@ -55,9 +57,9 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 
 		private void explore() {
 			// TODO Auto-generated method stub
-			for(int n = mBuchiComplement.getInitialStates().nextSetBit(0);
-					n >= 0;
-					n = mBuchiComplement.getInitialStates().nextSetBit(n + 1)) {
+			IntIterator iter = mBuchiComplement.getInitialStates().iterator();
+			while(iter.hasNext()) {
+				int n = iter.next();
 				if(!mFstTable.get(n) && !terminate()){
 					fstDFS(n);
 				}
@@ -83,8 +85,10 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			IState state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
-				BitSet succs = state.getSuccessors(letter);
-				for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+				IntSet succs = state.getSuccessors(letter);
+				IntIterator iter = succs.iterator();
+				while(iter.hasNext()) {
+					int succ = iter.next();
 					if(! mFstTable.get(succ)) {
 						fstDFS(succ);
 						if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
@@ -113,8 +117,10 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			IState state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
-				BitSet succs = state.getSuccessors(letter);
-				for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+				IntSet succs = state.getSuccessors(letter);
+				IntIterator iter = succs.iterator();
+				while(iter.hasNext()) {
+					int succ = iter.next();
 					// the only difference lies here
 					if(mFstStack.contains(succ)
 					|| hasCoveredStatesInStack(succ)) {
@@ -134,11 +140,13 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 		// we know that the stack cannot have two same elements
 		private boolean hasCoveredStatesInStack(int t) {
 			StateNCSB stateT = (StateNCSB) mBuchiComplement.getState(t);
-			BitSet items = mFstStack.getItems();
+			IntSet items = mFstStack.getItems();
 			items.clear(mFstStack.peek());
 			// only keep final states in stack
 			items.and(mBuchiComplement.getFinalStates()); 
-			for(int u = items.nextSetBit(0); u >= 0; u = items.nextSetBit(u + 1)) {
+			IntIterator iter = items.iterator();
+			while(iter.hasNext()) {
+			    int u = iter.next();
 				StateNCSB stateU = (StateNCSB) mBuchiComplement.getState(u);
 				if(stateU.coveredBy(stateT)) return true;
 			}

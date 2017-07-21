@@ -1,9 +1,8 @@
 package util;
 
-import java.util.BitSet;
 import java.util.Iterator;
 
-class PowerSetEmpty implements Iterator<BitSet> {
+class PowerSetEmpty implements Iterator<IntSet> {
 	
 	private boolean hasNext;
 	
@@ -17,10 +16,10 @@ class PowerSetEmpty implements Iterator<BitSet> {
 	}
 
 	@Override
-	public BitSet next() {
+	public IntSet next() {
 		assert hasNext();
 		hasNext = false;
-		return new BitSet();
+		return UtilIntSet.newIntSet();
 	}
 
 }

@@ -7,6 +7,8 @@ import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
 import util.IPair;
+import util.IntIterator;
+import util.IntSet;
 import util.IntStack;
 import util.Timer;
 
@@ -36,13 +38,16 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 
 	private void explore() {
 		// TODO Auto-generated method stub
-		for (int n = mBuchi.getInitialStates().nextSetBit(0); n >= 0; n = mBuchi.getInitialStates().nextSetBit(n + 1)) {
+		IntIterator iter = mBuchi.getInitialStates().iterator();
+		while(iter.hasNext()) {
+			int n = iter.next();
 			if (!mFstTable.get(n) && !terminate()) {
 				fstDFS(n);
 				if (mIsEmpty == null || mIsEmpty.booleanValue() == false)
 					return;
 			}
 		}
+
 	}
 
 	private boolean terminate() {
@@ -64,8 +69,10 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 		IState state = mBuchi.getState(n);
 		// TODO only get enabled letters
 		for (int letter = 0; letter < mBuchi.getAlphabetSize(); letter++) {
-			BitSet succs = state.getSuccessors(letter);
-			for (int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+			IntSet succs = state.getSuccessors(letter);
+			IntIterator iter = succs.iterator();
+			while(iter.hasNext()) {
+				int succ = iter.next();
 				if (!mFstTable.get(succ)) {
 					fstDFS(succ);
 					if (mIsEmpty == null || mIsEmpty.booleanValue() == false)
@@ -95,8 +102,10 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 		IState state = mBuchi.getState(n);
 		// TODO only get enabled letters
 		for (int letter = 0; letter < mBuchi.getAlphabetSize(); letter++) {
-			BitSet succs = state.getSuccessors(letter);
-			for (int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+			IntSet succs = state.getSuccessors(letter);
+			IntIterator iter = succs.iterator();
+			while(iter.hasNext()) {
+				int succ = iter.next();
 				// we visited it before
 				if (mFstStack.contains(succ)) {
 					mIsEmpty = false;

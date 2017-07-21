@@ -8,6 +8,8 @@ import java.util.Map;
 import automata.IBuchi;
 import automata.IState;
 import util.IPair;
+import util.IntIterator;
+import util.IntSet;
 import util.IntStack;
 import util.Timer;
 
@@ -39,9 +41,9 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 	private void explore() {
 		// TODO Auto-generated method stub
 		mIndex = 0;
-		for(int n = mBuchi.getInitialStates().nextSetBit(0);
-				n >= 0;
-				n = mBuchi.getInitialStates().nextSetBit(n + 1)) {
+		IntIterator iter = mBuchi.getInitialStates().iterator();
+		while(iter.hasNext()) {
+			int n = iter.next();
 			if(!mIndexMap.containsKey(n) && !terminate()){
 				strongConnect(n);
 				if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
@@ -70,8 +72,10 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 		IState state = mBuchi.getState(v);
 		//TODO only get enabled letters
 		for(int letter = 0; letter < mBuchi.getAlphabetSize(); letter ++) {
-			BitSet succs = state.getSuccessors(letter);
-			for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+			IntSet succs = state.getSuccessors(letter);
+			IntIterator iter = succs.iterator();
+			while(iter.hasNext()) {
+				int succ = iter.next();
 				if(! mIndexMap.containsKey(succ)) {
 					strongConnect(succ);
 					if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;

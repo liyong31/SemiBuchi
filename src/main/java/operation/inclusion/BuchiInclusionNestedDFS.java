@@ -10,6 +10,8 @@ import automata.IState;
 import complement.StateNCSB;
 import main.TaskInclusion;
 import util.IPair;
+import util.IntIterator;
+import util.IntSet;
 
 public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	
@@ -67,9 +69,9 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 
 		private void explore() {
 			// TODO Auto-generated method stub
-			for(int n = mResult.getInitialStates().nextSetBit(0);
-					n >= 0;
-					n = mResult.getInitialStates().nextSetBit(n + 1)) {
+			IntIterator iter = mResult.getInitialStates().iterator();
+			while(iter.hasNext()) {
+				int n = iter.next();
 				if(!mFstTable.get(n) && !terminate()){
 					fstDFS(n);
 				}
@@ -97,12 +99,16 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mFstOperand.getAlphabetSize(); letter ++) {
 				// X states from first BA 
-				BitSet fstSuccs = mFstOperand.getSuccessors(pair.getFstElement(), letter);
+				IntSet fstSuccs = mFstOperand.getSuccessors(pair.getFstElement(), letter);
 				if(fstSuccs.isEmpty()) continue;
 				// Y states from second BA
-				BitSet sndSuccs = pair.getSndElement().getSuccessors(letter);
-				for(int fstSucc = fstSuccs.nextSetBit(0); fstSucc >= 0; fstSucc = fstSuccs.nextSetBit(fstSucc + 1)) {
-					for(int sndSucc = sndSuccs.nextSetBit(0); sndSucc >= 0; sndSucc = sndSuccs.nextSetBit(sndSucc + 1)) {
+				IntSet sndSuccs = pair.getSndElement().getSuccessors(letter);
+				IntIterator fstIter = fstSuccs.iterator();
+				while(fstIter.hasNext()) {
+					int fstSucc = fstIter.next();
+					IntIterator sndIter = sndSuccs.iterator();
+					while(sndIter.hasNext()) {
+						int sndSucc = sndIter.next();
 						// pair (X, Y)
 						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);
@@ -144,12 +150,16 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 			
 			for(int letter = 0; letter < mFstOperand.getAlphabetSize(); letter ++) {
 				// X states from first BA 
-				BitSet fstSuccs = mFstOperand.getSuccessors(pair.getFstElement(), letter);
+				IntSet fstSuccs = mFstOperand.getSuccessors(pair.getFstElement(), letter);
 				if(fstSuccs.isEmpty()) continue;
 				// Y states from second BA
-				BitSet sndSuccs = pair.getSndElement().getSuccessors(letter);
-				for(int fstSucc = fstSuccs.nextSetBit(0); fstSucc >= 0; fstSucc = fstSuccs.nextSetBit(fstSucc + 1)) {
-					for(int sndSucc = sndSuccs.nextSetBit(0); sndSucc >= 0; sndSucc = sndSuccs.nextSetBit(sndSucc + 1)) {
+				IntSet sndSuccs = pair.getSndElement().getSuccessors(letter);
+				IntIterator fstIter = fstSuccs.iterator();
+				while(fstIter.hasNext()) {
+					int fstSucc = fstIter.next();
+					IntIterator sndIter = sndSuccs.iterator();
+					while(sndIter.hasNext()) {
+						int sndSucc = sndIter.next();
 						// pair (X, Y)
 						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);

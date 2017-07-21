@@ -35,9 +35,16 @@ public class InclusionPairNCSB implements IPair<Integer, StateNCSB>{
 		return "(" + mFstStateId + "," + mSndState.toString() + ")";
 	}
 	
+	int hashCode;
+	boolean hasCode = false;
 	@Override
 	public int hashCode() {
-		return toString().hashCode();
+		if(hasCode) return hashCode;
+		else {
+			hasCode = true;
+			hashCode = toString().hashCode();
+		}
+		return hashCode;
 	}
 	
 	// by definition, if true, the language of this pair is covered 

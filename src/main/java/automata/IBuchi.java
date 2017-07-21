@@ -1,8 +1,11 @@
 package automata;
 
-import java.util.BitSet;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import util.IntIterator;
+import util.IntSet;
+import util.UtilIntSet;
 
 public interface IBuchi {
 	
@@ -16,9 +19,9 @@ public interface IBuchi {
 	
 	IState getState(int id);
 	
-	BitSet getInitialStates();
+	IntSet getInitialStates();
 
-	BitSet getFinalStates();
+	IntSet getFinalStates();
 	
 	
 	default public boolean isInitial(IState s) {
@@ -45,15 +48,17 @@ public interface IBuchi {
 	
 	void setFinal(int id);
 	
-	default public BitSet getSuccessors(BitSet states, int letter) {
-		BitSet result = new BitSet();
-		for(int n = states.nextSetBit(0); n >= 0; n = states.nextSetBit(n + 1)) {
+	default public IntSet getSuccessors(IntSet states, int letter) {
+		IntSet result = UtilIntSet.newIntSet();
+		IntIterator iter = states.iterator();
+		while(iter.hasNext()) {
+			int n = iter.next();
 			result.or(getSuccessors(n, letter));
 		}
 		return result;
 	}
 	
-	BitSet getSuccessors(int state, int letter);
+	IntSet getSuccessors(int state, int letter);
 	
 	Collection<IState> getStates();
 	
@@ -70,15 +75,19 @@ public interface IBuchi {
             else sb.append(", shape = circle");
             sb.append("];\n");
             for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	BitSet succs = state.getSuccessors(letter);
-            	for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
-            		sb.append("  " + state.getId() + " -> " + succ + " [label=\"" + letter + "\"];\n");
-            	}
+            	IntSet succs = state.getSuccessors(letter);
+        		IntIterator iter = succs.iterator();
+        		while(iter.hasNext()) {
+        			int succ = iter.next();
+        			sb.append("  " + state.getId() + " -> " + succ + " [label=\"" + letter + "\"];\n");
+        		}
             }
         }	
         sb.append("  " + states.size() + " [label=\"\", shape = plaintext];\n");
-        BitSet initialStates = getInitialStates();
-        for(int init = initialStates.nextSetBit(0); init >= 0; init = initialStates.nextSetBit(init + 1)) {
+        IntSet initialStates = getInitialStates();
+        IntIterator iter = initialStates.iterator();
+        while(iter.hasNext()) {
+        	int init = iter.next();
         	sb.append("  " + states.size() + " -> " + init + " [label=\"\"];\n");
         }
         
@@ -90,24 +99,27 @@ public interface IBuchi {
 	default public String toBA() {
 		
 		StringBuilder sb = new StringBuilder();
-        BitSet initialStates = getInitialStates();
+        IntSet initialStates = getInitialStates();
         if(initialStates.cardinality() > 1) 
         	throw new RuntimeException("BA format does not allow multiple initial states...");
-        
-        sb.append("[" + initialStates.nextSetBit(0) + "]\n");
+        IntIterator iter = initialStates.iterator();
+        sb.append("[" + iter.next() + "]\n");
 		// output automata in BA (RABIT format)
 		Collection<IState> states = getStates();
 		for(IState state : states) {
             for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	BitSet succs = state.getSuccessors(letter);
-            	for(int succ = succs.nextSetBit(0); succ >= 0; succ = succs.nextSetBit(succ + 1)) {
+            	IntSet succs = state.getSuccessors(letter);
+            	iter = succs.iterator();
+            	while(iter.hasNext()) {
+            		int succ = iter.next();
             		sb.append("a" + letter + ",[" + state.getId() + "]->[" + succ + "]\n");
             	}
             }
         }	
-        BitSet finStates = getFinalStates();
-        for(int fin = finStates.nextSetBit(0); fin >= 0; fin = finStates.nextSetBit(fin + 1)) {
-        	sb.append("[" + fin + "]\n");
+        IntSet finStates = getFinalStates();
+        iter = finStates.iterator();
+        while(iter.hasNext()) {
+        	sb.append("[" + iter.next() + "]\n");
         }
         
 		return sb.toString();
@@ -125,24 +137,26 @@ public interface IBuchi {
 	
 	// a Buchi automaton is semideterministic if all transitions after the accepting states are deterministic
 	default boolean isSemiDeterministic() {
-		BitSet finIds = getFinalStates();
+		IntSet finIds = getFinalStates();
 		LinkedList<IState> walkList = new LinkedList<>();
 		
 		// add to list
-		for(int i = finIds.nextSetBit(0); i >= 0; i = finIds.nextSetBit(i + 1)) {
-			walkList.addFirst(getState(i));
+		IntIterator iter = finIds.iterator();
+		while(iter.hasNext()) {
+			walkList.addFirst(getState(iter.next()));
 		}
 		
-        BitSet visited = new BitSet();
+        IntSet visited = UtilIntSet.newIntSet();
         while(! walkList.isEmpty()) {
         	IState s = walkList.remove();
         	visited.set(s.getId());
         	for(int i = 0; i < getAlphabetSize(); i ++) {
-        		BitSet succs = s.getSuccessors(i);
+        		IntSet succs = s.getSuccessors(i);
         		if(succs.isEmpty()) continue;
         		if(succs.cardinality() > 1) return false;
 
-        		int succ = succs.nextSetBit(0);
+        		iter = succs.iterator();
+        		int succ = iter.next();
     			if(! visited.get(succ)) {
     				walkList.addFirst(getState(succ));
     			}
@@ -157,15 +171,16 @@ public interface IBuchi {
 		
 		walkList.addFirst(getState(state));
 		
-        BitSet visited = new BitSet();
+        IntSet visited = UtilIntSet.newIntSet();
         while(! walkList.isEmpty()) {
         	IState s = walkList.remove();
         	visited.set(s.getId());
         	for(int i = 0; i < getAlphabetSize(); i ++) {
-        		BitSet succs = s.getSuccessors(i);
+        		IntSet succs = s.getSuccessors(i);
         		if(succs.cardinality() > 1) return false;
         		if(succs.isEmpty()) continue;
-        		int succ = succs.nextSetBit(0);
+        		IntIterator iter = succs.iterator();
+        		int succ = iter.next();
     			if(! visited.get(succ)) {
     				walkList.addFirst(getState(succ));
     			}

@@ -24,6 +24,9 @@ public class Main {
 	private static final long TIME_LIMIT = 20;
 	private static boolean verbose = false;
 	
+	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet and 3 for TreeSet
+	public static int SET_CHOICE = 1;
+	
 	public static void main(String[] args) throws IOException {
 		
 		if(args.length < 1) {
