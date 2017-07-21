@@ -6,9 +6,8 @@
 	<version>0.0.1</version>
 	<!-- Make this jar executable -->
 	<build>
-	    <sourceDirectory>src/main</sourceDirectory>
+		<sourceDirectory>src/main</sourceDirectory>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -22,9 +21,7 @@
 					</archive>
 				</configuration>
 			</plugin>
-
-		</plugins>
-
+		</plugins>	
 	</build>
 	<dependencies>
 		<dependency>
@@ -33,6 +30,22 @@
 			<version>4.2</version>
 			<scope>test</scope>
 		</dependency>
+	   <dependency>
+		  <groupId>trove</groupId>
+		  <artifactId>gnu.trove</artifactId>
+		  <version>3.0.3</version>
+		  <scope>system</scope>
+		  <systemPath>${project.basedir}/lib/trove-3.0.3.jar</systemPath>
+	   </dependency> 
+	   <dependency>
+	       
+		  <groupId>SparseBitSet</groupId>
+		  <artifactId>com.zaxxer</artifactId>
+		  <version>1.0</version>
+		  <scope>system</scope>
+		  <systemPath>${project.basedir}/lib/sparsebitset.jar</systemPath>
+	   </dependency> 
+
 	</dependencies>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>

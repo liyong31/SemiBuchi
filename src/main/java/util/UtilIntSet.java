@@ -21,7 +21,8 @@ public class UtilIntSet {
 			set = new IntSetTreeSet();
 			break;
 		default:
-				set = new IntSetBits();
+			set = new IntSetBits();
+			break;
 		}
 		return set;
 	}

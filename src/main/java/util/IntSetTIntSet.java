@@ -117,11 +117,11 @@ public class IntSetTIntSet implements IntSet {
 	}
 	
 	public boolean equals(Object obj) {
-		if(! (set instanceof IntSetTIntSet)) {
+		if(! (obj instanceof IntSetTIntSet)) {
 			System.err.println("OPERAND should be TIntSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetTIntSet temp = (IntSetTIntSet)obj;
 		return this.contentEq(temp);
 	}
 	
