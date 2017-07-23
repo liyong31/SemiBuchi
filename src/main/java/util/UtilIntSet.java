@@ -8,6 +8,25 @@ public class UtilIntSet {
 		
 	}
 	
+	public static String getSetType() {
+		String setType = null;
+		switch(Main.SET_CHOICE) {
+		case 1:
+			setType = "SparseBitSet";
+			break;
+		case 2:
+			setType = "TIntSet";
+			break;
+		case 3:
+			setType = "TreeSet";
+			break;
+		default:
+			setType = "BitSet";
+			break;
+		}
+		return setType;
+	}
+	
 	public static IntSet newIntSet() {
 		IntSet set = null;
 		switch(Main.SET_CHOICE) {

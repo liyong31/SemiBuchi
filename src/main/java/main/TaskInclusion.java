@@ -2,6 +2,7 @@ package main;
 
 import operation.inclusion.IBuchiInclusion;
 import util.Timer;
+import util.UtilIntSet;
 
 public class TaskInclusion implements ITask {
 
@@ -154,7 +155,7 @@ public class TaskInclusion implements ITask {
 	
 	public void setOperation(IBuchiInclusion checker) {
 		this.mChecker = checker;
-		this.mOperation = checker.getName();
+		this.mOperation = checker.getName() + "+" + UtilIntSet.getSetType();
 	}
 	
 	public IBuchiInclusion getOperation() {
