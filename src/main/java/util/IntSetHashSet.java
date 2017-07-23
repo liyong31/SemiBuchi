@@ -116,7 +116,7 @@ public class IntSetHashSet implements IntSet {
 	
 	public boolean equals(Object obj) {
 		if(! (obj instanceof IntSetHashSet)) {
-			System.err.println("OPERAND should beHashSet");
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)obj;
