@@ -12,13 +12,17 @@ echo "$column" > result.csv
 time=60; # time bound
 
 # solve easy cases
+
 for case in classes/benchmarks/easy/*.ats
 do
    for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
    do
-        command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case >> result.csv";
-	echo $command
-	eval $command
+      for i in 0 1 2 3;
+      do
+		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		echo $command
+		eval $command
+      done
    done
 done
 
@@ -27,19 +31,26 @@ for case in classes/benchmarks/normal/*.ats
 do
    for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
    do
-        command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case >> result.csv";
-	echo $command
-	eval $command
+      for i in 0 1 2 3;
+      do
+		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		echo $command
+		eval $command
+      done
    done
 done
+
 
 # solve difficult cases
 for case in classes/benchmarks/difficult/*.ats
 do
    for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
    do
-        command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case >> result.csv";
-	echo $command
-	eval $command
+      for i in 0 1 2 3;
+      do
+		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		echo $command
+		eval $command
+      done
    done
 done
