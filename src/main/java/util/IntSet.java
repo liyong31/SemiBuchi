@@ -1,7 +1,5 @@
 package util;
 
-import java.util.BitSet;
-
 // In order to keep the original code as much as possible, we
 // use the interface of BitSet
 public interface IntSet {
@@ -57,7 +55,5 @@ public interface IntSet {
 	Object get();
 	
 	IntIterator iterator();
-	
-//	BitSet toBitSet();
-	
+		
 }

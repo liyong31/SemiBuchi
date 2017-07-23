@@ -1,8 +1,5 @@
 package util;
 
-import java.util.BitSet;
-import java.util.Iterator;
-
 import com.zaxxer.sparsebits.SparseBitSet;
 
 public class IntSetSparseBits implements IntSet {
@@ -157,18 +154,5 @@ public class IntSetSparseBits implements IntSet {
 		}
 		
 	}
-
-//	private BitSet bits = null;
-//	@Override
-//	public BitSet toBitSet() {
-//		if(bits == null) {
-//			bits = new BitSet();
-//			IntIterator iter = iterator();
-//			while(iter.hasNext()) {
-//				bits.set(iter.next());
-//			}
-//		}
-//		return (BitSet) bits.clone();
-//	}
 
 }

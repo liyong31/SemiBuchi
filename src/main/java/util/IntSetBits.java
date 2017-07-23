@@ -1,9 +1,6 @@
 package util;
 
 import java.util.BitSet;
-import java.util.Iterator;
-
-
 
 public class IntSetBits implements IntSet {
 	
@@ -157,12 +154,5 @@ public class IntSetBits implements IntSet {
 			return rv;
 		}
 	}
-
-//	@Override
-//	public BitSet toBitSet() {
-//		return (BitSet) set.clone();
-//	}
-
-
 
 }

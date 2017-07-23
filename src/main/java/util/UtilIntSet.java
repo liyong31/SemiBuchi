@@ -20,6 +20,9 @@ public class UtilIntSet {
 		case 3:
 			setType = "TreeSet";
 			break;
+		case 4:
+			setType = "HashSet";
+			break;
 		default:
 			setType = "BitSet";
 			break;
@@ -38,6 +41,9 @@ public class UtilIntSet {
 			break;
 		case 3:
 			set = new IntSetTreeSet();
+			break;
+		case 4:
+			set = new IntSetHashSet();
 			break;
 		default:
 			set = new IntSetBits();

@@ -1,14 +1,6 @@
 package util;
 
-import java.util.BitSet;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.TreeSet;
-
-import com.zaxxer.sparsebits.SparseBitSet;
-
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
 
 public class IntSetTest {
 	
@@ -17,6 +9,7 @@ public class IntSetTest {
 		IntSetBits bits = new IntSetBits();	
 		IntSetSparseBits sparseBitSets = new IntSetSparseBits();		
 		IntSetTIntSet tIntSets = new IntSetTIntSet();
+		IntSetHashSet hashSets = new IntSetHashSet();
 		IntSetTreeSet treeSets = new IntSetTreeSet();
 		
 		int num = 9100_000;
@@ -27,6 +20,7 @@ public class IntSetTest {
 				bits.set(i);
 				sparseBitSets.set(i);
 				tIntSets.set(i);
+				hashSets.set(i);
 				treeSets.set(i);
 			}
 		}
@@ -51,6 +45,13 @@ public class IntSetTest {
 		cpi.set(7000_000 - 1);
 		testEq(tIntSets, cpi);
 		testSubset(tIntSets, cpi);
+		
+		System.out.println("test HashSet");
+		testIterator(hashSets);
+		IntSetHashSet cph = (IntSetHashSet) hashSets.clone();
+		cph.set(7000_000 - 1);
+		testEq(hashSets, cph);
+		testSubset(hashSets, cph);
 		
 		System.out.println("test TreeSet");
 		testIterator(treeSets);

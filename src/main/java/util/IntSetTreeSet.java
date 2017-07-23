@@ -1,6 +1,5 @@
 package util;
 
-import java.util.BitSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -141,19 +140,6 @@ public class IntSetTreeSet implements IntSet {
 		}
 		
 	}
-
-//	private BitSet bits = null;
-//	@Override
-//	public BitSet toBitSet() {
-//		if(bits == null) {
-//			bits = new BitSet();
-//			IntIterator iter = iterator();
-//			while(iter.hasNext()) {
-//				bits.set(iter.next());
-//			}
-//		}
-//		return (BitSet) bits.clone();
-//	}
 	
 
 }

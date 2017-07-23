@@ -24,7 +24,7 @@ public class Main {
 	private static final long TIME_LIMIT = 20;
 	private static boolean verbose = false;
 	
-	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet and 3 for TreeSet
+	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet, 3 for TreeSet, and 4 for HashSet 
 	public static int SET_CHOICE = 0;
 	
 	public static void main(String[] args) throws IOException {
@@ -51,7 +51,7 @@ public class Main {
 				verbose = true;
 			}else if(args[i].equals("-set")) {
 				int n = Integer.parseInt(args[i + 1]);
-				if(n >= 0 && n <= 3) SET_CHOICE = n;
+				if(n >= 0 && n <= 4) SET_CHOICE = n;
 				++ i;
 			}
 		}
@@ -73,7 +73,8 @@ public class Main {
 		System.out.println("\nOptions:");
 		System.out.println("-h: Show this page");
 		System.out.println("-v: Verbose mode");
-		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet, 2 for TInSet and 3 for TreeSet");
+		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet\n"
+				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-test: Test all benchmarks");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");

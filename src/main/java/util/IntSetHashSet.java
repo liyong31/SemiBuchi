@@ -1,56 +1,56 @@
 package util;
 
-import gnu.trove.iterator.TIntIterator;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+import java.util.HashSet;
+import java.util.Iterator;
 
-public class IntSetTIntSet implements IntSet {
+
+public class IntSetHashSet implements IntSet {
 	
-	private final TIntSet set;
+	private final HashSet<Integer> set;
 	
-	public IntSetTIntSet() {
-		set = new TIntHashSet();
+	public IntSetHashSet() {
+		set = new HashSet<>();
 	}
 
 	@Override
 	public IntIterator iterator() {
-		return new TIntSetIterator(this);
+		return new HashSetIterator(this);
 	}
 
 	@Override
 	public IntSet clone() {
-		IntSetTIntSet copy = new IntSetTIntSet();
+		IntSetHashSet copy = new IntSetHashSet();
 		copy.set.addAll(set);
 		return copy;
 	}
 
 	@Override
 	public void andNot(IntSet set) {
-		if(! (set instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (set instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetHashSet temp = (IntSetHashSet)set;
 		this.set.removeAll(temp.set);
 	}
 
 	@Override
 	public void and(IntSet set) {
-		if(! (set instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (set instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetHashSet temp = (IntSetHashSet)set;
 		this.set.retainAll(temp.set);
 	}
 
 	@Override
 	public void or(IntSet set) {
-		if(! (set instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (set instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetHashSet temp = (IntSetHashSet)set;
 		this.set.addAll(temp.set);
 	}
 
@@ -91,21 +91,21 @@ public class IntSetTIntSet implements IntSet {
 
 	@Override
 	public boolean subsetOf(IntSet set) {
-		if(! (set instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (set instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetHashSet temp = (IntSetHashSet)set;
 		return temp.set.containsAll(this.set);
 	}
 
 	@Override
 	public boolean contentEq(IntSet set) {
-		if(! (set instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (set instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should be HashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)set;
+		IntSetHashSet temp = (IntSetHashSet)set;
 		return this.set.equals(temp.set);
 	}
 
@@ -115,19 +115,19 @@ public class IntSetTIntSet implements IntSet {
 	}
 	
 	public boolean equals(Object obj) {
-		if(! (obj instanceof IntSetTIntSet)) {
-			System.err.println("OPERAND should be TIntSet");
+		if(! (obj instanceof IntSetHashSet)) {
+			System.err.println("OPERAND should beHashSet");
 			System.exit(-1);
 		}
-		IntSetTIntSet temp = (IntSetTIntSet)obj;
+		IntSetHashSet temp = (IntSetHashSet)obj;
 		return this.contentEq(temp);
 	}
 	
-	public static class TIntSetIterator implements IntIterator {
+	public static class HashSetIterator implements IntIterator {
 
-		private TIntIterator setIter;
+		private Iterator<Integer> setIter;
 		
-		public TIntSetIterator(IntSetTIntSet set) {
+		public HashSetIterator(IntSetHashSet set) {
 			setIter = set.set.iterator();
 		}
 		
