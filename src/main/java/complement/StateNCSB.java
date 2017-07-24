@@ -6,6 +6,7 @@ import java.util.Set;
 import automata.IBuchi;
 
 import automata.StateGeneral;
+import main.Main;
 import util.IntIterator;
 import util.IntSet;
 import util.PowerSet;
@@ -75,111 +76,11 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	 */
 	@Override
 	public IntSet getSuccessors(int letter) {
-		
-		Set<StateNCSB> succs = new HashSet<>();
-		
-		if(visitedLetters.get(letter)) {
-			return super.getSuccessors(letter);
+		if(Main.OPT_NCSB) {
+			return computeSuccessorsOptimized(letter);
+		}else {
+			return computeSuccessors(letter);
 		}
-		
-		visitedLetters.set(letter);
-		
-		IntSet currNSet =  mNSet.clone();
-		IntSet currCSet =  mCSet.clone();
-		IntSet currSSet =  mSSet.clone();
-		IntSet currBSet =  mBSet.clone();
-		/*
-		 * If q in C\F, then tr(q, a) is not empty
-		 */
-		IntSet F = mOperand.getFinalStates();
-		IntSet cMinusF =  currCSet.clone();
-		cMinusF.andNot(F); 
-		IntIterator iter = cMinusF.iterator();
-		while(iter.hasNext()) {
-			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
-				return UtilIntSet.newIntSet();
-			}
-		}
-		// should have successors
-		
-		/* -------------- compute successors -----------------*/
-		IntSet NSuccs = mOperand.getSuccessors(currNSet, letter);
-		IntSet CSuccs = mOperand.getSuccessors(currCSet, letter);
-		IntSet SSuccs = mOperand.getSuccessors(currSSet, letter);
-		IntSet BSuccs = mOperand.getSuccessors(currBSet, letter);
-		
-		// record used transition (NOT necessary in complement)
-		mComplement.useOpTransition(letter, currNSet);
-		mComplement.useOpTransition(letter, currCSet);
-		mComplement.useOpTransition(letter, currSSet);
-		/* ------------------------------------------------*/
-		
-		// N successors
-		IntSet Np =  NSuccs.clone();
-				
-		Np.andNot(F);            // remove final states
-		Np.andNot(CSuccs);       // remove successors of C, the final states of NSuccs are in CSuccs 
-		Np.andNot(SSuccs);       // remove successors of S
-		
-		// C successors
-		IntSet Cp =  CSuccs.clone();
-		IntSet nInterF =  NSuccs.clone();
-		nInterF.and(F);
-		Cp.or(nInterF);
-		
-		// S successors
-		IntSet Sp =  SSuccs.clone();
-		
-		// B successors
-		IntSet Bp =  BSuccs.clone();
-		
-		
-		/* -------------- compute C' of C -----------------*/
-		// firstly compute successors of C\F which must be in C'
-		IntSet CMinusFSuccs = mOperand.getSuccessors(cMinusF, letter);
-		
-		// secondly compute successors of C/\ F which may have final states
-		IntSet cInterF =  currCSet.clone(); 
-		cInterF.and(F);  // get all accepting states in C
-		IntSet CInterFSuccs = mOperand.getSuccessors(cInterF, letter);  // get successors of accepting states
-		CInterFSuccs.andNot(F);                            // remove accepting state here
-		CInterFSuccs.andNot(CMinusFSuccs);         // remove must-in C states
-		
-		// note that we should remove all final states which may go to S'
-
-		/* ----------- make nondeterministic choices ------------------- */
-		// the successors of C /\ F should go to C and S with nondeterministic choices
-		
-//		System.out.println(CInterFSuccs);
-		PowerSet ps = new PowerSet(CInterFSuccs);
-												
-		while (ps.hasNext()) {
-			IntSet Sextra = ps.next(); // extra states to be added into S'
-            IntSet tmp =  Sextra.clone();
-            tmp.and(CMinusFSuccs);
-			if(!tmp.isEmpty()) continue;
-			
-			IntSet NPrime = Np;
-			IntSet CPrime =  Cp.clone();
-			CPrime.andNot(Sextra);
-			IntSet SPrime =  Sp.clone();
-			SPrime.or(Sextra);
-			IntSet BPrime = null;
-			if(currBSet.isEmpty()) {
-				BPrime =  CPrime.clone();
-			}else {
-				BPrime =  Bp.clone();
-				BPrime.andNot(Sextra);
-			}
-
-			if (!SPrime.overlap(F) && !CPrime.overlap(SPrime)) {
-				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
-				this.addSuccessor(letter, succ.getId());
-				succs.add(succ);
-			}
-		}
-
-		return super.getSuccessors(letter);
 	}
 	
 

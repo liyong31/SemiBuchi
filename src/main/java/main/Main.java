@@ -26,6 +26,7 @@ public class Main {
 	
 	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet, 3 for TreeSet, and 4 for HashSet 
 	public static int SET_CHOICE = 0;
+	public static boolean OPT_NCSB = false;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -53,6 +54,8 @@ public class Main {
 				int n = Integer.parseInt(args[i + 1]);
 				if(n >= 0 && n <= 4) SET_CHOICE = n;
 				++ i;
+			}else if(args[i].equals("-opt")) {
+				OPT_NCSB = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -76,6 +79,7 @@ public class Main {
 		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet\n"
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-test: Test all benchmarks");
+		System.out.println("-opt: Use Optimized NCSB complementation");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
