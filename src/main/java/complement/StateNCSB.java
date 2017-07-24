@@ -465,13 +465,13 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 
 			if(bIsEmpty) {
 				// as usual S and C
-				CPrime.andNot(Sextra);
-				BPrime =  CPrime.clone();
+				CPrime.andNot(Sextra);     // C'= V'\ U'
+				BPrime =  CPrime.clone();  // B'= C'
 			}else {
 				BPrime =  Bp.clone();
 				BPrime.and(CPrime);
-				BPrime.andNot(Sextra);
-				CPrime.andNot(SPrime);
+				BPrime.andNot(Sextra); // B'=(d(B)/\C')\C'
+				CPrime.andNot(SPrime); // C'= V'\S'
 			}
 
 			if (!SPrime.overlap(F) && !CPrime.overlap(SPrime)) {
