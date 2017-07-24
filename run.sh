@@ -19,7 +19,7 @@ do
    do
       for i in 0 1 2 3;
       do
-		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case -set $i >> result.csv";
 		echo $command
 		eval $command
       done
@@ -33,7 +33,7 @@ do
    do
       for i in 0 1 2 3;
       do
-		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case -set $i >> result.csv";
 		echo $command
 		eval $command
       done
@@ -48,7 +48,7 @@ do
    do
       for i in 0 1 2 3;
       do
-		command="java -jar SemiBuchi.jar $method -to $time $case -set $i >> result.csv";
+		command="java -jar SemiBuchi-0.0.1.jar $method -to $time $case -set $i >> result.csv";
 		echo $command
 		eval $command
       done
