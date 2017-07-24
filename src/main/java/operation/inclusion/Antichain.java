@@ -8,17 +8,22 @@ import java.util.Map.Entry;
 
 
 import complement.StateNCSB;
+import gnu.trove.iterator.TIntObjectIterator;
+import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import main.ITask;
-import main.TaskInclusion;
+
 
 public class Antichain {
 	
-	private Map<Integer, List<StateNCSB>> mPairMap;
+//	private Map<Integer, List<StateNCSB>> mPairMap;
+	private TIntObjectMap<List<StateNCSB>> mPairMap;
 	private final ITask mTask;
 	
 	public Antichain(ITask task) {
 		mTask = task;
-		mPairMap = new HashMap<>();
+		mPairMap = new TIntObjectHashMap<>();
+//		mPairMap = new HashMap<>();
 	}
 	
 	/**
@@ -74,16 +79,26 @@ public class Antichain {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for(Entry<Integer, List<StateNCSB>> entry : mPairMap.entrySet()) {
-			sb.append(entry.getKey() + " -> " + entry.getValue() + "\n");
+//		for(Entry<Integer, List<StateNCSB>> entry : mPairMap.entrySet()) {
+//			sb.append(entry.getKey() + " -> " + entry.getValue() + "\n");
+//		}
+		TIntObjectIterator<List<StateNCSB>> iter = mPairMap.iterator();
+		while(iter.hasNext()) {
+			iter.advance();
+			sb.append(iter.key() + " -> " + iter.value() + "\n");
 		}
 		return sb.toString();
 	}
 	
 	public int size() {
 		int num = 0;
-		for(Map.Entry<Integer, List<StateNCSB>> entry : mPairMap.entrySet()) {
-			num += entry.getValue().size();
+//		for(Map.Entry<Integer, List<StateNCSB>> entry : mPairMap.entrySet()) {
+//			num += entry.getValue().size();
+//		}
+		TIntObjectIterator<List<StateNCSB>> iter = mPairMap.iterator();
+		while(iter.hasNext()) {
+			iter.advance();
+			num += iter.value().size();
 		}
 		return num;
 	}
