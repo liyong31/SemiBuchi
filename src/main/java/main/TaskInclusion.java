@@ -155,7 +155,8 @@ public class TaskInclusion implements ITask {
 	
 	public void setOperation(IBuchiInclusion checker) {
 		this.mChecker = checker;
-		this.mOperation = checker.getName() + "+" + UtilIntSet.getSetType();
+		this.mOperation = checker.getName() + "+" + UtilIntSet.getSetType()
+		+ (Main.OPT_NCSB ? "+opt" : "");
 	}
 	
 	public IBuchiInclusion getOperation() {
