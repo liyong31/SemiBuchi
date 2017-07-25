@@ -6,7 +6,8 @@ import java.util.Set;
 import automata.IBuchi;
 
 import automata.StateGeneral;
-import main.Main;
+
+import main.Options;
 import util.IntIterator;
 import util.IntSet;
 import util.PowerSet;
@@ -76,7 +77,10 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	 */
 	@Override
 	public IntSet getSuccessors(int letter) {
-		if(Main.OPT_NCSB) {
+		if(visitedLetters.get(letter)) {
+			return super.getSuccessors(letter);
+		}
+		if(Options.optNCSB) {
 			return computeSuccessorsOptimized(letter);
 		}else {
 			return computeSuccessors(letter);
@@ -154,11 +158,6 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	
 	private IntSet computeSuccessors(int letter) {
 		Set<StateNCSB> succs = new HashSet<>();
-		
-		if(visitedLetters.get(letter)) {
-			return super.getSuccessors(letter);
-		}
-		
 		visitedLetters.set(letter);
 		
 		IntSet currNSet =  mNSet.clone();
@@ -264,11 +263,6 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	private IntSet computeSuccessorsOptimized(int letter) {
 		
 		Set<StateNCSB> succs = new HashSet<>();
-		
-		if(visitedLetters.get(letter)) {
-			return super.getSuccessors(letter);
-		}
-		
 		visitedLetters.set(letter);
 		
 		IntSet currNSet =  mNSet.clone();

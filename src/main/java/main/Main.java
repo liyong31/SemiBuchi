@@ -22,11 +22,6 @@ public class Main {
 	
 	private static final String FILE_EXT = "ats";
 	private static final long TIME_LIMIT = 20;
-	private static boolean verbose = false;
-	
-	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet, 3 for TreeSet, and 4 for HashSet 
-	public static int SET_CHOICE = 0;
-	public static boolean OPT_NCSB = false;
 	
 	public static void main(String[] args) throws IOException {
 		
@@ -49,13 +44,13 @@ public class Main {
 				printUsage();
 				System.exit(0);
 			}else if(args[i].equals("-v")) {
-				verbose = true;
+				Options.verbose = true;
 			}else if(args[i].equals("-set")) {
 				int n = Integer.parseInt(args[i + 1]);
-				if(n >= 0 && n <= 4) SET_CHOICE = n;
+				if(n >= 0 && n <= 4) Options.setChoice = n;
 				++ i;
 			}else if(args[i].equals("-opt")) {
-				OPT_NCSB = true;
+				Options.optNCSB = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -92,7 +87,7 @@ public class Main {
 	private static void checkInclusion(String[] args, long time) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
+		if(Options.verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
 		
 		File file = null;
 		TaskInclusion task = null;
@@ -115,7 +110,7 @@ public class Main {
 		
 		assert file != null;
 		
-		if(verbose) System.out.println("Parsing file " + file.getName() + " ....");
+		if(Options.verbose) System.out.println("Parsing file " + file.getName() + " ....");
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(file.getAbsolutePath());
 		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
@@ -136,13 +131,13 @@ public class Main {
 					task.setOperation(new BuchiInclusionASCC(task, pair.getFstElement(), pair.getSndElement()));
 				}
 			}
-			if(verbose)  System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
+			if(Options.verbose)  System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
 			Timer timer = new Timer();
 			timer.start();
 			task.runTask();
 			timer.stop();
-			if(verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
-			if(verbose)  {
+			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
+			if(Options.verbose)  {
 				System.out.println("\n" + task.toStringVerbose());
 				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
 			}else {

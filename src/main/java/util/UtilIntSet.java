@@ -1,6 +1,6 @@
 package util;
 
-import main.Main;
+import main.Options;
 
 public class UtilIntSet {
 	
@@ -10,7 +10,7 @@ public class UtilIntSet {
 	
 	public static String getSetType() {
 		String setType = null;
-		switch(Main.SET_CHOICE) {
+		switch(Options.setChoice) {
 		case 1:
 			setType = "SparseBitSet";
 			break;
@@ -32,7 +32,7 @@ public class UtilIntSet {
 	
 	public static IntSet newIntSet() {
 		IntSet set = null;
-		switch(Main.SET_CHOICE) {
+		switch(Options.setChoice) {
 		case 1:
 			set = new IntSetSparseBits();
 			break;
