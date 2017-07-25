@@ -1,8 +1,5 @@
 package complement;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import automata.IBuchi;
 
 import automata.StateGeneral;
@@ -157,7 +154,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	 *   */
 	
 	private IntSet computeSuccessors(int letter) {
-		Set<StateNCSB> succs = new HashSet<>();
+//		Set<StateNCSB> succs = new HashSet<>();
 		visitedLetters.set(letter);
 		
 		IntSet currNSet =  mNSet.clone();
@@ -250,7 +247,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			if (! SPrime.overlap(F) && !CPrime.overlap(SPrime)) {
 				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
 				this.addSuccessor(letter, succ.getId());
-				succs.add(succ);
+//				succs.add(succ);
 			}
 		}
 
@@ -262,7 +259,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	 * */
 	private IntSet computeSuccessorsOptimized(int letter) {
 		
-		Set<StateNCSB> succs = new HashSet<>();
+//		Set<StateNCSB> succs = new HashSet<>();
 		visitedLetters.set(letter);
 		
 		IntSet currNSet =  mNSet.clone();
@@ -316,39 +313,32 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		IntSet Bp =  BSuccs.clone();
 		
 		
-		/* -------------- compute C' of C -----------------*/
-		//  compute successors of C\F which must be in C'
-		// or successors of B\F which must be in B'
-		IntSet minusF = null;
+		/* -------------- compute word distribution to S' -----------------*/
+		//  compute successors which can be added into S'
+		IntSet mayIns = null, mustNots = null;
 		if(bIsEmpty) {
-			// set to C\F
-			minusF = cMinusF;
+			// mustNots, must in C' d(N)/\F
+			mustNots = nInterF;
+			// must in d(C\F)
+			IntSet minusFSuccs = mOperand.getSuccessors(cMinusF, letter);
+			mustNots.or(minusFSuccs);
+			mayIns = Cp.clone();
+			mayIns.andNot(mustNots);
 		}else {
 			// set to empty
-			minusF = UtilIntSet.newIntSet();
+			IntSet bInterF = currBSet.clone();
+			bInterF.and(F);
+			// d(B/\F)  M'
+			mayIns = mOperand.getSuccessors(bInterF, letter);
+			mayIns.andNot(Sp);
 		}
-		IntSet minusFSuccs = mOperand.getSuccessors(minusF, letter);
-		
-		// compute successors of C/\ F which may have final states
-		// compute successors of B/\ F which may have final states
-		IntSet interF = null;
-		if(bIsEmpty) {
-			interF = currCSet.clone(); 
-		}else {
-			interF = currBSet.clone();
-		}
-		interF.and(F);  // get all accepting states in C or B
-		
-		IntSet interFSuccs = mOperand.getSuccessors(interF, letter);  // get successors of accepting states
-		interFSuccs.andNot(F);                            // remove accepting state here
-		interFSuccs.andNot(minusFSuccs);         // remove must-in C/B states
 
 //		System.out.println(CInterFSuccs);
-		PowerSet ps = new PowerSet(interFSuccs);
+		PowerSet ps = new PowerSet(mayIns);
 												
 		while (ps.hasNext()) {
 			IntSet Sextra = ps.next(); // extra states to be added into S'
-			if(Sextra.overlap(minusFSuccs)) continue;
+//			if(Sextra.overlap(mustNots)) continue;
 			
 			IntSet NPrime = Np;
 			
@@ -362,16 +352,18 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 				CPrime.andNot(Sextra);     // C'= V'\ U'
 				BPrime =  CPrime.clone();  // B'= C'
 			}else {
+				// B is not empty
 				BPrime =  Bp.clone();
 				BPrime.and(CPrime);
-				BPrime.andNot(Sextra); // B'=(d(B)/\C')\C'
+				BPrime.andNot(SPrime); // B'=(d(B)/\C')\M'
 				CPrime.andNot(SPrime); // C'= V'\S'
 			}
 
+			// make sure S' /\ F and B' /\ S' are empty
 			if (!SPrime.overlap(F) && !BPrime.overlap(SPrime)) {
 				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
 				this.addSuccessor(letter, succ.getId());
-				succs.add(succ);
+//				succs.add(succ);
 			}
 		}
 
