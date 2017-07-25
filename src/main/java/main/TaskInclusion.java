@@ -1,5 +1,6 @@
 package main;
 
+import operation.inclusion.BuchiInclusionRABIT;
 import operation.inclusion.IBuchiInclusion;
 import util.Timer;
 import util.UtilIntSet;
@@ -155,8 +156,10 @@ public class TaskInclusion implements ITask {
 	
 	public void setOperation(IBuchiInclusion checker) {
 		this.mChecker = checker;
-		this.mOperation = checker.getName() + "+" + UtilIntSet.getSetType()
-		+ (Options.optNCSB ? "+opt" : "");
+		this.mOperation = checker.getName();
+		if(!(checker instanceof BuchiInclusionRABIT)) {
+			this.mOperation += "+" + UtilIntSet.getSetType() + (Options.optNCSB ? "+opt" : "");
+		}
 	}
 	
 	public IBuchiInclusion getOperation() {

@@ -324,9 +324,8 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			// set to C\F
 			minusF = cMinusF;
 		}else {
-			// set to B\F
-			minusF = currBSet.clone();
-			minusF.andNot(F);
+			// set to empty
+			minusF = UtilIntSet.newIntSet();
 		}
 		IntSet minusFSuccs = mOperand.getSuccessors(minusF, letter);
 		
@@ -369,7 +368,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 				CPrime.andNot(SPrime); // C'= V'\S'
 			}
 
-			if (!SPrime.overlap(F) && !CPrime.overlap(SPrime)) {
+			if (!SPrime.overlap(F) && !BPrime.overlap(SPrime)) {
 				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
 				this.addSuccessor(letter, succ.getId());
 				succs.add(succ);
