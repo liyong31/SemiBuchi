@@ -15,7 +15,7 @@ time=60; # time bound
 
 for case in classes/benchmarks/easy/*.ats
 do
-   for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
+   for method in "-tarjan" "-ascc -ac" "-ascc";
    do
       for i in 0 1 2 3;
       do
@@ -24,12 +24,15 @@ do
 		eval $command
       done
    done
+   command="java -jar SemiBuchi-0.0.1.jar -rabit -to $time $case >> result.csv";
+   echo $command
+   eval $command
 done
 
 # solve normal cases
 for case in classes/benchmarks/normal/*.ats
 do
-   for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
+   for method in "-tarjan" "-ascc -ac" "-ascc";
    do
       for i in 0 1 2 3;
       do
@@ -38,13 +41,16 @@ do
 		eval $command
       done
    done
+   command="java -jar SemiBuchi-0.0.1.jar -rabit -to $time $case >> result.csv";
+   echo $command
+   eval $command
 done
 
 
 # solve difficult cases
 for case in classes/benchmarks/difficult/*.ats
 do
-   for method in "-tarjan" "-ascc -ac" "-ascc" "-rabit";
+   for method in "-tarjan" "-ascc -ac" "-ascc";
    do
       for i in 0 1 2 3;
       do
@@ -53,4 +59,9 @@ do
 		eval $command
       done
    done
+   command="java -jar SemiBuchi-0.0.1.jar -rabit -to $time $case >> result.csv";
+   echo $command
+   eval $command
 done
+:<<'END'
+END
