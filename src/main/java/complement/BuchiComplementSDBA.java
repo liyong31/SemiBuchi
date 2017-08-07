@@ -41,7 +41,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		StateNCSB state = new StateNCSB(0, this);
 		// TODO get also the initial states where initial state is also final state
 		IntSet csets = mOperand.getInitialStates().clone();
-		csets.and(getFinalStates()); // goto C
+		csets.and(mOperand.getFinalStates()); // goto C
 		state.setSets(mOperand.getInitialStates(), csets, UtilIntSet.newIntSet(), csets);
 		if(csets.isEmpty()) this.setFinal(0);
 		this.setInitial(0);

@@ -270,14 +270,14 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		 * If q in C\F, then tr(q, a) is not empty
 		 */
 		IntSet F = mOperand.getFinalStates();
-		IntSet cMinusF =  currCSet.clone();
-		cMinusF.andNot(F); 
-		IntIterator iter = cMinusF.iterator();
-		while(iter.hasNext()) {
-			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
-				return UtilIntSet.newIntSet();
-			}
-		}
+//		IntSet cMinusF =  currCSet.clone();
+//		cMinusF.andNot(F); 
+//		IntIterator iter = cMinusF.iterator();
+//		while(iter.hasNext()) {
+//			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
+//				return UtilIntSet.newIntSet();
+//			}
+//		}
 		// should have successors
 		
 		/* -------------- compute successors -----------------*/
@@ -315,48 +315,49 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		
 		/* -------------- compute word distribution to S' -----------------*/
 		//  compute successors which can be added into S'
-		IntSet mayIns = null, mustNots = null;
+		IntSet mayIns = null;
 		if(bIsEmpty) {
 			// mustNots, must in C' d(N)/\F
-			mustNots = nInterF;
-			// must in d(C\F)
-			IntSet minusFSuccs = mOperand.getSuccessors(cMinusF, letter);
-			mustNots.or(minusFSuccs);
-			mayIns = Cp.clone();
-			mayIns.andNot(mustNots);
+			mayIns = CSuccs.clone();
+			// may also delete states in CSuccs, I think we should move them to S
+			// V'\(d(N)/\F), which may be in C'
+			mayIns.andNot(nInterF); 
 		}else {
 			// set to empty
 			IntSet bInterF = currBSet.clone();
 			bInterF.and(F);
 			// d(B/\F)  M'
 			mayIns = mOperand.getSuccessors(bInterF, letter);
-			mayIns.andNot(Sp);
 		}
 
 //		System.out.println(CInterFSuccs);
 		PowerSet ps = new PowerSet(mayIns);
 												
 		while (ps.hasNext()) {
-			IntSet Sextra = ps.next(); // extra states to be added into S'
+			IntSet extra = ps.next(); // extra states to be added into S'
 //			if(Sextra.overlap(mustNots)) continue;
 			
 			IntSet NPrime = Np;
-			
-			IntSet CPrime =  Cp.clone();
-			IntSet SPrime =  Sp.clone();
-			SPrime.or(Sextra);
+			IntSet CPrime = null;
+			IntSet SPrime = Sp.clone();
 			IntSet BPrime = null;
 
 			if(bIsEmpty) {
 				// as usual S and C
-				CPrime.andNot(Sextra);     // C'= V'\ U'
+				CPrime = nInterF.clone();
+				CPrime.or(extra);          // C' get extra
 				BPrime =  CPrime.clone();  // B'= C'
+				IntSet temp = CSuccs.clone();  // V'
+				temp.andNot(extra);       // V'\C'
+				SPrime.or(temp);           // S'=d(S)\/(V'\C')
 			}else {
 				// B is not empty
-				BPrime =  Bp.clone();
-				BPrime.and(CPrime);
-				BPrime.andNot(SPrime); // B'=(d(B)/\C')\M'
+				SPrime.or(extra);      //d(S) \/ M'
+				CPrime = Cp.clone();   // V'
 				CPrime.andNot(SPrime); // C'= V'\S'
+				BPrime = Bp.clone();
+				BPrime.and(CPrime);
+				BPrime.andNot(extra); // B'=(d(B)/\C')\M'
 			}
 
 			// make sure S' /\ F and B' /\ S' are empty

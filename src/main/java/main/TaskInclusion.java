@@ -150,8 +150,8 @@ public class TaskInclusion implements ITask {
 		mRHSStateNum = mChecker.getSndBuchi().getStateSize();
 		mLHSTransNum = mChecker.getFstBuchi().getNumTransition();
 		mRHSTransNum = mChecker.getSndBuchi().getNumTransition();
-		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
-		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
+//		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
+//		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
 	}
 	
 	public void setOperation(IBuchiInclusion checker) {
