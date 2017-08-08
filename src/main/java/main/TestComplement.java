@@ -10,6 +10,11 @@ import util.parser.ATSFileParser;
 public class TestComplement {
 	
 	public static void main(String [] args) {
+		
+		if(args.length < 1) {
+			printUsage();
+			System.exit(0);
+		}
 		String fileIn = args[0];
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].equals("-h")) {
@@ -33,8 +38,12 @@ public class TestComplement {
 		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
 		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
 		IBuchi buchi = buchiPair.getSndElement();
+//		if(Options.optNCSB) buchi.makeComplete();
+		System.out.println("original: \n" + buchi.toDot());
+		System.out.println("isSemiDeterministic: " + buchi.isSemiDeterministic());
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
 		buchiComplement.explore();
+		System.out.println("complement: \n" + buchiComplement.toDot());
 		
 		
 		

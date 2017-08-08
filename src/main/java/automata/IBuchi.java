@@ -64,6 +64,8 @@ public interface IBuchi {
 	
 	Collection<IState> getStates();
 	
+	void makeComplete();
+	
 	default public String toDot() {
 		
 		StringBuilder sb = new StringBuilder();

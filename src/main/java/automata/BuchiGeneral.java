@@ -3,8 +3,10 @@ package automata;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
+import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -141,6 +143,20 @@ public class BuchiGeneral implements IBuchi {
 		}
 	}
 
-
+	@Override
+	public void makeComplete() {
+		// TODO Auto-generated method stub
+		IState deadState = addState();;
+		Iterator<IState> iter = mStates.iterator();
+		while(iter.hasNext()) {
+			IState state = iter.next();
+            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
+            	IntSet succs = state.getSuccessors(letter);
+            	if(succs.cardinality() == 0) {
+            		state.addSuccessor(letter, deadState.getId());
+            	}
+            }
+        }
+	}
 
 }

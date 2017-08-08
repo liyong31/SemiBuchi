@@ -348,7 +348,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 				CPrime.or(extra);          // C' get extra
 				BPrime =  CPrime.clone();  // B'= C'
 				IntSet temp = CSuccs.clone();  // V'
-				temp.andNot(extra);       // V'\C'
+				temp.andNot(CPrime);       // V'\C'
 				SPrime.or(temp);           // S'=d(S)\/(V'\C')
 			}else {
 				// B is not empty

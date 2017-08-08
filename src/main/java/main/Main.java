@@ -173,6 +173,7 @@ public class Main {
 		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
 		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
 		IBuchi buchi = buchiPair.getSndElement();
+		buchi.makeComplete();
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
 		buchiComplement.explore();
 		System.out.println(buchi.getStateSize() + "," + buchi.getNumTransition() + "," + buchiComplement.getStateSize() + "," + buchi.getNumTransition());
