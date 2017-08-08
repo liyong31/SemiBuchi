@@ -17,7 +17,7 @@ public class BuchiGeneral implements IBuchi {
 	private final List<IState> mStates;
 	
 	private final int mAlphabetSize;
-	
+		
 	public BuchiGeneral(int alphabetSize) {
 		this.mAlphabetSize = alphabetSize;
 		this.mInitStates  = UtilIntSet.newIntSet();
@@ -112,6 +112,33 @@ public class BuchiGeneral implements IBuchi {
 	public IntSet getSuccessors(int state, int letter) {
 		// TODO Auto-generated method stub
 		return mStates.get(state).getSuccessors(letter);
+	}
+
+	protected Acc acc;
+	
+	@Override
+	public Acc getAcceptance() {
+		if(acc == null) {
+			acc = new AccBuchi();
+		}
+		return acc;
+	}
+	
+	private class AccBuchi implements Acc {
+		List<IntSet> accs = new ArrayList<>();
+		
+		public AccBuchi() {
+			accs.add(mFinalStates);
+		}
+		@Override
+		public boolean isAccepted(IntSet set) {
+			return mFinalStates.overlap(set);
+		}
+
+		@Override
+		public List<IntSet> getAccs() {
+			return Collections.unmodifiableList(accs);
+		}
 	}
 
 

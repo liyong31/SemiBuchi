@@ -1,6 +1,5 @@
 package operation.emptiness;
 
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,7 @@ import util.IntIterator;
 import util.IntSet;
 import util.IntStack;
 import util.Timer;
+import util.UtilIntSet;
 
 public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 	
@@ -87,15 +87,15 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 		}
 		
 		if(mLowlinkMap.get(v).intValue() == mIndexMap.get(v).intValue()){
-			boolean hasAcc = false;
-			BitSet scc = new BitSet();
+			IntSet scc = UtilIntSet.newIntSet();
 			while(! mStateStack.isEmpty()){
 				int t = mStateStack.pop();
 				scc.set(t);
-				if(mBuchi.isFinal(t)) hasAcc = true;
 				if(t == v)
 					break;
 			}
+
+			boolean hasAcc = mBuchi.getAcceptance().isAccepted(scc);
 			
 			if(scc.cardinality() == 1 // only has a single state
 					&& hasAcc        // it is an accepting states

@@ -9,6 +9,8 @@ import util.UtilIntSet;
 
 public interface IBuchi {
 	
+	Acc getAcceptance();
+	
 	int getAlphabetSize();
 	
 	int getStateSize();

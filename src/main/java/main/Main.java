@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import automata.IBuchi;
+import complement.BuchiComplementSDBA;
 import operation.inclusion.BuchiInclusionASCC;
 import operation.inclusion.BuchiInclusionASCCAntichain;
 import operation.inclusion.BuchiInclusionComplement;
@@ -22,7 +24,6 @@ public class Main {
 	
 	private static final String FILE_EXT = "ats";
 	private static final long TIME_LIMIT = 20;
-	
 	public static void main(String[] args) throws IOException {
 		
 		if(args.length < 1) {
@@ -34,6 +35,8 @@ public class Main {
 		
 		long time = TIME_LIMIT;
 		boolean test = false;
+		boolean complement = false;
+		String fileOut = null;
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].equals("-test")) {
 				test = true;
@@ -51,18 +54,24 @@ public class Main {
 				++ i;
 			}else if(args[i].equals("-opt")) {
 				Options.optNCSB = true;
+			}else if(args[i].equals("-complement")) {
+				complement = true;
+				fileOut = args[i + 1];
+				++ i;	
 			}
 		}
 		time = time * 1_000; // miliseconds
 		if(test) {
 			testBenchmarks(time);
+		}else if(complement){
+			complementBuchi(args, fileOut);
 		}else {
 			checkInclusion(args, time);
 		}
 		
 	}
-	
-	
+
+
 	private static void printUsage() {
 		
 		System.out.println("SemiBuchi v1: Library for Semi-deterministic Buchi automata");
@@ -81,6 +90,7 @@ public class Main {
 		System.out.println("-ac: Use Antichain optimization");
 		System.out.println("-dfs: Use Double DFS algorithm");
 		System.out.println("-to k: Check inclusion in k seconds (20 secs by default)");
+		System.out.println("-complement <file-out>: Output complement of the last automaton");
 		
 	}
 	
@@ -146,6 +156,37 @@ public class Main {
 
 		}
 		
+	}
+	
+	
+	private static void complementBuchi(String[] args, String fileOut) {
+		// TODO Auto-generated method stub
+		File fileIn = null;
+		for(int i = 0; i < args.length; i ++) {
+			if(args[i].endsWith(FILE_EXT)) {
+				fileIn = new File(args[i]);
+			}
+		}
+		
+		ATSFileParser atsParser =  new ATSFileParser();
+		atsParser.parse(fileIn.getAbsolutePath());
+		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
+		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
+		IBuchi buchi = buchiPair.getSndElement();
+		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
+		buchiComplement.explore();
+		System.out.println(buchi.getStateSize() + "," + buchi.getNumTransition() + "," + buchiComplement.getStateSize() + "," + buchi.getNumTransition());
+		try {
+			FileWriter writer = new FileWriter(new File(fileOut));
+			writer.write(buchiComplement.toBA());
+			writer.close();
+			writer = new FileWriter(new File("orig.ba"));
+			writer.write(buchi.toBA());
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private static void testBenchmarks(long time) throws IOException {

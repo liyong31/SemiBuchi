@@ -2,14 +2,14 @@ package complement;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import automata.BuchiGeneral;
 import automata.IBuchi;
 import automata.IState;
+import gnu.trove.map.TObjectIntMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
@@ -34,7 +34,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		computeInitialStates();
 	}
 	
-	private final Map<StateNCSB, Integer> mState2Int = new HashMap<>();
+	private final TObjectIntMap<StateNCSB> mState2Int = new TObjectIntHashMap<>();
 
 	private void computeInitialStates() {
 		// TODO Auto-generated method stub
@@ -50,25 +50,24 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	}
 	
 
-	public StateNCSB addState(IntSet N, IntSet C, IntSet S, IntSet B) {
+	protected StateNCSB addState(IntSet N, IntSet C, IntSet S, IntSet B) {
 		
 		StateNCSB state = new StateNCSB(0, this);
 		state.setSets(N, C, S, B);
-		Integer index = mState2Int.get(state);
 		
-		if(index != null) {
-			return (StateNCSB) getState(index);
+		if(mState2Int.containsKey(state)) {
+			return (StateNCSB) getState(mState2Int.get(state));
+		}else {
+			int index = getStateSize();
+			StateNCSB newState = new StateNCSB(index, this);
+			newState.setSets(N, C, S, B);
+			int id = this.addState(newState);
+			mState2Int.put(newState, id);
+			
+			if(B.isEmpty()) setFinal(index);
+			
+			return newState;
 		}
-	
-		index = getStateSize();
-		StateNCSB newState = new StateNCSB(index, this);
-		newState.setSets(N, C, S, B);
-		int id = this.addState(newState);
-		mState2Int.put(state, id);
-		
-		if(B.isEmpty()) setFinal(index);
-		
-		return newState;
 	}
 
 	@Override
@@ -105,7 +104,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         		iter = succs.iterator();
         		while(iter.hasNext()) {
         			int n = iter.next();
-        			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
+//        			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));
         			}
