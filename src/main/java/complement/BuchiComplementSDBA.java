@@ -104,7 +104,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         		iter = succs.iterator();
         		while(iter.hasNext()) {
         			int n = iter.next();
-        			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
+//        			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));
         			}

@@ -173,17 +173,27 @@ public class Main {
 		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
 		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
 		IBuchi buchi = buchiPair.getSndElement();
-		buchi.makeComplete();
+//		buchi.makeComplete();
+		long time = System.currentTimeMillis();
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
 		buchiComplement.explore();
-		System.out.println(buchi.getStateSize() + "," + buchi.getNumTransition() + "," + buchiComplement.getStateSize() + "," + buchi.getNumTransition());
+		time = System.currentTimeMillis() - time;
+		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
+		                                    + "," + buchi.getNumTransition()
+		                                    + "," + buchi.getAlphabetSize() 
+		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "")
+		                                    + "," + buchiComplement.getStateSize()
+		                                    + "," + buchi.getNumTransition()
+        
+		                                    + "," + time);
+		if(fileOut == null) return;
 		try {
 			FileWriter writer = new FileWriter(new File(fileOut));
 			writer.write(buchiComplement.toBA());
 			writer.close();
-			writer = new FileWriter(new File("orig.ba"));
-			writer.write(buchi.toBA());
-			writer.close();
+//			writer = new FileWriter(new File("orig.ba"));
+//			writer.write(buchi.toBA());
+//			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
