@@ -180,6 +180,7 @@ public interface IBuchi {
         IntSet visited = UtilIntSet.newIntSet();
         while(! walkList.isEmpty()) {
         	IState s = walkList.remove();
+        	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
         	for(int i = 0; i < getAlphabetSize(); i ++) {
         		IntSet succs = s.getSuccessors(i);
@@ -205,6 +206,7 @@ public interface IBuchi {
         IntSet visited = UtilIntSet.newIntSet();
         while(! walkList.isEmpty()) {
         	IState s = walkList.remove();
+        	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
         	for(int i = 0; i < getAlphabetSize(); i ++) {
         		IntSet succs = s.getSuccessors(i);
