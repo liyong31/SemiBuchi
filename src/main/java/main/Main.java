@@ -18,6 +18,7 @@ import operation.inclusion.BuchiInclusionRABIT;
 
 import util.PairXX;
 import util.Timer;
+import util.UtilIntSet;
 import util.parser.ATSFileParser;
 
 public class Main {
@@ -181,10 +182,9 @@ public class Main {
 		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
 		                                    + "," + buchi.getNumTransition()
 		                                    + "," + buchi.getAlphabetSize() 
-		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "")
+		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "") + "+" + UtilIntSet.getSetType()
 		                                    + "," + buchiComplement.getStateSize()
-		                                    + "," + buchi.getNumTransition()
-        
+		                                    + "," + buchiComplement.getNumTransition()
 		                                    + "," + time);
 		if(fileOut == null) return;
 		try {
