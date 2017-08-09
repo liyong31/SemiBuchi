@@ -44,6 +44,7 @@ public class TestComplement {
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
 		buchiComplement.explore();
 		System.out.println("complement: \n" + buchiComplement.toDot());
+		System.out.println("NCSB" + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
 		
 		
 		

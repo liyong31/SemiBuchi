@@ -10,6 +10,7 @@ import automata.IBuchi;
 import automata.IState;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
+import main.Options;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
@@ -98,13 +99,14 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         
         while(! walkList.isEmpty()) {
         	IState s = walkList.remove();
+        	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
         	for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
         		IntSet succs = s.getSuccessors(i);
         		iter = succs.iterator();
         		while(iter.hasNext()) {
         			int n = iter.next();
-//        			System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
+        			if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));
         			}

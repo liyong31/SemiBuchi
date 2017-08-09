@@ -1,8 +1,10 @@
 package main;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 import automata.IBuchi;
+
 import complement.BuchiComplementSDBA;
 import operation.inclusion.BuchiInclusionASCC;
 import operation.inclusion.BuchiInclusionASCCAntichain;
@@ -188,9 +191,9 @@ public class Main {
 		                                    + "," + time);
 		if(fileOut == null) return;
 		try {
-			FileWriter writer = new FileWriter(new File(fileOut));
-			writer.write(buchiComplement.toBA());
-			writer.close();
+			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
+			buchiComplement.toBA(out);
+			out.close();
 //			writer = new FileWriter(new File("orig.ba"));
 //			writer.write(buchi.toBA());
 //			writer.close();
