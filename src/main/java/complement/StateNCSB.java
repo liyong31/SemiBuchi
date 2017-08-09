@@ -267,17 +267,17 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		IntSet currSSet =  mSSet.clone();
 		IntSet currBSet =  mBSet.clone();
 		/*
-		 * If q in C\F, then tr(q, a) is not empty
+		 * If q in B\F, then tr(q, a) is not empty
 		 */
 		IntSet F = mOperand.getFinalStates();
-//		IntSet cMinusF =  currCSet.clone();
-//		cMinusF.andNot(F); 
-//		IntIterator iter = cMinusF.iterator();
-//		while(iter.hasNext()) {
-//			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
-//				return UtilIntSet.newIntSet();
-//			}
-//		}
+		IntSet bMinusF =  currBSet.clone();
+		bMinusF.andNot(F); 
+		IntIterator iter = bMinusF.iterator();
+		while(iter.hasNext()) {
+			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
+				return UtilIntSet.newIntSet();
+			}
+		}
 		// should have successors
 		
 		/* -------------- compute successors -----------------*/
