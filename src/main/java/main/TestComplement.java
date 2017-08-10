@@ -39,14 +39,14 @@ public class TestComplement {
 		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
 		IBuchi buchi = buchiPair.getSndElement();
 //		if(Options.optNCSB) buchi.makeComplete();
-		System.out.println("original: \n" + buchi.toDot());
+		System.out.println("original dot: \n" + buchi.toDot());
+		System.out.println("original BA: \n" + buchi.toBA());
 		System.out.println("isSemiDeterministic: " + buchi.isSemiDeterministic());
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
 		buchiComplement.explore();
-		System.out.println("complement: \n" + buchiComplement.toDot());
-		System.out.println("NCSB" + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
-		
-		
+		System.out.println("complement dot: \n" + buchiComplement.toDot());
+		System.out.println("complement BA: \n" + buchiComplement.toBA());
+		System.out.println("\n\nNCSB" + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
 		
 	}
 
