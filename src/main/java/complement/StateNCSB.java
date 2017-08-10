@@ -328,6 +328,9 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			bInterF.and(F);
 			// d(B/\F)  M'
 			mayIns = mOperand.getSuccessors(bInterF, letter);
+			// OPTIMIZATION, keep all d(B\F) successors
+			IntSet bMinusFSuccs = mOperand.getSuccessors(bMinusF, letter);
+			mayIns.andNot(bMinusFSuccs);
 		}
 
 //		System.out.println(CInterFSuccs);
