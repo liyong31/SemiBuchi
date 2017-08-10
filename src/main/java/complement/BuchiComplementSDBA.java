@@ -101,12 +101,13 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         	IState s = walkList.remove();
         	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
+        	if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString());
         	for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
         		IntSet succs = s.getSuccessors(i);
         		iter = succs.iterator();
         		while(iter.hasNext()) {
         			int n = iter.next();
-        			if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
+        			if(Options.verbose) System.out.println(" s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));
         			}
