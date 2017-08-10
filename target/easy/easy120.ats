@@ -1,0 +1,128 @@
+// Testfile dumped by Ultimate at 2017/06/11 23:19:55
+//
+// 
+
+FiniteAutomaton inclusionLHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 s16 s17 s18 s19 },
+	initialStates = {s17 },
+	finalStates = {s0 s4 s5 s7 s8 s9 s11 s12 s13 s14 s15 s16 s17 s18 s19 },
+	transitions = {
+		(s0 a9 s1)
+		(s1 a11 s3)
+		(s2 a9 s1)
+		(s3 a12 s6)
+		(s3 a12 s7)
+		(s4 a7 s5)
+		(s5 a8 s0)
+		(s6 a13 s10)
+		(s7 a13 s8)
+		(s8 a14 s9)
+		(s9 a15 s13)
+		(s10 a22 s2)
+		(s11 a1 s12)
+		(s12 a2 s18)
+		(s12 a3 s18)
+		(s13 a16 s14)
+		(s14 a18 s15)
+		(s15 a19 s16)
+		(s16 a20 s9)
+		(s17 a0 s11)
+		(s18 a4 s19)
+		(s18 a5 s19)
+		(s19 a6 s4)
+	}
+);
+// Testfile dumped by Ultimate at 2017/06/11 23:19:57
+//
+// RefinementSetting [mInterpolantAutomaton=ScroogeNondeterminism, mBouncerStem=false, mBouncerLoop=false, mScroogeNondeterminismStem=true, mScroogeNondeterminismLoop=false, mCannibalizeLoop=true]
+
+FiniteAutomaton inclusionRHS = (
+	alphabet = {a0 a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 },
+	states = {s0 s1 s2 s3 s4 s5 s6 s7 s8 s9 s10 s11 s12 s13 s14 s15 },
+	initialStates = {s14 },
+	finalStates = {s1 s7 s10 s15 },
+	transitions = {
+		(s0 a19 s0)
+		(s0 a20 s11)
+		(s1 a15 s6)
+		(s1 a2 s6)
+		(s1 a16 s6)
+		(s1 a3 s6)
+		(s1 a4 s6)
+		(s1 a18 s4)
+		(s1 a5 s6)
+		(s1 a20 s6)
+		(s1 a7 s6)
+		(s1 a22 s6)
+		(s1 a9 s6)
+		(s1 a11 s6)
+		(s1 a12 s6)
+		(s1 a13 s6)
+		(s2 a19 s15)
+		(s3 a19 s15)
+		(s4 a19 s0)
+		(s5 a7 s1)
+		(s5 a7 s5)
+		(s5 a8 s1)
+		(s5 a8 s13)
+		(s6 a22 s6)
+		(s6 a15 s6)
+		(s6 a9 s6)
+		(s6 a16 s6)
+		(s6 a4 s6)
+		(s6 a11 s6)
+		(s6 a18 s4)
+		(s6 a12 s6)
+		(s6 a5 s6)
+		(s6 a13 s6)
+		(s7 a19 s8)
+		(s8 a20 s6)
+		(s9 a15 s9)
+		(s9 a16 s9)
+		(s9 a18 s2)
+		(s10 a15 s12)
+		(s11 a15 s11)
+		(s11 a16 s11)
+		(s11 a18 s0)
+		(s12 a16 s12)
+		(s12 a18 s3)
+		(s13 a14 s10)
+		(s13 a14 s13)
+		(s13 a22 s1)
+		(s13 a22 s13)
+		(s13 a15 s1)
+		(s13 a15 s13)
+		(s13 a9 s1)
+		(s13 a9 s13)
+		(s13 a16 s1)
+		(s13 a16 s13)
+		(s13 a11 s1)
+		(s13 a11 s13)
+		(s13 a18 s13)
+		(s13 a18 s7)
+		(s13 a12 s1)
+		(s13 a12 s13)
+		(s13 a19 s1)
+		(s13 a19 s13)
+		(s13 a13 s1)
+		(s13 a13 s13)
+		(s13 a20 s1)
+		(s13 a20 s13)
+		(s14 a0 s1)
+		(s14 a0 s14)
+		(s14 a1 s1)
+		(s14 a1 s14)
+		(s14 a2 s1)
+		(s14 a2 s14)
+		(s14 a3 s1)
+		(s14 a3 s14)
+		(s14 a4 s1)
+		(s14 a4 s14)
+		(s14 a5 s1)
+		(s14 a5 s14)
+		(s14 a6 s1)
+		(s14 a6 s5)
+		(s15 a20 s9)
+	}
+);
