@@ -348,19 +348,29 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			if(bIsEmpty) {
 				// as usual S and C
 				CPrime = nInterF.clone();
-				CPrime.or(extra);          // C' get extra
-				BPrime =  CPrime.clone();  // B'= C'
-				IntSet temp = CSuccs.clone();  // V'
-				temp.andNot(CPrime);       // V'\C'
-				SPrime.or(temp);           // S'=d(S)\/(V'\C')
+				CPrime.or(extra); // C' get extra
+				BPrime = CPrime.clone(); // B'= C'
+				IntSet temp = CSuccs.clone(); // V'
+				temp.andNot(CPrime); // V'\C'
+				SPrime.or(temp); // S'=d(S)\/(V'\C')
+
 			}else {
 				// B is not empty
-				SPrime.or(extra);      //d(S) \/ M'
-				CPrime = Cp.clone();   // V'
-				CPrime.andNot(SPrime); // C'= V'\S'
-				BPrime = Bp.clone();
-				BPrime.and(CPrime);
-				BPrime.andNot(extra); // B'=(d(B)/\C')\M'
+				if(Options.optNCSB1) {
+					SPrime.or(extra);      //d(S) \/ M'
+					BPrime = Bp.clone();
+					BPrime.andNot(extra); // B'=d(B)\M'
+					CPrime = Cp.clone();   // V'
+					CPrime.andNot(SPrime); // C'= V'\S'
+				}else {
+					SPrime.or(extra);      //d(S) \/ M'
+					CPrime = Cp.clone();   // V'
+					CPrime.andNot(SPrime); // C'= V'\S'
+					BPrime = Bp.clone();
+					BPrime.and(CPrime);
+					BPrime.andNot(extra); // B'=(d(B)/\C')\M'
+				}
+
 			}
 
 			// make sure S' /\ F and B' /\ S' are empty

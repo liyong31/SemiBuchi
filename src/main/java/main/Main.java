@@ -58,6 +58,9 @@ public class Main {
 				++ i;
 			}else if(args[i].equals("-opt")) {
 				Options.optNCSB = true;
+			}else if(args[i].equals("-opt1")) {
+				Options.optNCSB = true;
+				Options.optNCSB1 = true;
 			}else if(args[i].equals("-complement")) {
 				complement = true;
 				fileOut = args[i + 1];
@@ -88,6 +91,7 @@ public class Main {
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-test: Test all benchmarks");
 		System.out.println("-opt: Use Optimized NCSB complementation");
+		System.out.println("-opt1: Use another Optimized NCSB complementation");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");

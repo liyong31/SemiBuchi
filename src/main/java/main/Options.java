@@ -9,5 +9,7 @@ public class Options {
 	
 	// whether to enable optimized version of NCSB
 	public static boolean optNCSB = false;
+	
+	public static boolean optNCSB1 = false;
 
 }
