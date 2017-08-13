@@ -1,4 +1,10 @@
-Optimized NCSB returns wrong answer when checking
-the inclusion for automata from 
 
-benmarks/easy/BradleyMannaSipma-CAV2005-Fig1_true-termination_true-no-overflow.c_Iteration2.ats
+PodelskiRybalchenko-LICS2004-Fig2-TACAS2011-Fig3_true-termination.c_Iteration3.ats
+
+PodelskiRybalchenko-TACAS2011-Fig3_true-termination.c_Iteration3.ats
+PodelskiRybalchenko-TACAS2011-Fig3_true-termination.c_Iteration4.ats
+PodelskiRybalchenko-TACAS2011-Fig3_true-termination.c_Iteration7.ats
+
+PodelskiRybalchenko-LICS2004-Fig2_true-termination.c_Iteration3.ats
+
+PodelskiRybalchenko-LICS2004-Fig2_true-termination.c_Iteration7.ats
