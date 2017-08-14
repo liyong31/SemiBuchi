@@ -21,12 +21,12 @@ public class TestResults {
 		for(int i = 1; i <= 376; i ++) {
 			File f1 = new File(dir + "easy" + i + ".ba");
 			if(! f1.exists()) continue; 
-			File f2 = new File(dir + "easy" + i + "-opt.ba");
+			File f2 = new File(dir + "easy" + i + "-opt1.ba");
 			if(! f2.exists()) continue; 
 			numCases ++;
 			
 			final Runtime rt = Runtime.getRuntime();
-			String command = "java";
+			String command = "timeout 200 java";
 			command += " -Xms" + 3 + "g -Xms" + 3 + "G";
 			command += " -Xmx" + 3 + "g -Xmx" + 3 + "G";
 			command += " -jar";
