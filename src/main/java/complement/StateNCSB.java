@@ -388,7 +388,6 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	
 	private IntSet computeSuccessorsOptimized2(int letter) {
 		
-//		Set<StateNCSB> succs = new HashSet<>();
 		visitedLetters.set(letter);
 		
 		IntSet currNSet =  mNSet.clone();
@@ -478,8 +477,8 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 				// as usual S and C
 				CPrime = nInterF.clone();
 				CPrime.or(extra); // C' get extra
-				BPrime = CSuccs.clone(); // B'= d(C)
-				BPrime.and(CPrime);
+				BPrime = CSuccs.clone(); 
+				BPrime.and(CPrime);     // B'= d(C) /\ C'
 				IntSet temp = CSuccs.clone(); // V'
 				temp.andNot(CPrime); // V'\C'
 				SPrime.or(temp); // S'=d(S)\/(V'\C')
@@ -496,7 +495,6 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			if (!SPrime.overlap(F) && !BPrime.overlap(SPrime)) {
 				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
 				this.addSuccessor(letter, succ.getId());
-//				succs.add(succ);
 			}
 		}
 
