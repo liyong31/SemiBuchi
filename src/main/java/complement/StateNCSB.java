@@ -69,15 +69,13 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	private IntSet visitedLetters = UtilIntSet.newIntSet();
 	
 	
-	/**
-	 *  implementation of NCSB complementation algorithm which is adapted from GOAL
-	 */
 	@Override
 	public IntSet getSuccessors(int letter) {
 		if(visitedLetters.get(letter)) {
 			return super.getSuccessors(letter);
 		}
 		if(Options.optNCSB) {
+			if(Options.optNCSB2) return computeSuccessorsOptimized2(letter);
 			return computeSuccessorsOptimized(letter);
 		}else {
 			return computeSuccessors(letter);
@@ -153,6 +151,10 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	 *   compute successors in different ways
 	 *   */
 	
+
+	/**
+	 *  implementation of NCSB complementation algorithm which is adapted from GOAL
+	 */
 	private IntSet computeSuccessors(int letter) {
 //		Set<StateNCSB> succs = new HashSet<>();
 		visitedLetters.set(letter);
@@ -384,7 +386,122 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		return super.getSuccessors(letter);
 	}
 	
-	
+	private IntSet computeSuccessorsOptimized2(int letter) {
+		
+//		Set<StateNCSB> succs = new HashSet<>();
+		visitedLetters.set(letter);
+		
+		IntSet currNSet =  mNSet.clone();
+		IntSet currCSet =  mCSet.clone();
+		IntSet currSSet =  mSSet.clone();
+		IntSet currBSet =  mBSet.clone();
+		/*
+		 * If q in B\F, then tr(q, a) is not empty
+		 */
+		IntSet F = mOperand.getFinalStates();
+		IntSet bMinusF =  currBSet.clone();
+		bMinusF.andNot(F); 
+		IntIterator iter = bMinusF.iterator();
+		while(iter.hasNext()) {
+			if (mOperand.getSuccessors(iter.next(), letter).isEmpty()) {
+				return UtilIntSet.newIntSet();
+			}
+		}
+		// should have successors
+		
+		/* -------------- compute successors -----------------*/
+		IntSet NSuccs = mOperand.getSuccessors(currNSet, letter);
+		IntSet CSuccs = mOperand.getSuccessors(currCSet, letter);
+		IntSet SSuccs = mOperand.getSuccessors(currSSet, letter);
+		IntSet BSuccs = mOperand.getSuccessors(currBSet, letter);
+		
+		// record used transition (NOT necessary in complement)
+		mComplement.useOpTransition(letter, currNSet);
+		mComplement.useOpTransition(letter, currCSet);
+		mComplement.useOpTransition(letter, currSSet);
+		/* ------------------------------------------------*/
+		
+		boolean bIsEmpty = currBSet.isEmpty();
+		// N successors
+		IntSet Np =  NSuccs.clone();
+				
+		Np.andNot(F);            // remove final states
+		Np.andNot(CSuccs);       // remove successors of C, the final states of NSuccs are in CSuccs 
+		Np.andNot(SSuccs);       // remove successors of S
+		
+		// C successors, V'
+		IntSet Cp =  CSuccs.clone();
+		IntSet nInterF =  NSuccs.clone();
+		nInterF.and(F);
+		Cp.or(nInterF);
+		
+		// S successors
+		IntSet Sp =  SSuccs.clone();
+		
+		// B successors
+		IntSet Bp =  BSuccs.clone();
+		
+		
+		/* -------------- compute word distribution to S' -----------------*/
+		//  compute successors which can be added into S'
+		IntSet mayIns = null;
+		if(bIsEmpty) {
+			// mustNots, must in C' d(N)/\F
+			mayIns = CSuccs.clone();
+			// may also delete states in CSuccs, I think we should move them to S
+			// V'\(d(N)/\F), which may be in C'
+			mayIns.andNot(nInterF); 
+		}else {
+			// set to empty
+			IntSet bInterF = currBSet.clone();
+			bInterF.and(F);
+			// d(B/\F)  M'
+			mayIns = mOperand.getSuccessors(bInterF, letter);
+			// OPTIMIZATION, keep all d(B\F) successors
+			IntSet bMinusFSuccs = mOperand.getSuccessors(bMinusF, letter);
+			mayIns.andNot(bMinusFSuccs);
+		}
+
+//		System.out.println(CInterFSuccs);
+		PowerSet ps = new PowerSet(mayIns);
+												
+		while (ps.hasNext()) {
+			IntSet extra = ps.next(); // extra states to be added into S'
+//			if(Sextra.overlap(mustNots)) continue;
+			
+			IntSet NPrime = Np;
+			IntSet CPrime = null;
+			IntSet SPrime = Sp.clone();
+			IntSet BPrime = null;
+
+			if(bIsEmpty) {
+				// as usual S and C
+				CPrime = nInterF.clone();
+				CPrime.or(extra); // C' get extra
+				BPrime = CSuccs.clone(); // B'= d(C)
+				BPrime.and(CPrime);
+				IntSet temp = CSuccs.clone(); // V'
+				temp.andNot(CPrime); // V'\C'
+				SPrime.or(temp); // S'=d(S)\/(V'\C')
+			}else {
+				// B is not empty
+				SPrime.or(extra); // d(S) \/ M'
+				BPrime = Bp.clone();
+				BPrime.andNot(extra); // B'=d(B)\M'
+				CPrime = Cp.clone(); // V'
+				CPrime.andNot(SPrime); // C'= V'\S'
+			}
+
+			// make sure S' /\ F and B' /\ S' are empty
+			if (!SPrime.overlap(F) && !BPrime.overlap(SPrime)) {
+				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
+				this.addSuccessor(letter, succ.getId());
+//				succs.add(succ);
+			}
+		}
+
+		return super.getSuccessors(letter);
+	}	
 	// not used any more -------------------------------------------
 ////	@Override
 //	public IntSet getSuccessors2(int letter) {

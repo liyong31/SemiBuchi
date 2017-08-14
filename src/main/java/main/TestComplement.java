@@ -31,6 +31,9 @@ public class TestComplement {
 			}else if(args[i].equals("-opt1")) {
 				Options.optNCSB1 = true;
 				Options.optNCSB = true;
+			}else if(args[i].equals("-opt2")) {
+				Options.optNCSB2 = true;
+				Options.optNCSB = true;
 			}else if(args[i].contains(".ats")) {
 				fileIn = args[i];
 			}
@@ -65,5 +68,7 @@ public class TestComplement {
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-opt: Use Optimized NCSB complementation");
 		System.out.println("-opt1: Use another Optimized NCSB complementation");
+		System.out.println("-opt2: Use Optimized NCSB complementation by word distribution on B");
+
 	}
 }

@@ -12,4 +12,6 @@ public class Options {
 	
 	public static boolean optNCSB1 = false;
 
+	public static boolean optNCSB2 = false;
+
 }

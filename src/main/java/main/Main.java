@@ -61,6 +61,9 @@ public class Main {
 			}else if(args[i].equals("-opt1")) {
 				Options.optNCSB = true;
 				Options.optNCSB1 = true;
+			}else if(args[i].equals("-opt2")) {
+					Options.optNCSB = true;
+					Options.optNCSB2 = true;
 			}else if(args[i].equals("-complement")) {
 				complement = true;
 				fileOut = args[i + 1];
@@ -92,6 +95,7 @@ public class Main {
 		System.out.println("-test: Test all benchmarks");
 		System.out.println("-opt: Use Optimized NCSB complementation");
 		System.out.println("-opt1: Use another Optimized NCSB complementation");
+		System.out.println("-opt2: Use Optimized NCSB complementation by word distribution on B");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
