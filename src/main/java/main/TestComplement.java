@@ -28,12 +28,6 @@ public class TestComplement {
 				++ i;
 			}else if(args[i].equals("-opt")) {
 				Options.optNCSB = true;
-			}else if(args[i].equals("-opt1")) {
-				Options.optNCSB1 = true;
-				Options.optNCSB = true;
-			}else if(args[i].equals("-opt2")) {
-				Options.optNCSB2 = true;
-				Options.optNCSB = true;
 			}else if(args[i].contains(".ats")) {
 				fileIn = args[i];
 			}
@@ -66,9 +60,7 @@ public class TestComplement {
 		System.out.println("-v: Verbose mode");
 		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet\n"
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
-		System.out.println("-opt: Use Optimized NCSB complementation");
-		System.out.println("-opt1: Use another Optimized NCSB complementation");
-		System.out.println("-opt2: Use Optimized NCSB complementation by word distribution on B");
+		System.out.println("-opt: Use Optimized NCSB complementation by word distribution on B");
 
 	}
 }
