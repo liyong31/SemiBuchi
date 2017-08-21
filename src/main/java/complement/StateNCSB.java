@@ -187,7 +187,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		mComplement.useOpTransition(letter, currCSet);
 		mComplement.useOpTransition(letter, currSSet);
 		/* ------------------------------------------------*/
-		F = mOperand.getFinalStates();
+		F = mOperand.getFinalStates(); // should update accepting states after getSuccessors method
 		// N successors
 		IntSet Np =  NSuccs.clone();
 				
@@ -293,7 +293,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		mComplement.useOpTransition(letter, currCSet);
 		mComplement.useOpTransition(letter, currSSet);
 		/* ------------------------------------------------*/
-		F = mOperand.getFinalStates();
+		F = mOperand.getFinalStates(); // should update accepting states after getSuccessors method
 		boolean bIsEmpty = currBSet.isEmpty();
 		// N successors
 		IntSet Np =  NSuccs.clone();
