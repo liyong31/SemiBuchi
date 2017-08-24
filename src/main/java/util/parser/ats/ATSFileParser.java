@@ -76,9 +76,10 @@ public class ATSFileParser implements DoubleParser, SingleParser {
 	}
 	
 	// not necessary
-//	public void clearAlphabetMap() {
-//		mAlphabetMap.clear();;
-//	}
+	public void clear() {
+		mAlphabetMap.clear();
+		mStateMap.clear();
+	}
 	
 //	public void putLetter(String letterStr, int letter) {
 //		mAlphabetMap.put(letterStr, letter);
@@ -98,6 +99,7 @@ public class ATSFileParser implements DoubleParser, SingleParser {
 			FileInputStream inputStream = new FileInputStream(new File(file));
 			ATSParser parser = new ATSParser(inputStream);
 			parser.parse(this);
+			clear();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
