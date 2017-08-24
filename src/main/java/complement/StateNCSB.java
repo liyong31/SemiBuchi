@@ -257,9 +257,9 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	
 
 	
-	/**
-	 * The OPTIMIZED version, delay the word distribution 
-	 * */
+//	/**
+//	 * The OPTIMIZED version, delay the word distribution 
+//	 * */
 	private IntSet computeSuccessorsOptimized(int letter) {
 		
 		visitedLetters.set(letter);
@@ -477,37 +477,25 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 //				IntSet temp = CSuccs.clone(); // V'
 //				temp.andNot(CPrime); // V'\C'
 //				SPrime.or(temp); // S'=d(S)\/(V'\C')
-//
 //			}else {
 //				// B is not empty
-//				if(Options.optNCSB1) {
-//					SPrime.or(extra);      //d(S) \/ M'
-//					BPrime = Bp.clone();
-//					BPrime.andNot(extra); // B'=d(B)\M'
-//					CPrime = Cp.clone();   // V'
-//					CPrime.andNot(SPrime); // C'= V'\S'
-//				}else {
-//					SPrime.or(extra);      //d(S) \/ M'
-//					CPrime = Cp.clone();   // V'
-//					CPrime.andNot(SPrime); // C'= V'\S'
-//					BPrime = Bp.clone();
-//					BPrime.and(CPrime);
-//					BPrime.andNot(extra); // B'=(d(B)/\C')\M'
-//				}
-//
+//				SPrime.or(extra); // d(S) \/ M'
+//				BPrime = Bp.clone();
+//				BPrime.andNot(extra); // B'=d(B)\M'
+//				CPrime = Cp.clone(); // V'
+//				CPrime.andNot(SPrime); // C'= V'\S'
 //			}
 //
 //			// make sure S' /\ F and B' /\ S' are empty
 //			if (!SPrime.overlap(F) && !BPrime.overlap(SPrime)) {
 //				StateNCSB succ = mComplement.addState(NPrime, CPrime, SPrime, BPrime);
 //				this.addSuccessor(letter, succ.getId());
-////				succs.add(succ);
 //			}
 //		}
 //
 //		return super.getSuccessors(letter);
 //	}
-//	
+	
 
 ////	@Override
 //	public IntSet getSuccessors2(int letter) {
