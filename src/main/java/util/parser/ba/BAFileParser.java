@@ -85,7 +85,7 @@ public class BAFileParser implements SingleParser {
 		mAlphabetMap.clear();
 		mTrans.clear();
 		mFinals.clear();
-		mAlphabet.clear();
+//		mAlphabet.clear();
 	}
 	
 	protected Integer addLetter(String letterStr) {
