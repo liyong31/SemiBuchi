@@ -1,10 +1,14 @@
 package main;
 
+import java.io.File;
 import java.util.List;
 
 import automata.IBuchi;
 import complement.BuchiComplementSDBA;
 import util.PairXX;
+import util.parser.ParserType;
+import util.parser.SingleParser;
+import util.parser.UtilParser;
 import util.parser.ats.ATSFileParser;
 
 public class TestComplement {
@@ -15,7 +19,9 @@ public class TestComplement {
 			printUsage();
 			System.exit(0);
 		}
-		String fileIn = args[0];
+		SingleParser parser = null;
+
+		File fileIn = null;
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].equals("-h")) {
 				printUsage();
@@ -29,15 +35,16 @@ public class TestComplement {
 			}else if(args[i].equals("-opt")) {
 				Options.optNCSB = true;
 			}else if(args[i].contains(".ats")) {
-				fileIn = args[i];
+				fileIn = new File(args[i]);
+				parser = UtilParser.getSinleParser(ParserType.ATS);
+			}else if(args[i].contains(".ba")) {
+				fileIn = new File(args[i]);
+				parser = UtilParser.getSinleParser(ParserType.BA);
 			}
 		}
 		
-		ATSFileParser atsParser =  new ATSFileParser();
-		atsParser.parse(fileIn);
-		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
-		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
-		IBuchi buchi = buchiPair.getSndElement();
+		parser.parse(fileIn.getAbsolutePath());
+		IBuchi buchi = parser.getBuchi();
 //		if(Options.optNCSB) buchi.makeComplete();
 		System.out.println("original dot: \n" + buchi.toDot());
 		System.out.println("original BA: \n" + buchi.toBA());

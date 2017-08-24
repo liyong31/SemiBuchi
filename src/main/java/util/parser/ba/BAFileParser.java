@@ -45,7 +45,6 @@ public class BAFileParser implements SingleParser {
 	protected void setInitial(String initStr) {
 		if(!mStateMap.containsKey(initStr)) {
 			mStateMap.put(initStr, mAlphabet.size());
-			mAlphabet.add(initStr);
 		}
 		mInit = mStateMap.get(initStr);
 	}
@@ -86,6 +85,7 @@ public class BAFileParser implements SingleParser {
 		mAlphabetMap.clear();
 		mTrans.clear();
 		mFinals.clear();
+		mAlphabet.clear();
 	}
 	
 	protected Integer addLetter(String letterStr) {
