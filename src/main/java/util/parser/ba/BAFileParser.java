@@ -3,10 +3,11 @@ package util.parser.ba;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,12 +27,14 @@ public class BAFileParser implements SingleParser {
 	private Map<Integer, Set<PairXX<Integer>>> mTrans;
 	private Set<Integer> mFinals;
 	private int mInit;
+	private List<String> mAlphabet;
 	
 	public BAFileParser() {
 		this.mAlphabetMap = new HashMap<>();
 		this.mStateMap = new HashMap<>();
 		this.mTrans = new HashMap<>();
 		this.mFinals = new HashSet<>();
+		this.mAlphabet = new ArrayList<>();
 	}
 	
 	@Override
@@ -41,7 +44,8 @@ public class BAFileParser implements SingleParser {
 	
 	protected void setInitial(String initStr) {
 		if(!mStateMap.containsKey(initStr)) {
-			mStateMap.put(initStr, mStateMap.size());
+			mStateMap.put(initStr, mAlphabet.size());
+			mAlphabet.add(initStr);
 		}
 		mInit = mStateMap.get(initStr);
 	}
@@ -86,7 +90,8 @@ public class BAFileParser implements SingleParser {
 	
 	protected Integer addLetter(String letterStr) {
 		if(! mAlphabetMap.containsKey(letterStr)) {
-			mAlphabetMap.put(letterStr, mAlphabetMap.size());
+			mAlphabetMap.put(letterStr, mAlphabet.size());
+			mAlphabet.add(letterStr);
 		}
 		return mAlphabetMap.get(letterStr);
 	}
@@ -127,6 +132,11 @@ public class BAFileParser implements SingleParser {
 		parser.parse(file);
 		System.out.println(parser.getBuchi().toDot());
 		System.out.println(parser.getBuchi().toBA());
+	}
+
+	@Override
+	public List<String> getAlphabet() {
+		return Collections.unmodifiableList(mAlphabet);
 	}
 
 }

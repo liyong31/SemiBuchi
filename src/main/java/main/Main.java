@@ -199,7 +199,7 @@ public class Main {
 		if(fileOut == null) return;
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
-			buchiComplement.toBA(out);
+			buchiComplement.toBA(out, parser.getAlphabet());
 			out.close();
 //			writer = new FileWriter(new File("orig.ba"));
 //			writer.write(buchi.toBA());

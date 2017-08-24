@@ -3,6 +3,7 @@ package automata;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import util.IntIterator;
 import util.IntSet;
@@ -146,6 +147,32 @@ public interface IBuchi {
             	while(iter.hasNext()) {
             		int succ = iter.next();
             		out.print("a" + letter + ",[" + state.getId() + "]->[" + succ + "]\n");
+            	}
+            }
+        }	
+        IntSet finStates = getFinalStates();
+        iter = finStates.iterator();
+        while(iter.hasNext()) {
+        	out.print("[" + iter.next() + "]\n");
+        }
+	}
+	
+	// use this function if automtaton is too large 
+	default public void toBA(PrintStream out, List<String> alphabet) {
+        IntSet initialStates = getInitialStates();
+        if(initialStates.cardinality() > 1) 
+        	throw new RuntimeException("BA format does not allow multiple initial states...");
+        IntIterator iter = initialStates.iterator();
+        out.print("[" + iter.next() + "]\n");
+		// output automata in BA (RABIT format)
+		Collection<IState> states = getStates();
+		for(IState state : states) {
+            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
+            	IntSet succs = state.getSuccessors(letter);
+            	iter = succs.iterator();
+            	while(iter.hasNext()) {
+            		int succ = iter.next();
+            		out.print(alphabet.get(letter) + ",[" + state.getId() + "]->[" + succ + "]\n");
             	}
             }
         }	

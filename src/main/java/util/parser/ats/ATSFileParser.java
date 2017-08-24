@@ -47,6 +47,7 @@ public class ATSFileParser implements DoubleParser, SingleParser {
 		mAlphabets = alphabet;
 	}
 	
+	@Override
 	public List<String> getAlphabet() {
 		return Collections.unmodifiableList(mAlphabets);
 	}
