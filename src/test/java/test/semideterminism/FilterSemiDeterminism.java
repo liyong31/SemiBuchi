@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import automata.IBuchi;
 import util.PairXX;
-import util.parser.ATSFileParser;
+import util.parser.ats.ATSFileParser;
 
 public class FilterSemiDeterminism {
 	

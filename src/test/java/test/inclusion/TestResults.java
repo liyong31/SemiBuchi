@@ -19,9 +19,9 @@ public class TestResults {
 		int numCases = 0;
 		int numOK = 0;
 		for(int i = 1; i <= 376; i ++) {
-			File f1 = new File(dir + "easy" + i + ".ba");
+			File f1 = new File(dir + "easy" + i + "-opt1.ba");
 			if(! f1.exists()) continue; 
-			File f2 = new File(dir + "easy" + i + "-opt1.ba");
+			File f2 = new File(dir + "easy" + i + ".ba");
 			if(! f2.exists()) continue; 
 			numCases ++;
 			

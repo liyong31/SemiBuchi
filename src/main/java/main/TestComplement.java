@@ -5,7 +5,7 @@ import java.util.List;
 import automata.IBuchi;
 import complement.BuchiComplementSDBA;
 import util.PairXX;
-import util.parser.ATSFileParser;
+import util.parser.ats.ATSFileParser;
 
 public class TestComplement {
 	

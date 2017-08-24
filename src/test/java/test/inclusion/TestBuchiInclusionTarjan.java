@@ -6,7 +6,7 @@ import automata.IBuchi;
 import main.TaskInclusion;
 import operation.inclusion.BuchiInclusionComplement;
 import util.PairXX;
-import util.parser.ATSFileParser;
+import util.parser.ats.ATSFileParser;
 
 public class TestBuchiInclusionTarjan {
 	

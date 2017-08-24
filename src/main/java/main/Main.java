@@ -22,7 +22,10 @@ import operation.inclusion.BuchiInclusionRABIT;
 import util.PairXX;
 import util.Timer;
 import util.UtilIntSet;
-import util.parser.ATSFileParser;
+import util.parser.ParserType;
+import util.parser.SingleParser;
+import util.parser.UtilParser;
+import util.parser.ats.ATSFileParser;
 
 public class Main {
 	
@@ -166,17 +169,21 @@ public class Main {
 	private static void complementBuchi(String[] args, String fileOut) {
 		// TODO Auto-generated method stub
 		File fileIn = null;
+		SingleParser parser = null;
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].endsWith(FILE_EXT)) {
 				fileIn = new File(args[i]);
+				parser = UtilParser.getSinleParser(ParserType.ATS);
+			}
+			if(args[i].endsWith(".ba")) {
+				fileIn = new File(args[i]);
+				parser = UtilParser.getSinleParser(ParserType.BA);
 			}
 		}
+		assert parser != null;
 		
-		ATSFileParser atsParser =  new ATSFileParser();
-		atsParser.parse(fileIn.getAbsolutePath());
-		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
-		PairXX<IBuchi> buchiPair = pairs.get(pairs.size() - 1);
-		IBuchi buchi = buchiPair.getSndElement();
+		parser.parse(fileIn.getAbsolutePath());
+		IBuchi buchi = parser.getBuchi();
 //		buchi.makeComplete();
 		long time = System.currentTimeMillis();
 		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);

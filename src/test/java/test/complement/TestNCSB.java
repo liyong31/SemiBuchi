@@ -8,7 +8,7 @@ import automata.IState;
 import complement.BuchiComplementSDBA;
 import main.Options;
 import util.PairXX;
-import util.parser.ATSFileParser;
+import util.parser.ats.ATSFileParser;
 
 public class TestNCSB {
 	

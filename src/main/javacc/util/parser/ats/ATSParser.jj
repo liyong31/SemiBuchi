@@ -1,11 +1,13 @@
 /**
  * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
  */options{
-  JDK_VERSION = "1.8";  static = false;}PARSER_BEGIN(ATSParser)package util.parser;
+  JDK_VERSION = "1.8";  static = false;}PARSER_BEGIN(ATSParser)package util.parser.ats;
 
 import automata.IBuchi;
 import automata.IState;
 import automata.BuchiGeneral;
+
+import util.parser.ats.ATSFileParser;
 
 public class ATSParser{
 
