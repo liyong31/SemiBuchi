@@ -16,20 +16,22 @@ public interface IStateNwa {
 	
 	void addSuccessorCall(int letter, int state);
 	
-	void addSuccessorReturn(int letter, int state);
+	void addSuccessorReturn(int pred, int letter, int state);
 
 	// getters
 	IntSet getSuccessorsInternal(int letter);
 	
 	IntSet getSuccessorsCall(int letter);
 	
-	IntSet getSuccessorsReturn(int letter);
+	IntSet getSuccessorsReturn(int pred, int letter);
 	
 	Set<Integer> getEnabledLettersInternal();
 	
 	Set<Integer> getEnabledLettersCall();
 	
 	Set<Integer> getEnabledLettersReturn();
+	
+	Set<Integer> getEnabledPredsReturn(int letter);
 
 	// ----- general requirements
 	boolean equals(Object otherState);

@@ -1,5 +1,6 @@
 package automata;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -7,14 +8,15 @@ import java.util.Set;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateNwa implements IStateNwa {
+public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	
 	private final IBuchiNwa mBuchi;
 	private final int mId;
 	
 	private final Map<Integer, IntSet> mSuccessorsInternal;
 	private final Map<Integer, IntSet> mSuccessorsCall;
-	private final Map<Integer, IntSet> mSuccessorsReturn;
+	// letter * pred -> succ
+	private final Map<Integer, Map<Integer, IntSet>> mSuccessorsReturn; 
 	
 	public StateNwa(IBuchiNwa buchi, int id) {
 		this.mBuchi = buchi;
@@ -51,9 +53,14 @@ public class StateNwa implements IStateNwa {
 	}
 
 	@Override
-	public void addSuccessorReturn(int letter, int state) {
+	public void addSuccessorReturn(int pred, int letter, int state) {
 		assert mBuchi.getAlphabetReturn().get(letter);
-		addSuccessors(mSuccessorsReturn, letter, state);
+		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
+		if(succMap == null) {
+			succMap = new HashMap<>();
+		}
+		addSuccessors(succMap, pred, state);
+		mSuccessorsReturn.put(letter, succMap);
 	}
 
 	private IntSet getSuccessors(Map<Integer, IntSet> succMap, int letter) {
@@ -77,9 +84,13 @@ public class StateNwa implements IStateNwa {
 	}
 
 	@Override
-	public IntSet getSuccessorsReturn(int letter) {
+	public IntSet getSuccessorsReturn(int pred, int letter) {
 		assert mBuchi.getAlphabetReturn().get(letter);
-		return getSuccessors(mSuccessorsReturn, letter);
+		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
+		if(succMap == null) {
+			return UtilIntSet.newIntSet();
+		}
+		return getSuccessors(succMap, pred);
 	}
 
 	@Override
@@ -95,6 +106,37 @@ public class StateNwa implements IStateNwa {
 	@Override
 	public Set<Integer> getEnabledLettersReturn() {
 		return mSuccessorsReturn.keySet();
+	}
+
+	@Override
+	public Set<Integer> getEnabledPredsReturn(int letter) {
+		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
+		if(succMap ==null) {
+			return Collections.emptySet();
+		}
+		return succMap.keySet();
+	}
+	
+	@Override
+	public int compareTo(StateNwa other) {
+		return mId - other.mId;
+	}
+	
+	public boolean equals(Object other) {
+		if(!(other instanceof StateNwa)) {
+			return false;
+		}
+		if(this == other) return true;
+		StateNwa otherState = (StateNwa)other;
+		return otherState.mId == this.mId;
+	}
+	
+	public int hashCode() {
+		return mId;
+	}
+	
+	public String toString() {
+		return "s" + mId;
 	}
 
 }

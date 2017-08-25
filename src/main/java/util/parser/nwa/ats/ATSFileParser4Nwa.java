@@ -87,7 +87,7 @@ public class ATSFileParser4Nwa {
 	public void clear() {
 		mAlphabetMap.clear();
 		mStateMap.clear();
-		mAlphabets.clear();
+//		mAlphabets.clear();
 		mCallAlphabet.clear();
 		mInternalAlphabet.clear();
 		mReturnAlphabet.clear();
@@ -115,6 +115,14 @@ public class ATSFileParser4Nwa {
 	public IBuchiNwa getBuchi(int index) {
 		assert index < mBuchiNwaList.size();
 		return mBuchiNwaList.get(index);
+	}
+	
+	
+	public static void main(String[] args) {
+		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
+		parser.parse("/home/liyong/workspace-neon/SemiBuchi/test.ats");
+		IBuchiNwa buchi = parser.getBuchi(0);
+		buchi.toATS(System.out, parser.getAlphabet());
 	}
 	
 	

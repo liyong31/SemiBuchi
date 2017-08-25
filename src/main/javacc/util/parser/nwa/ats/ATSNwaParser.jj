@@ -216,8 +216,8 @@ private void parseFinalStates() :
 
 private void parseTransitions() :
 {
-  Token sourceStr, labelStr, targetStr;
-  int sourceId, letter, targetId;
+  Token sourceStr, labelStr, targetStr, predStr;
+  int sourceId, letter, targetId, predId;
 }
 {
 
@@ -280,6 +280,10 @@ private void parseTransitions() :
     {
       sourceId = parser.getStateId(sourceStr.toString());
     }
+    predStr = <STRING>
+    {
+      predId = parser.getStateId(predStr.toString());
+    }
     labelStr = <STRING>
     {
       letter = parser.getLetterId(labelStr.toString());
@@ -288,7 +292,7 @@ private void parseTransitions() :
     {
       targetId = parser.getStateId(targetStr.toString());
       IStateNwa state = buchi.getState(sourceId);
-      state.addSuccessorReturn(letter, targetId);
+      state.addSuccessorReturn(predId, letter, targetId);
     }
     <RIGHTPARA>
   )+

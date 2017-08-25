@@ -3,6 +3,7 @@ package automata;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import util.IntIterator;
 import util.IntSet;
@@ -33,6 +34,8 @@ public interface IBuchiNwa {
 	int addState(IStateNwa state);
 	
 	IStateNwa getState(int id);
+	
+	IStateNwa makeState(int id);
 	
 	IntSet getInitialStates();
 
@@ -92,7 +95,10 @@ public interface IBuchiNwa {
 		IntIterator iter = states.iterator();
 		while(iter.hasNext()) {
 			int n = iter.next();
-			result.or(getSuccessorsReturn(n, letter));
+			Set<Integer> enabledPreds = getState(n).getEnabledPredsReturn(letter);
+			for(Integer pred : enabledPreds) {
+				result.or(getState(n).getSuccessorsReturn(pred, letter));
+			}
 		}
 		return result;
 	}
@@ -101,7 +107,7 @@ public interface IBuchiNwa {
 
 	IntSet getSuccessorsCall(int state, int letter);
 
-	IntSet getSuccessorsReturn(int state, int letter);
+	IntSet getSuccessorsReturn(int state, int pred, int letter);
 
 	Collection<IStateNwa> getStates();
 	
@@ -109,9 +115,10 @@ public interface IBuchiNwa {
 	default public void toATS(PrintStream out, List<String> alphabet) {
 		final String PRE_BLANK = "   "; 
 		final String ITEM_BLANK = " ";
+		final String LINE_END = "},";
 		final String BLOCK_END = "\n" + PRE_BLANK + "},";
 		final String TRANS_PRE_BLANK = PRE_BLANK + "   "; 
-		out.println("NestedWordAutomaton result = (\n");
+		out.println("NestedWordAutomaton result = (");
 		
         
         IntIterator iter = getAlphabetCall().iterator();
@@ -120,7 +127,7 @@ public interface IBuchiNwa {
         	int id = iter.next();
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         
         iter = getAlphabetInternal().iterator();
         out.print(PRE_BLANK + "internalAlphabet = {");
@@ -128,7 +135,7 @@ public interface IBuchiNwa {
         	int id = iter.next();
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         
         iter = getAlphabetReturn().iterator();
         out.print(PRE_BLANK + "returnAlphabet = {");
@@ -136,7 +143,7 @@ public interface IBuchiNwa {
         	int id = iter.next();
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         
         // states
 		Collection<IStateNwa> states = getStates();
@@ -144,7 +151,7 @@ public interface IBuchiNwa {
 		for(IStateNwa state : states) {
 			out.print("s" + state.getId() + ITEM_BLANK);
         }	
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         // initial states
         IntSet initialStates = getInitialStates();
         iter = initialStates.iterator();
@@ -153,7 +160,7 @@ public interface IBuchiNwa {
         	int id = iter.next();
         	out.print("s" + id + ITEM_BLANK);
         }
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         
         // final states
         IntSet finalStates = getFinalStates();
@@ -163,7 +170,7 @@ public interface IBuchiNwa {
         	int id = iter.next();
         	out.print("s" + id + ITEM_BLANK);
         }
-        out.println(BLOCK_END);
+        out.println(LINE_END);
         
         // call transitions
         out.print(PRE_BLANK + "callTransitions = {");
@@ -203,12 +210,16 @@ public interface IBuchiNwa {
 			iter = getAlphabetReturn().iterator();
             while(iter.hasNext()) {
             	int letter = iter.next();
-            	IntSet succs = state.getSuccessorsReturn(letter);
-            	IntIterator iterInner = succs.iterator();
-            	while(iterInner.hasNext()) {
-            		int succ = iterInner.next();
-            		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
+            	Set<Integer> enabledPreds = state.getEnabledPredsReturn(letter);
+            	for(Integer pred : enabledPreds) {
+                	IntSet succs = state.getSuccessorsReturn(pred, letter);
+                	IntIterator iterInner = succs.iterator();
+                	while(iterInner.hasNext()) {
+                		int succ = iterInner.next();
+                		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
+                	}
             	}
+
             }
         }
 		out.println("\n" + PRE_BLANK + "}");
