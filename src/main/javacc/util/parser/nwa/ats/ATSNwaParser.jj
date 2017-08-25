@@ -1,0 +1,297 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.28+ wizard for JavaCC 1.5.0+
+ */options{
+  JDK_VERSION = "1.8";  static = false;}PARSER_BEGIN(ATSNwaParser)package util.parser.nwa.ats;
+
+import automata.IBuchiNwa;
+import automata.IStateNwa;
+
+import util.parser.nwa.ats.ATSFileParser4Nwa;
+
+public class ATSNwaParser{
+
+  private IBuchiNwa buchi;
+
+  private ATSFileParser4Nwa parser ;
+  
+  public void parse(ATSFileParser4Nwa parser)
+  {
+    this.parser = parser;
+    try
+    {
+      parseFile();
+    }
+    catch (ParseException e)
+    {
+      e.printStackTrace();
+    }
+  }
+  }PARSER_END(ATSNwaParser)SKIP :{  " "| "\r"| "\t"| "\n"
+  // skip comments
+| < "%" (~[ "\r", "\n" ])* >
+| < "//" (~[ "\r", "\n" ])* >}TOKEN : /* OPERATORS */{
+  < LEFTPARA : "(">
+| < RIGHTPARA : ")" >
+| < LEFTCURLY : "{" >
+| < RIGHTCURLY : "}" >
+| < AUTOMATON : "NestedWordAutomaton" >
+| < ALPHABET_INTERNAL : "internalAlphabet" >
+| < ALPHABET_CALL : "callAlphabet" >
+| < ALPHABET_RETURN : "returnAlphabet" >
+| < ASSIGNMENT : "=" >
+| < STATES : "states" >
+| < INITSTATES : "initialStates" >
+| < FINALSTATES : "finalStates" >
+| < TRANSITIONS_INTERNAL : "internalTransitions" >
+| < TRANSITIONS_CALL : "callTransitions" >
+| < TRANSITIONS_RETURN : "returnTransitions" >
+| < COMMA : "," >
+| < SEMICOLON : ";" >
+| < STRING : (~[ ",", "(", ")", "{", "}", "-", "\n", "\r", " ","\t" ])+ > // allow space and tab character in String}
+
+private void parseFile() :
+{
+}
+{
+  (
+    {
+      buchi = null;
+      parser.clear();
+    }
+    parseAutomaton()
+    {
+      parser.addBuchiNwa(buchi);
+    }
+      )+
+}
+
+private void parseAutomaton() :
+{
+  Token nameStr, labelStr, sourceStr, targetStr;
+}
+{
+
+  <AUTOMATON>
+  <STRING> // automaton name
+  <ASSIGNMENT>
+  <LEFTPARA>
+
+  parseAlphabet()
+  {
+    buchi = parser.makeBuchiNwa();
+  }
+  parseStates()
+  parseInitStates()
+  parseFinalStates()
+  parseTransitions()
+  <RIGHTPARA>
+  <SEMICOLON>
+  
+}
+
+private void parseAlphabet() :
+{
+  Token labelStr;
+}
+{
+
+  //call alphabet
+  <ALPHABET_CALL >
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+
+  (
+    labelStr = <STRING>
+    {
+      String label = labelStr.toString();
+      parser.addLetterCall(label);
+    }  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+
+    //internal alphabet
+  <ALPHABET_INTERNAL >
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+
+  (
+    labelStr = <STRING>
+    {
+      String label = labelStr.toString();
+      parser.addLetterInternal(label);
+    }
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+
+   //return alphabet
+  <ALPHABET_RETURN >
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+
+  (
+    labelStr = <STRING>
+    {
+      String label = labelStr.toString();
+      parser.addLetterReturn(label);
+    }
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+  
+}
+
+private void parseStates() :
+{
+  Token stateStr;
+}
+{
+
+  <STATES >
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+  (
+    stateStr = <STRING>
+    {
+      String state = stateStr.toString();
+      IStateNwa st = buchi.addState();
+      parser.putState(state, st.getId());
+    }
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+}
+
+private void parseInitStates() :
+{
+  Token stateStr;
+}
+{
+
+  <INITSTATES>
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+  (
+    stateStr = <STRING>
+    {
+      int id = parser.getStateId(stateStr.toString());
+      buchi.setInitial(id);
+    }
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+}
+
+private void parseFinalStates() :
+{
+  Token stateStr;
+}
+{
+
+  <FINALSTATES>
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  // a list of alphabet
+  (
+    stateStr = <STRING>
+    {
+      int id = parser.getStateId(stateStr.toString());
+      buchi.setFinal(id);
+    }
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+}
+
+private void parseTransitions() :
+{
+  Token sourceStr, labelStr, targetStr;
+  int sourceId, letter, targetId;
+}
+{
+
+  <TRANSITIONS_CALL>
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  (
+    <LEFTPARA>
+    sourceStr = <STRING>
+    {
+      sourceId = parser.getStateId(sourceStr.toString());
+    }
+    labelStr = <STRING>
+    {
+      letter = parser.getLetterId(labelStr.toString());
+    }
+    targetStr = <STRING>
+    {
+      targetId = parser.getStateId(targetStr.toString());
+      IStateNwa state = buchi.getState(sourceId);
+      state.addSuccessorCall(letter, targetId);
+    }
+    <RIGHTPARA>
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+
+  <TRANSITIONS_INTERNAL>
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  (
+    <LEFTPARA>
+    sourceStr = <STRING>
+    {
+      sourceId = parser.getStateId(sourceStr.toString());
+    }
+    labelStr = <STRING>
+    {
+      letter = parser.getLetterId(labelStr.toString());
+    }
+    targetStr = <STRING>
+    {
+      targetId = parser.getStateId(targetStr.toString());
+      IStateNwa state = buchi.getState(sourceId);
+      state.addSuccessorInternal(letter, targetId);
+    }
+    <RIGHTPARA>
+  )+
+  
+  <RIGHTCURLY>
+  <COMMA>
+
+  <TRANSITIONS_RETURN>
+  <ASSIGNMENT>
+  <LEFTCURLY>
+  (
+    <LEFTPARA>
+    sourceStr = <STRING>
+    {
+      sourceId = parser.getStateId(sourceStr.toString());
+    }
+    labelStr = <STRING>
+    {
+      letter = parser.getLetterId(labelStr.toString());
+    }
+    targetStr = <STRING>
+    {
+      targetId = parser.getStateId(targetStr.toString());
+      IStateNwa state = buchi.getState(sourceId);
+      state.addSuccessorReturn(letter, targetId);
+    }
+    <RIGHTPARA>
+  )+
+  
+  <RIGHTCURLY>
+}
