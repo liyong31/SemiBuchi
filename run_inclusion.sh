@@ -13,7 +13,7 @@ time=120; # time bound
 
 # solve easy cases
 echo "$column" > result-opt-easy.csv
-for case in easy/*.ats
+for case in ./classes/benchmarks/easy/*.ats
 do
 	command="java -jar SemiBuchi-0.0.1.jar -tarjan -to $time $case -set 3 >> result-opt-easy.csv";
 	echo $command
@@ -26,7 +26,7 @@ done
 
 echo "$column" > result-opt-normal.csv
 # solve normal cases
-for case in normal/*.ats
+for case in ./classes/benchmarks/normal/*.ats
 do
 	command="java -jar SemiBuchi-0.0.1.jar -tarjan -to $time $case -set 3 >> result-opt-normal.csv";
 	echo $command
@@ -41,7 +41,7 @@ Hello
 END
 # solve difficult cases
 echo "$column" > result-opt-diff.csv
-for case in difficult/*.ats
+for case in ./classes/benchmarks/difficult/*.ats
 do
 	command="java -Xms3g -Xms3G -Xmx3g -Xmx3g -jar SemiBuchi-0.0.1.jar -tarjan -to $time $case -set 3 >> result-opt-diff.csv";
 	echo $command
