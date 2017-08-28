@@ -153,6 +153,9 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
         	IntIterator iterLetter = calls.iterator();
         	while(iterLetter.hasNext()) {
         		int letter = iterLetter.next();
+    			if(s.getId() == 3) {
+    				System.out.println("HAHA");
+    			}
         		IntSet succs = s.getSuccessorsCall(letter);
         		if(! succs.isEmpty()) callPreds.add(s.getId());
         		exploreSuccessors(s, walkList, succs, visited, letter);
@@ -175,9 +178,6 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
         		for(int i = 0; i < size; i ++) {
             		for(Integer hier : callPreds) {
             			IStateNwa state = getState(i);
-            			if(i == 13 &&  hier == 3 ) {
-            				System.out.println("HAHA");
-            			}
             			System.out.println("current: " +  state.toString() +  "  hier: " + hier + " :" + getState(hier).toString());
                 		IntSet succs = state.getSuccessorsReturn(hier, letter);
                 		exploreSuccessors(state, walkList, succs, visited, letter);

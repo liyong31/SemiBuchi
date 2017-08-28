@@ -7,6 +7,7 @@ import automata.IBuchiNwa;
 import automata.StateNwa;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+import main.Options;
 import util.IntIterator;
 import util.IntSet;
 
@@ -96,16 +97,17 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		return resultSucc;
 	}
 	
-	private IntSet computeSuccessors(NCSB succNCSB, IntSet CMinusFSuccs
-			, IntSet CInterFSuccs, int hier, int letter) {
+	private IntSet computeSuccessors(NCSB succNCSB, IntSet minusFSuccs
+			, IntSet interFSuccs, int hier, int letter) {
 		SuccessorGenerator generator = new SuccessorGenerator(mNCSB
 															, succNCSB
-															, CMinusFSuccs
-															, CInterFSuccs
+															, minusFSuccs
+															, interFSuccs
 															, mComplement.getFinalDeckers());
 		IntSet succs = UtilIntSet.newIntSet();
 		while(generator.hasNext()) {
 		    NCSB ncsb = generator.next();
+		    if(ncsb == null) continue;
 			StateNwaNCSB succ = mComplement.addState(ncsb);
 			if(mComplement.getAlphabetInternal().get(letter)) {
 				super.addSuccessorInternal(letter, succ.getId());
@@ -123,26 +125,26 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	private IntSet computeSuccCallOrInternal(int letter) {
 		visitedLetters.set(letter);
 		
-		IntSet CMinusFSuccs = UtilIntSet.newIntSet();
-		IntSet CInterFSuccs = UtilIntSet.newIntSet();
+		IntSet minusFSuccs = UtilIntSet.newIntSet();
+		IntSet interFSuccs = UtilIntSet.newIntSet();
 		
 		// Compute the successors of B
 		ResultSucc resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getBSet(), letter, true);
 		if(!resultSucc.hasSuccs) return UtilIntSet.newIntSet();
 		IntSet BSuccs = resultSucc.mSuccs;
-		CMinusFSuccs.or(resultSucc.mMinusFSuccs);
-		CInterFSuccs.or(resultSucc.mInterFSuccs);
+		minusFSuccs.or(resultSucc.mMinusFSuccs);
+		interFSuccs.or(resultSucc.mInterFSuccs);
 		
 		// First compute the successors of C
 		IntSet CSuccs = UtilIntSet.newIntSet();
 		CSuccs.or(BSuccs);
         IntSet CMinusB = mNCSB.getCSet().clone();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
-        resultSucc = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, true);
+        resultSucc = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.optNCSB);
 		if(!resultSucc.hasSuccs) return UtilIntSet.newIntSet();
 		CSuccs.or( resultSucc.mSuccs);
-		CMinusFSuccs.or(resultSucc.mMinusFSuccs);
-		CInterFSuccs.or(resultSucc.mInterFSuccs);
+		minusFSuccs.or(resultSucc.mMinusFSuccs);
+		interFSuccs.or(resultSucc.mInterFSuccs);
 		
 		// Compute the successors of N
 		resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getNSet(), letter, false);
@@ -155,7 +157,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
         // d_a(S) /\ F should be empty
 		if(SSuccs.overlap(mComplement.getFinalDeckers())) return UtilIntSet.newIntSet();
 		
-        return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), CMinusFSuccs, CInterFSuccs, -1, letter);
+        return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, -1, letter);
 	}
 		
 	@Override
@@ -183,16 +185,16 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		StateNwaNCSB hierState = (StateNwaNCSB) mComplement.getState(hier);
 		NCSB hierNCSB = hierState.getNCSB();
 		
-		IntSet CMinusFSuccs = UtilIntSet.newIntSet();
-		IntSet CInterFSuccs = UtilIntSet.newIntSet();
+		IntSet minusFSuccs = UtilIntSet.newIntSet();
+		IntSet interFSuccs = UtilIntSet.newIntSet();
 		// Compute the successors of B
 //		ResultSucc resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierNCSB.getBSet(), letter, true);
 		TIntObjectMap<List<Integer>> hierDoubleDeckers = doubleDeckerSetToMap(hierNCSB);
 		ResultSucc resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierDoubleDeckers, letter, true);
 		if(! resultSucc.hasSuccs) return UtilIntSet.newIntSet();
 		IntSet BSuccs = resultSucc.mSuccs;
-		CMinusFSuccs.or(resultSucc.mMinusFSuccs);
-		CInterFSuccs.or(resultSucc.mInterFSuccs);
+		minusFSuccs.or(resultSucc.mMinusFSuccs);
+		interFSuccs.or(resultSucc.mInterFSuccs);
 		
 		// First compute the successors of C
 		IntSet CSuccs = UtilIntSet.newIntSet();
@@ -202,12 +204,12 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
         
 //        IntSet hierCMinusB = hierNCSB.getCSet().clone();
 //        hierCMinusB.andNot(hierNCSB.getBSet());
-		resultSucc = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, true);
+		resultSucc = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, !Options.optNCSB);
 //        resultSucc = computeSuccDoubleDeckers_Return(CMinusB, hierCMinusB, letter, true);
         if(! resultSucc.hasSuccs) return UtilIntSet.newIntSet();
 		CSuccs.or(resultSucc.mSuccs);
-		CMinusFSuccs.or(resultSucc.mMinusFSuccs);
-		CInterFSuccs.or(resultSucc.mInterFSuccs);
+		minusFSuccs.or(resultSucc.mMinusFSuccs);
+		interFSuccs.or(resultSucc.mInterFSuccs);
 		
 		// Compute the successors of N
 //		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getNSet(), hierNCSB.getNSet(), letter, false);
@@ -224,7 +226,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
         // d_a(S) /\ F should be empty
 		if(SSuccs.overlap(mComplement.getFinalDeckers())) return UtilIntSet.newIntSet();
 		
-        return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), CMinusFSuccs, CInterFSuccs, hier, letter);
+        return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, hier, letter);
 	}
 
 	@Override
