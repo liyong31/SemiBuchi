@@ -95,9 +95,9 @@ public interface IBuchiNwa {
 		IntIterator iter = states.iterator();
 		while(iter.hasNext()) {
 			int n = iter.next();
-			Set<Integer> enabledPreds = getState(n).getEnabledPredsReturn(letter);
-			for(Integer pred : enabledPreds) {
-				result.or(getState(n).getSuccessorsReturn(pred, letter));
+			Set<Integer> enabledHiers = getState(n).getEnabledHiersReturn(letter);
+			for(Integer hier : enabledHiers) {
+				result.or(getState(n).getSuccessorsReturn(hier, letter));
 			}
 		}
 		return result;
@@ -210,13 +210,15 @@ public interface IBuchiNwa {
 			iter = getAlphabetReturn().iterator();
             while(iter.hasNext()) {
             	int letter = iter.next();
-            	Set<Integer> enabledPreds = state.getEnabledPredsReturn(letter);
-            	for(Integer pred : enabledPreds) {
-                	IntSet succs = state.getSuccessorsReturn(pred, letter);
+            	if(!state.getEnabledLettersReturn().contains(letter)) continue; 
+            	Set<Integer> enabledHiers = state.getEnabledHiersReturn(letter);
+            	for(Integer hier : enabledHiers) {
+            		if(hier < 0) continue;
+                	IntSet succs = state.getSuccessorsReturn(hier, letter);
                 	IntIterator iterInner = succs.iterator();
                 	while(iterInner.hasNext()) {
                 		int succ = iterInner.next();
-                		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
+                		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " s" + hier + " " + alphabet.get(letter) + " s" + succ + ")" );
                 	}
             	}
 
@@ -225,6 +227,28 @@ public interface IBuchiNwa {
 		out.println("\n" + PRE_BLANK + "}");
 		
 		out.println(");");
+	}
+	
+	
+	default int getNumTransition() {
+		int num = 0;
+		for(IStateNwa s : getStates()) {
+			// call 
+			for(Integer letter : s.getEnabledLettersCall()) {
+				num += s.getSuccessorsCall(letter).cardinality();
+			}
+			// internal 
+			for(Integer letter : s.getEnabledLettersInternal()) {
+				num += s.getSuccessorsInternal(letter).cardinality();
+			}
+			// return 
+			for(Integer letter : s.getEnabledLettersReturn()) {
+				for(Integer hier : s.getEnabledHiersReturn(letter)) {
+					num += s.getSuccessorsReturn(hier, letter).cardinality();	
+				}
+			}
+		}
+		return num;
 	}
 	
 	

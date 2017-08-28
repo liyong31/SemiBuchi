@@ -115,7 +115,6 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 				super.addSuccessorReturn(hier, letter, succ.getId());
 			}
 			succs.set(succ.getId());
-			
 		}
 
 		return succs;
@@ -166,7 +165,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	}
 	
 	/**
-	 * If q in C\F (B\F), then tr(q, a) should not be not empty
+	 * If q in C\F or (B\F), then tr(q, a) should not be not empty
 	 * */
 	private boolean noTransitionAssertion_MinusF(int upState, IntSet succs) {
 		return !mOperand.isFinal(upState) && succs.isEmpty();

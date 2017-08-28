@@ -66,9 +66,6 @@ public class ATSNwaParser implements ATSNwaParserConstants {
     jj_consume_token(LEFTCURLY);
     label_2:
     while (true) {
-      labelStr = jj_consume_token(STRING);
-      String label = labelStr.toString();
-      parser.addLetterCall(label);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case STRING:
         ;
@@ -77,6 +74,9 @@ public class ATSNwaParser implements ATSNwaParserConstants {
         jj_la1[1] = jj_gen;
         break label_2;
       }
+      labelStr = jj_consume_token(STRING);
+      String label = labelStr.toString();
+      parser.addLetterCall(label);
     }
     jj_consume_token(RIGHTCURLY);
     jj_consume_token(COMMA);
@@ -104,9 +104,6 @@ public class ATSNwaParser implements ATSNwaParserConstants {
     jj_consume_token(LEFTCURLY);
     label_4:
     while (true) {
-      labelStr = jj_consume_token(STRING);
-      String label = labelStr.toString();
-      parser.addLetterReturn(label);
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case STRING:
         ;
@@ -115,6 +112,9 @@ public class ATSNwaParser implements ATSNwaParserConstants {
         jj_la1[3] = jj_gen;
         break label_4;
       }
+      labelStr = jj_consume_token(STRING);
+      String label = labelStr.toString();
+      parser.addLetterReturn(label);
     }
     jj_consume_token(RIGHTCURLY);
     jj_consume_token(COMMA);
@@ -198,6 +198,14 @@ public class ATSNwaParser implements ATSNwaParserConstants {
     jj_consume_token(LEFTCURLY);
     label_8:
     while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LEFTPARA:
+        ;
+        break;
+      default:
+        jj_la1[7] = jj_gen;
+        break label_8;
+      }
       jj_consume_token(LEFTPARA);
       sourceStr = jj_consume_token(STRING);
       sourceId = parser.getStateId(sourceStr.toString());
@@ -208,14 +216,6 @@ public class ATSNwaParser implements ATSNwaParserConstants {
       IStateNwa state = buchi.getState(sourceId);
       state.addSuccessorCall(letter, targetId);
       jj_consume_token(RIGHTPARA);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LEFTPARA:
-        ;
-        break;
-      default:
-        jj_la1[7] = jj_gen;
-        break label_8;
-      }
     }
     jj_consume_token(RIGHTCURLY);
     jj_consume_token(COMMA);
@@ -250,6 +250,14 @@ public class ATSNwaParser implements ATSNwaParserConstants {
     jj_consume_token(LEFTCURLY);
     label_10:
     while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LEFTPARA:
+        ;
+        break;
+      default:
+        jj_la1[9] = jj_gen;
+        break label_10;
+      }
       jj_consume_token(LEFTPARA);
       sourceStr = jj_consume_token(STRING);
       sourceId = parser.getStateId(sourceStr.toString());
@@ -262,14 +270,6 @@ public class ATSNwaParser implements ATSNwaParserConstants {
       IStateNwa state = buchi.getState(sourceId);
       state.addSuccessorReturn(predId, letter, targetId);
       jj_consume_token(RIGHTPARA);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LEFTPARA:
-        ;
-        break;
-      default:
-        jj_la1[9] = jj_gen;
-        break label_10;
-      }
     }
     jj_consume_token(RIGHTCURLY);
   }

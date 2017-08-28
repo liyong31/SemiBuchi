@@ -55,7 +55,7 @@ public class SuccessorGenerator {
 		
 		mCInterFSuccs.andNot(mCMinusFSuccs);         // remove must-in C states
 		mCInterFSuccs.andNot(mSPrime);               // remove must in S states
-		mCInterFSuccs.andNot(nInterF);               // remove final states 
+		mCInterFSuccs.andNot(mF);               // remove final states 
 		// the successors of C /\ F should go to C and S with nondeterministic choices
 		mPs = new PowerSet(mCInterFSuccs);
 		

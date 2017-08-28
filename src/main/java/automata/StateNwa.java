@@ -8,6 +8,9 @@ import java.util.Set;
 import util.IntSet;
 import util.UtilIntSet;
 
+/**
+ * State class for Buchi Nested Word Automata
+ * */
 public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	
 	private final IBuchiNwa mBuchi;
@@ -15,7 +18,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	
 	private final Map<Integer, IntSet> mSuccessorsInternal;
 	private final Map<Integer, IntSet> mSuccessorsCall;
-	// letter * pred -> succ
+	// letter * hier -> succ
 	private final Map<Integer, Map<Integer, IntSet>> mSuccessorsReturn; 
 	
 	public StateNwa(IBuchiNwa buchi, int id) {
@@ -31,13 +34,13 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 		return mId;
 	}
 	
-	private void addSuccessors(Map<Integer, IntSet> succMap, int letter, int state) {
-		IntSet succs = succMap.get(letter);
+	private void addSuccessors(Map<Integer, IntSet> succMap, int letterOrHier, int state) {
+		IntSet succs = succMap.get(letterOrHier);
 		if(succs == null) {
 			succs =  UtilIntSet.newIntSet();
 		}
 		succs.set(state);
-		succMap.put(letter, succs);	
+		succMap.put(letterOrHier, succs);	
 	}
 
 	@Override
@@ -53,13 +56,13 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	}
 
 	@Override
-	public void addSuccessorReturn(int pred, int letter, int state) {
+	public void addSuccessorReturn(int hier, int letter, int state) {
 		assert mBuchi.getAlphabetReturn().get(letter);
 		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
 		if(succMap == null) {
 			succMap = new HashMap<>();
 		}
-		addSuccessors(succMap, pred, state);
+		addSuccessors(succMap, hier, state);
 		mSuccessorsReturn.put(letter, succMap);
 	}
 
@@ -109,7 +112,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	}
 
 	@Override
-	public Set<Integer> getEnabledPredsReturn(int letter) {
+	public Set<Integer> getEnabledHiersReturn(int letter) {
 		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
 		if(succMap ==null) {
 			return Collections.emptySet();
@@ -122,19 +125,23 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 		return mId - other.mId;
 	}
 	
+	@Override
 	public boolean equals(Object other) {
+		if(this == other) return true;
 		if(!(other instanceof StateNwa)) {
 			return false;
 		}
-		if(this == other) return true;
+		
 		StateNwa otherState = (StateNwa)other;
 		return otherState.mId == this.mId;
 	}
 	
+	@Override
 	public int hashCode() {
 		return mId;
 	}
 	
+	@Override
 	public String toString() {
 		return "s" + mId;
 	}

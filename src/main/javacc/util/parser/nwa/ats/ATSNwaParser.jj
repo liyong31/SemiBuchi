@@ -106,7 +106,7 @@ private void parseAlphabet() :
     {
       String label = labelStr.toString();
       parser.addLetterCall(label);
-    }  )+
+    }  )*
   
   <RIGHTCURLY>
   <COMMA>
@@ -140,7 +140,7 @@ private void parseAlphabet() :
       String label = labelStr.toString();
       parser.addLetterReturn(label);
     }
-  )+
+  )*
   
   <RIGHTCURLY>
   <COMMA>
@@ -241,7 +241,7 @@ private void parseTransitions() :
       state.addSuccessorCall(letter, targetId);
     }
     <RIGHTPARA>
-  )+
+  )*
   
   <RIGHTCURLY>
   <COMMA>
@@ -295,7 +295,7 @@ private void parseTransitions() :
       state.addSuccessorReturn(predId, letter, targetId);
     }
     <RIGHTPARA>
-  )+
+  )*
   
   <RIGHTCURLY>
 }

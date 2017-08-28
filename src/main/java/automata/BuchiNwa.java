@@ -119,9 +119,9 @@ public class BuchiNwa implements IBuchiNwa {
 	}
 
 	@Override
-	public IntSet getSuccessorsReturn(int state, int pred, int letter) {
+	public IntSet getSuccessorsReturn(int state, int hier, int letter) {
 		assert state < mStates.size();
-		return getState(state).getSuccessorsReturn(pred, letter);
+		return getState(state).getSuccessorsReturn(hier, letter);
 	}
 
 	@Override
