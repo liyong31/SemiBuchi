@@ -2,11 +2,9 @@ package complement;
 
 import java.util.ArrayList;
 import java.util.BitSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import automata.BuchiNwa;
@@ -14,8 +12,8 @@ import automata.IBuchiNwa;
 import automata.IStateNwa;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
+
+
 import main.Options;
 import util.IntIterator;
 import util.IntSet;
@@ -64,9 +62,6 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
 			return (StateNwaNCSB) getState(mState2Int.get(state));
 		}else {
 			int index = getStateSize();
-			if(index == 9) {
-				System.out.println("HAHAHA");
-			}
 			StateNwaNCSB newState = new StateNwaNCSB(this, index);
 			newState.setNCSB(ncsb);
 			int id = this.addState(newState);
@@ -100,6 +95,10 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
 			mFinalDeckers.set(id);
 		}
 		return id;
+	}
+	
+	protected int getEmptyDownState() {
+		return EMPTY_DOWN;
 	}
 	
 	protected IntSet getFinalDeckers() {
@@ -174,11 +173,11 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
 //        		
         		int size = getStateSize();
         		for(int i = 0; i < size; i ++) {
-        			if(i == 8) {
-        				System.out.println("HAHA");
-        			}
             		for(Integer hier : callPreds) {
             			IStateNwa state = getState(i);
+            			if(i == 13 &&  hier == 3 ) {
+            				System.out.println("HAHA");
+            			}
             			System.out.println("current: " +  state.toString() +  "  hier: " + hier + " :" + getState(hier).toString());
                 		IntSet succs = state.getSuccessorsReturn(hier, letter);
                 		exploreSuccessors(state, walkList, succs, visited, letter);

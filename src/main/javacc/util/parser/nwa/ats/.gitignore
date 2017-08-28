@@ -4,3 +4,6 @@
 /SimpleCharStream.java
 /Token.java
 /TokenMgrError.java
+/ATSNwaParser.java
+/ATSNwaParserConstants.java
+/ATSNwaParserTokenManager.java
