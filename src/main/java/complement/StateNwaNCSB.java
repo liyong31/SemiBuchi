@@ -88,10 +88,12 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 			}
 
 			resultSucc.mSuccs.or(succDeckers);
-			if(mOperand.isFinal(upState)) {
-				if(testTrans) resultSucc.mInterFSuccs.or(succDeckers);
-			}else {
-				if(testTrans) resultSucc.mMinusFSuccs.or(succDeckers);
+			if(testTrans) {
+				if(mOperand.isFinal(upState)) {
+					resultSucc.mInterFSuccs.or(succDeckers);
+				}else {
+					resultSucc.mMinusFSuccs.or(succDeckers);
+				}
 			}
 		}
 		return resultSucc;
@@ -135,10 +137,14 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		minusFSuccs.or(resultSucc.mMinusFSuccs);
 		interFSuccs.or(resultSucc.mInterFSuccs);
 		
+		IntSet temp = minusFSuccs.clone();
+		temp.or(interFSuccs);
+		assert BSuccs.equals(temp);
+		
 		// First compute the successors of C
 		IntSet CSuccs = UtilIntSet.newIntSet();
 		CSuccs.or(BSuccs);
-        IntSet CMinusB = mNCSB.getCSet().clone();
+        IntSet CMinusB = mNCSB.copyCSet();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
         resultSucc = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.optNCSB);
 		if(!resultSucc.hasSuccs) return UtilIntSet.newIntSet();
@@ -297,10 +303,12 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 			for(Integer downHier : downHiers) {
 				IntSet succDeckers = mComplement.generateDeckers(downHier, upStateSuccs);
 				resultSucc.mSuccs.or(succDeckers);
-				if(mOperand.isFinal(upState)) {
-					if(testTransition) resultSucc.mInterFSuccs.or(succDeckers);
-				}else {
-					if(testTransition) resultSucc.mMinusFSuccs.or(succDeckers);
+				if(testTransition) {
+					if(mOperand.isFinal(upState)) {
+						 resultSucc.mInterFSuccs.or(succDeckers);
+					}else {
+						 resultSucc.mMinusFSuccs.or(succDeckers);
+					}
 				}
 			}
 		}

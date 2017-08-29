@@ -147,15 +147,12 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
         	IStateNwa s = walkList.remove();
         	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
-        	if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString() + " : " + s.hashCode());
+        	if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString());
         	// call alphabets
         	IntSet calls = mOperand.getAlphabetCall();
         	IntIterator iterLetter = calls.iterator();
         	while(iterLetter.hasNext()) {
         		int letter = iterLetter.next();
-    			if(s.getId() == 3) {
-    				System.out.println("HAHA");
-    			}
         		IntSet succs = s.getSuccessorsCall(letter);
         		if(! succs.isEmpty()) callPreds.add(s.getId());
         		exploreSuccessors(s, walkList, succs, visited, letter);
@@ -164,6 +161,9 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
         	iterLetter = mOperand.getAlphabetInternal().iterator();
         	while(iterLetter.hasNext()) {
         		int letter = iterLetter.next();
+        		if(s.getId() == 6 && letter == 4) {
+        			System.out.println("HAHA");
+        		}
         		IntSet succs = s.getSuccessorsInternal(letter);
         		exploreSuccessors(s, walkList, succs, visited, letter);
         	}
@@ -171,14 +171,14 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
            	iterLetter = mOperand.getAlphabetReturn().iterator();
 
         	while(iterLetter.hasNext()) {
-        		System.out.println(callPreds);
+//        		System.out.println(callPreds);
         		int letter = iterLetter.next();
 //        		
         		int size = getStateSize();
         		for(int i = 0; i < size; i ++) {
             		for(Integer hier : callPreds) {
             			IStateNwa state = getState(i);
-            			System.out.println("current: " +  state.toString() +  "  hier: " + hier + " :" + getState(hier).toString());
+            			if(Options.verbose) System.out.println("current: " +  state.toString() +  "  hier: " + hier + " :" + getState(hier).toString());
                 		IntSet succs = state.getSuccessorsReturn(hier, letter);
                 		exploreSuccessors(state, walkList, succs, visited, letter);
             		}
@@ -187,7 +187,7 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
         	}
         }
         
-        System.out.println("" + getStates());
+//        System.out.println("" + getStates());
 	}
 	
 	private void exploreSuccessors(IStateNwa s, LinkedList<IStateNwa> walkList
@@ -195,7 +195,7 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
 		IntIterator iter = succs.iterator();
 		while(iter.hasNext()) {
 			int n = iter.next();
-			if(Options.verbose) System.out.println("size of deckers: " + mDeckerList.size() + " " + mDeckerList.toString());
+//			if(Options.verbose) System.out.println("size of deckers: " + mDeckerList.size() + " " + mDeckerList.toString());
 			if(Options.verbose) System.out.println(" s"+ s.getId() + ": " + s.toString() + "- L" + letter + " -> s" + n + ": " + getState(n));
 			if(! visited.get(n)) {
 				walkList.addFirst(getState(n));

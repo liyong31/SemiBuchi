@@ -7,7 +7,7 @@ import util.UtilIntSet;
 /**
  * NCSB tuple 
  * */
-class NCSB {
+public class NCSB {
 	
 	private IntSet mNSet;
 	private IntSet mCSet;

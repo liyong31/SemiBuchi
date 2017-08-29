@@ -19,11 +19,11 @@ public class SuccessorGenerator {
 	private IntSet mSPrime;  // d(S)
 	private IntSet mBPrime;  // d(B)
 	
-	private IntSet mNInterFSuccs;
+//	private IntSet mNInterFSuccs;
 	
 	private PowerSet mPs;
 	
-	private boolean hasSuccessors;
+	private boolean hasSuccessors = true;
 	
 		
 	public SuccessorGenerator(NCSB curr, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
@@ -35,37 +35,36 @@ public class SuccessorGenerator {
 		this.mF = f;
 		
 		// initialization
-		// N
-		mNPrime =  this.mSuccNCSB.getNSet().clone();
-		
+		// N'
+		mNPrime =  this.mSuccNCSB.copyNSet();
 		mNPrime.andNot(mF);                    // remove final states
 		mNPrime.andNot(mSuccNCSB.getCSet());   // remove successors of C, the final states of NSuccs are in CSuccs 
 		mNPrime.andNot(mSuccNCSB.getSSet());   // remove successors of S
 		
-		// V
-		mVPrime =  mSuccNCSB.getCSet().clone();
-		mNInterFSuccs =  mSuccNCSB.getNSet().clone();
-		mNInterFSuccs.and(mF);           // (d(N) /\ F)
-		mVPrime.or(mNInterFSuccs);       // d(C) \/ (d(N) /\ F)
+		// V' = d(C) \/ (d(N)/\F)
+		mVPrime =  mSuccNCSB.copyCSet();
+		IntSet nInterFSuccs =  mSuccNCSB.copyNSet();
+		nInterFSuccs.and(mF);           // (d(N) /\ F)
+		mVPrime.or(nInterFSuccs);       // d(C) \/ (d(N) /\ F)
 		
 		// S successors
-		mSPrime =  mSuccNCSB.getSSet();
+		mSPrime =  mSuccNCSB.copySSet();
 		
 		// B successors
-		mBPrime =  mSuccNCSB.getBSet();
+		mBPrime =  mSuccNCSB.copyBSet();
 		
-		// -------------- following is the version for NCSB
 		if(Options.optNCSB && mCurrNCSB.getBSet().isEmpty()) {
-			mInterFSuccs = mSuccNCSB.getCSet().clone(); // set to d(C)
+			mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
 		}
-		// Original NCSB
+		
+		// Original NCSB, distribute states in mInterFSuccs to S'
 		mInterFSuccs.andNot(mMinusFSuccs);     // remove must-in C (B) states
-		mInterFSuccs.andNot(mSPrime);          // remove must in S states
+//		mInterFSuccs.andNot(mSPrime);          // remove must in S states
 		mInterFSuccs.andNot(mF);               // remove final states 
 
 		mPs = new PowerSet(mInterFSuccs);
 		
-		// d(C\F) /\ d(S) should be empty
+		// d(C\F) /\ d(S) or d(B/\F) should be empty
 		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
 	}
 	
@@ -87,8 +86,10 @@ public class SuccessorGenerator {
 				// as usual S and C
 				CP = mVPrime.clone();
 				CP.andNot(Sextra); // C' get extra
-				BP = mSuccNCSB.copyCSet(); 
-				BP.andNot(Sextra);   // B'= d(C) /\ C'
+				BP = CP;
+				// following is d(C) /\ C'
+//				BP = mSuccNCSB.copyCSet(); 
+//				BP.andNot(Sextra);   // B'= d(C) /\ C'
 				SP.or(Sextra); // S'=d(S)\/(V'\C')
 			}else {
 				// B is not empty
@@ -98,7 +99,8 @@ public class SuccessorGenerator {
 				CP = mVPrime.clone();
 				CP.andNot(SP); // C'= V'\S'
 			}
-			if(SP.overlap(mF)) {
+			
+			if(SP.overlap(mF) || BP.overlap(SP)) {
 				return null;
 			}
 
@@ -113,9 +115,12 @@ public class SuccessorGenerator {
 				BP =  mBPrime.clone();
 				BP.andNot(Sextra);
 			}
+			
+			if(SP.overlap(mF) || CP.overlap(SP)) {
+				return null;
+			}
 		}
 
-		assert !SP.overlap(mF) && !CP.overlap(SP);
 		return new NCSB(NP, CP, SP, BP);
 	}
 	
