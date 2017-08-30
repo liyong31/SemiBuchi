@@ -4,9 +4,9 @@ import main.Options;
 import util.IntSet;
 import util.PowerSet;
 
-class SuccessorGenerator {
+class SuccessorGenerator3 {
 	
-	private boolean mIsCurrBEmpty;
+	private final NCSB mCurrNCSB;
 	private final NCSB mSuccNCSB;
 	
 	private IntSet mMinusFSuccs;
@@ -16,7 +16,6 @@ class SuccessorGenerator {
 	
 	private IntSet mNPrime;  // d(N)\F\B'\S'
 	private IntSet mVPrime;  // d(C) \/ (d(N) /\ F)
-	private IntSet mMustIn;  // must in states in C/B
 	private IntSet mSPrime;  // d(S)
 	private IntSet mBPrime;  // d(B)
 	
@@ -27,10 +26,10 @@ class SuccessorGenerator {
 	private boolean hasSuccessors = true;
 	
 		
-	public SuccessorGenerator(boolean isBEmpty, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
-		this.mIsCurrBEmpty = isBEmpty;
+	public SuccessorGenerator3(NCSB curr, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
+		this.mCurrNCSB = curr;
 		this.mSuccNCSB = succ;
-				
+		
 		this.mMinusFSuccs = minusFSuccs;
 		this.mInterFSuccs = interFSuccs;
 		this.mF = f;
@@ -54,31 +53,13 @@ class SuccessorGenerator {
 		// B successors
 		mBPrime =  mSuccNCSB.copyBSet();
 		
-		// compute must in states
-		if(Options.optNCSB) {
-			// lazy NCSB initialization
-			if(mIsCurrBEmpty) {
-				mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
-				// must in states computation
-				mMustIn = mSuccNCSB.copyCSet();
-				mMustIn.and(mF);                  // d(C) /\ F
-				mMustIn.or(nInterFSuccs);         // d(C\/N) /\F
-			}else {
-				mMustIn = mInterFSuccs.clone(); // d(B/\F)
-				mMustIn.and(mF);                // d(B/\F) /\F
-				mMustIn.or(mMinusFSuccs);       // d(B\F) \/ (d(B/\F) /\F)
-			}
-		}else {
-			// original NCSB
-			mMustIn = mInterFSuccs.clone(); // d(C/\F)
-			mMustIn.and(mF);                // d(C/\F) /\F
-			mMustIn.or(mMinusFSuccs);       // d(C\F) \/ (d(C/\F) /\F)
-			mMustIn.or(nInterFSuccs);       // d(C\F) \/ (d(C/\F) /\F) \/ (d(N)\/ F)
+		if(Options.optNCSB && mCurrNCSB.getBSet().isEmpty()) {
+			mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
 		}
 		
-		// compute nondeterministic states from mInterFSuccs
+		// Original NCSB, distribute states in mInterFSuccs to S'
 		mInterFSuccs.andNot(mMinusFSuccs);     // remove must-in C (B) states
-		mInterFSuccs.andNot(mSPrime);          // remove must in S states
+//		mInterFSuccs.andNot(mSPrime);          // remove must in S states
 		mInterFSuccs.andNot(mF);               // remove final states 
 
 		mPs = new PowerSet(mInterFSuccs);
@@ -92,9 +73,8 @@ class SuccessorGenerator {
 	}
 	
 	public NCSB next() {
-		IntSet statesToS = mPs.next(); // extra states to be added into S'
-		IntSet left = mInterFSuccs.clone();
-		left.andNot(statesToS);
+		IntSet Sextra = mPs.next(); // extra states to be added into S'
+		
 		// this is implementation for NCSB 
 		IntSet NP = mNPrime;
 		IntSet CP =  null;
@@ -102,23 +82,23 @@ class SuccessorGenerator {
 		IntSet BP = null;
 		
 		if(Options.optNCSB) {
-			if(mIsCurrBEmpty) {
+			if(mCurrNCSB.getBSet().isEmpty()) {
 				// as usual S and C
-				CP = mMustIn.clone();
-				CP.or(left); // C' get extra
+				CP = mVPrime.clone();
+				CP.andNot(Sextra); // C' get extra
 				if(Options.optBeqC) {
 					BP = CP;
 				}else {
 					// following is d(C) /\ C'
 					BP = mSuccNCSB.copyCSet(); 
-					BP.and(CP);   // B'= d(C) /\ C'
+					BP.andNot(Sextra);   // B'= d(C) /\ C'
 				}
-				SP.or(statesToS); // S'=d(S)\/(V'\C')
+				SP.or(Sextra); // S'=d(S)\/(V'\C')
 			}else {
 				// B is not empty
-				SP.or(statesToS); // d(S) \/ M'
+				SP.or(Sextra); // d(S) \/ M'
 				BP = mBPrime.clone();
-				BP.andNot(statesToS); // B'=d(B)\M'
+				BP.andNot(Sextra); // B'=d(B)\M'
 				CP = mVPrime.clone();
 				CP.andNot(SP); // C'= V'\S'
 			}
@@ -129,14 +109,14 @@ class SuccessorGenerator {
 
 		}else {
 			// original NCSB
-			CP = mMustIn.clone();
-			CP.or(left);
-			SP.or(statesToS);
-			if(mIsCurrBEmpty) {
+			CP = mVPrime.clone();
+			CP.andNot(Sextra);
+			SP.or(Sextra);
+			if(mCurrNCSB.getBSet().isEmpty()) {
 				BP =  CP;
 			}else {
 				BP =  mBPrime.clone();
-				BP.and(CP);
+				BP.andNot(Sextra);
 			}
 			
 			if(SP.overlap(mF) || CP.overlap(SP)) {

@@ -101,7 +101,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	
 	private IntSet computeSuccessors(NCSB succNCSB, IntSet minusFSuccs
 			, IntSet interFSuccs, int hier, int letter) {
-		SuccessorGenerator generator = new SuccessorGenerator(mNCSB
+		SuccessorGenerator generator = new SuccessorGenerator(mNCSB.getBSet().isEmpty()
 															, succNCSB
 															, minusFSuccs
 															, interFSuccs
