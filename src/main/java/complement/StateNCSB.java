@@ -240,7 +240,12 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 			SPrime.or(Sextra);
 			IntSet BPrime = null;
 			if(currBSet.isEmpty()) {
-				BPrime =  CPrime.clone();
+				if(Options.optBeqC) {
+					BPrime = CPrime.clone();
+				}else {
+					BPrime = CSuccs.clone();
+					BPrime.and(CPrime);
+				}
 			}else {
 				BPrime =  Bp.clone();
 				BPrime.andNot(Sextra);

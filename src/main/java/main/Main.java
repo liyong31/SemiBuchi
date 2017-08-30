@@ -65,6 +65,8 @@ public class Main {
 				complement = true;
 				fileOut = args[i + 1];
 				++ i;	
+			}else if(args[i].equals("-beqc")) {
+				Options.optBeqC = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -91,6 +93,7 @@ public class Main {
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-test: Test all benchmarks");
 		System.out.println("-opt: Use Optimized NCSB complementation by word distribution on B");
+		System.out.println("-beqc: The way to set B primed states");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
