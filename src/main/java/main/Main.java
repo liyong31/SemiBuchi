@@ -195,7 +195,7 @@ public class Main {
 		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
 		                                    + "," + buchi.getNumTransition()
 		                                    + "," + buchi.getAlphabetSize() 
-		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "") + "+" + UtilIntSet.getSetType()
+		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "") + (!Options.optBeqC ? "+dc": "") + "+" + UtilIntSet.getSetType()
 		                                    + "," + buchiComplement.getStateSize()
 		                                    + "," + buchiComplement.getNumTransition()
 		                                    + "," + time);
