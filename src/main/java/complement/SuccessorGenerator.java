@@ -122,10 +122,7 @@ class SuccessorGenerator {
 				CP.andNot(SP); // C'= V'\S'
 			}
 			
-			if(SP.overlap(mF) || BP.overlap(SP)) {
-				System.out.println("Lazy NONO");
-				return null;
-			}
+			assert !SP.overlap(mF) && !BP.overlap(SP) : "S:" + SP.toString() + " B:" + BP.toString();
 
 		}else {
 			// original NCSB
@@ -144,9 +141,7 @@ class SuccessorGenerator {
 				BP.and(CP);
 			}
 			
-			if(SP.overlap(mF) || CP.overlap(SP)) {
-				return null;
-			}
+			assert !SP.overlap(mF) && !CP.overlap(SP) : "S:" + SP.toString() + " C:" + CP.toString();
 		}
 
 		return new NCSB(NP, CP, SP, BP);
