@@ -16,11 +16,9 @@ class SuccessorGenerator {
 	
 	private IntSet mNPrime;  // d(N)\F\B'\S'
 	private IntSet mVPrime;  // d(C) \/ (d(N) /\ F)
-	private IntSet mMustIn;  // must in states in C/B
+	private IntSet mMustIn;  // must in states in C or B
 	private IntSet mSPrime;  // d(S)
 	private IntSet mBPrime;  // d(B)
-	
-//	private IntSet mNInterFSuccs;
 	
 	private PowerSet mPs;
 	
@@ -36,6 +34,14 @@ class SuccessorGenerator {
 		this.mF = f;
 		
 		// initialization
+		initialize();
+		
+		// d(C\F) /\ d(S) or d(B/\F) /\ d(S) should be empty
+		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
+	}
+	
+	private void initialize() {
+		
 		// N'
 		mNPrime =  this.mSuccNCSB.copyNSet();
 		mNPrime.andNot(mF);                    // remove final states
@@ -49,10 +55,10 @@ class SuccessorGenerator {
 		mVPrime.or(nInterFSuccs);       // d(C) \/ (d(N) /\ F)
 		
 		// S successors
-		mSPrime =  mSuccNCSB.copySSet();
+		mSPrime =  mSuccNCSB.getSSet();
 		
 		// B successors
-		mBPrime =  mSuccNCSB.copyBSet();
+		mBPrime =  mSuccNCSB.getBSet();
 		
 		// compute must in states
 		if(Options.optNCSB) {
@@ -83,8 +89,6 @@ class SuccessorGenerator {
 
 		mPs = new PowerSet(mInterFSuccs);
 		
-		// d(C\F) /\ d(S) or d(B/\F) should be empty
-		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
 	}
 	
 	public boolean hasNext() {
@@ -92,9 +96,9 @@ class SuccessorGenerator {
 	}
 	
 	public NCSB next() {
-		IntSet statesToS = mPs.next(); // extra states to be added into S'
+		IntSet toS = mPs.next(); // extra states to be added into S'
 		IntSet left = mInterFSuccs.clone();
-		left.andNot(statesToS);
+		left.andNot(toS);
 		// this is implementation for NCSB 
 		IntSet NP = mNPrime;
 		IntSet CP =  null;
@@ -102,6 +106,7 @@ class SuccessorGenerator {
 		IntSet BP = null;
 		
 		if(Options.optNCSB) {
+			SP.or(toS); // S'=d(S)\/M'
 			if(mIsCurrBEmpty) {
 				// as usual S and C
 				CP = mMustIn.clone();
@@ -113,17 +118,16 @@ class SuccessorGenerator {
 					BP = mSuccNCSB.copyCSet(); 
 					BP.and(CP);   // B'= d(C) /\ C'
 				}
-				SP.or(statesToS); // S'=d(S)\/(V'\C')
 			}else {
 				// B is not empty
-				SP.or(statesToS); // d(S) \/ M'
-				BP = mBPrime.clone();
-				BP.andNot(statesToS); // B'=d(B)\M'
+				BP = mMustIn.clone();
+				BP.or(left); // B'=d(B)\M'
 				CP = mVPrime.clone();
 				CP.andNot(SP); // C'= V'\S'
 			}
 			
 			if(SP.overlap(mF) || BP.overlap(SP)) {
+				System.out.println("Lazy NONO");
 				return null;
 			}
 
@@ -131,7 +135,7 @@ class SuccessorGenerator {
 			// original NCSB
 			CP = mMustIn.clone();
 			CP.or(left);
-			SP.or(statesToS);
+			SP.or(toS);
 			if(mIsCurrBEmpty) {
 				BP =  CP;
 			}else {

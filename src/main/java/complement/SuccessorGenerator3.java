@@ -6,7 +6,7 @@ import util.PowerSet;
 
 class SuccessorGenerator3 {
 	
-	private final NCSB mCurrNCSB;
+	private boolean mIsCurrBEmpty;
 	private final NCSB mSuccNCSB;
 	
 	private IntSet mMinusFSuccs;
@@ -26,8 +26,8 @@ class SuccessorGenerator3 {
 	private boolean hasSuccessors = true;
 	
 		
-	public SuccessorGenerator3(NCSB curr, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
-		this.mCurrNCSB = curr;
+	public SuccessorGenerator3(boolean isCurrBEmpty, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
+		this.mIsCurrBEmpty = isCurrBEmpty;
 		this.mSuccNCSB = succ;
 		
 		this.mMinusFSuccs = minusFSuccs;
@@ -53,7 +53,7 @@ class SuccessorGenerator3 {
 		// B successors
 		mBPrime =  mSuccNCSB.copyBSet();
 		
-		if(Options.optNCSB && mCurrNCSB.getBSet().isEmpty()) {
+		if(Options.optNCSB && mIsCurrBEmpty) {
 			mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
 		}
 		
@@ -82,7 +82,7 @@ class SuccessorGenerator3 {
 		IntSet BP = null;
 		
 		if(Options.optNCSB) {
-			if(mCurrNCSB.getBSet().isEmpty()) {
+			if(mIsCurrBEmpty) {
 				// as usual S and C
 				CP = mVPrime.clone();
 				CP.andNot(Sextra); // C' get extra
@@ -112,7 +112,7 @@ class SuccessorGenerator3 {
 			CP = mVPrime.clone();
 			CP.andNot(Sextra);
 			SP.or(Sextra);
-			if(mCurrNCSB.getBSet().isEmpty()) {
+			if(mIsCurrBEmpty) {
 				BP =  CP;
 			}else {
 				BP =  mBPrime.clone();
