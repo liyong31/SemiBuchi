@@ -47,7 +47,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		if(super.getEnabledLetters().contains(letter)) {
 			return super.getSuccessors(letter);
 		}
-		
+
 		// B
 		SuccessorResult succResult = collectSuccessors(mNCSB.getBSet(), letter, true);
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
@@ -61,6 +61,7 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 		succResult = collectSuccessors(cMinusB, letter, !Options.optNCSB);
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
 		IntSet CSuccs = succResult.mSuccs;
+		CSuccs.or(BSuccs);
 		minusFSuccs.or(succResult.mMinusFSuccs);
 		interFSuccs.or(succResult.mInterFSuccs);
 		

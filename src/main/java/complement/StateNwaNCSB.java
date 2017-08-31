@@ -101,6 +101,10 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	
 	private IntSet computeSuccessors(NCSB succNCSB, IntSet minusFSuccs
 			, IntSet interFSuccs, int hier, int letter) {
+        // d_a(S) /\ F and d_a(S) /\ must-in states should be empty
+		if(succNCSB.getSSet().overlap(mComplement.getFinalDeckers())
+		|| minusFSuccs.overlap(succNCSB.getSSet())) return UtilIntSet.newIntSet();
+		
 		SuccessorGenerator generator = new SuccessorGenerator(mNCSB.getBSet().isEmpty()
 															, succNCSB
 															, minusFSuccs
@@ -158,9 +162,6 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		// Compute the successors of S
 		resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getSSet(), letter, false);
 		IntSet SSuccs = resultSucc.mSuccs;
-		
-        // d_a(S) /\ F should be empty
-		if(SSuccs.overlap(mComplement.getFinalDeckers())) return UtilIntSet.newIntSet();
 		
         return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, -1, letter);
 	}
@@ -232,9 +233,6 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getSSet(), hierDoubleDeckers, letter, false);
 		if(! resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
 		IntSet SSuccs = resultSucc.mSuccs;
-		
-        // d_a(S) /\ F should be empty
-		if(SSuccs.overlap(mComplement.getFinalDeckers())) return UtilIntSet.newIntSet();
 		
         return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, hier, letter);
 	}

@@ -103,6 +103,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
         	if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString());
+        	
         	for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
         		IntSet succs = s.getSuccessors(i);
         		iter = succs.iterator();

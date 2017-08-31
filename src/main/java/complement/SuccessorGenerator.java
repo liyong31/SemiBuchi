@@ -20,10 +20,7 @@ class SuccessorGenerator {
 	private IntSet mSPrime;  // d(S)
 	private IntSet mBPrime;  // d(B)
 	
-	private PowerSet mPs;
-	
-	private boolean hasSuccessors = true;
-	
+	private PowerSet mPs;	
 		
 	public SuccessorGenerator(boolean isBEmpty, NCSB succ, IntSet minusFSuccs, IntSet interFSuccs, IntSet f) {
 		this.mIsCurrBEmpty = isBEmpty;
@@ -88,12 +85,10 @@ class SuccessorGenerator {
 
 		mPs = new PowerSet(mInterFSuccs);
 		
-		// d(C\F) /\ d(S) or d(B/\F) /\ d(S) should be empty
-		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
 	}
 	
 	public boolean hasNext() {
-		return hasSuccessors && mPs.hasNext();
+		return mPs.hasNext();
 	}
 	
 	public NCSB next() {
@@ -138,7 +133,12 @@ class SuccessorGenerator {
 			CP.or(left);
 			SP.or(toS);
 			if(mIsCurrBEmpty) {
-				BP =  CP;
+				if(Options.optBeqC) {
+					BP = CP;
+				}else {
+					BP = mSuccNCSB.copyCSet();
+					BP.and(CP);
+				}
 			}else {
 				BP =  mBPrime.clone();
 				BP.and(CP);
