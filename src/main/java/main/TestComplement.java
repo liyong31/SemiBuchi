@@ -40,6 +40,8 @@ public class TestComplement {
 			}else if(args[i].contains(".ba")) {
 				fileIn = new File(args[i]);
 				parser = UtilParser.getSinleParser(ParserType.BA);
+			}else if(args[i].equals("-beqc")) {
+				Options.optBeqC = true;
 			}
 		}
 		
@@ -55,7 +57,7 @@ public class TestComplement {
 		System.out.println("complement BA: \n" + buchiComplement.toBA());
 		System.out.println("complement ATS: \n");
 		buchiComplement.toATS(System.out, parser.getAlphabet());
-		System.out.println("\n\nNCSB" + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
+		System.out.println("\n\nNCSB" + (!Options.optBeqC ? "+dc": "") + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
 		
 	}
 
@@ -70,6 +72,7 @@ public class TestComplement {
 		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet\n"
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-opt: Use Optimized NCSB complementation by word distribution on B");
+		System.out.println("-beqc: The way to set B primed states");
 
 	}
 }
