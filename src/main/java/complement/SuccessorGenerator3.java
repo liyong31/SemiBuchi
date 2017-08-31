@@ -3,7 +3,9 @@ package complement;
 import main.Options;
 import util.IntSet;
 import util.PowerSet;
-
+/**
+ * Original implementation of successor generator 
+ * */
 class SuccessorGenerator3 {
 	
 	private boolean mIsCurrBEmpty;
