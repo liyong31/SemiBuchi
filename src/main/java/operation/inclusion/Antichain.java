@@ -46,10 +46,10 @@ public class Antichain {
 			StateNCSB s = sndElem.get(i);
 			//pairs covered by the new pair
 			//will not be kept in copy
-			if(s.coveredBy(snd)) {
+			if(s.getNCSB().coveredBy(snd.getNCSB())) {
 				mTask.increaseDelPairInAntichain();
 				continue;
-			}else if(snd.coveredBy(s)) {
+			}else if(snd.getNCSB().coveredBy(s.getNCSB())) {
 				// no need to add it
 				mTask.increaseRejPairByAntichain();
 				return false;
@@ -69,7 +69,7 @@ public class Antichain {
 		StateNCSB snd = pair.getSndElement();
 		for(int i = 0; i < sndElem.size(); i ++) {
 			StateNCSB s = sndElem.get(i);
-			if(snd.coveredBy(s)) { // no need to add it
+			if(snd.getNCSB().coveredBy(s.getNCSB())) { // no need to add it
 				return true;
 			}
 		}

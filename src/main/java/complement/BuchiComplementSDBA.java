@@ -43,7 +43,8 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		// TODO get also the initial states where initial state is also final state
 		IntSet csets = mOperand.getInitialStates().clone();
 		csets.and(mOperand.getFinalStates()); // goto C
-		state.setSets(mOperand.getInitialStates(), csets, UtilIntSet.newIntSet(), csets);
+		NCSB ncsb = new NCSB(mOperand.getInitialStates(), csets, UtilIntSet.newIntSet(), csets);
+		state.setNCSB(ncsb);
 		if(csets.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
@@ -51,21 +52,21 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	}
 	
 
-	protected StateNCSB addState(IntSet N, IntSet C, IntSet S, IntSet B) {
+	protected StateNCSB addState(NCSB ncsb) {
 		
 		StateNCSB state = new StateNCSB(0, this);
-		state.setSets(N, C, S, B);
+		state.setNCSB(ncsb);
 		
 		if(mState2Int.containsKey(state)) {
 			return (StateNCSB) getState(mState2Int.get(state));
 		}else {
 			int index = getStateSize();
 			StateNCSB newState = new StateNCSB(index, this);
-			newState.setSets(N, C, S, B);
+			newState.setNCSB(ncsb);
 			int id = this.addState(newState);
 			mState2Int.put(newState, id);
 			
-			if(B.isEmpty()) setFinal(index);
+			if(ncsb.getBSet().isEmpty()) setFinal(index);
 			
 			return newState;
 		}

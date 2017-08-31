@@ -50,12 +50,12 @@ public class InclusionPairNCSB implements IPair<Integer, StateNCSB>{
 	// by definition, if true, the language of this pair is covered 
 	public boolean coveredBy(InclusionPairNCSB other) {
 		return mFstStateId == other.mFstStateId
-		  &&  mSndState.coveredBy(other.mSndState);
+		  &&  mSndState.getNCSB().coveredBy(other.mSndState.getNCSB());
 	}
 	
 	public boolean strictlyCoveredBy(InclusionPairNCSB other) {
 		return mFstStateId == other.mFstStateId
-				  &&  mSndState.strictlyCoveredBy(other.mSndState);
+				  &&  mSndState.getNCSB().strictlyCoveredBy(other.mSndState.getNCSB());
 	}
 	
 	@Override

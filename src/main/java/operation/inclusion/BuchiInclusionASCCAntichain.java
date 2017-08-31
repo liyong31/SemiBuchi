@@ -120,7 +120,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 				flags.set(0);
 			}
 			
-			if(pair.getSndElement().getBSet().isEmpty()) {
+			if(pair.getSndElement().getNCSB().getBSet().isEmpty()) {
 				flags.set(1);
 			}
 			

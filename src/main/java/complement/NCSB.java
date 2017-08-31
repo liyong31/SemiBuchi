@@ -73,13 +73,36 @@ public class NCSB {
 		return  contentEqual(ncsb);
 	}
 	
-	public boolean contentEqual(NCSB ncsb) {
+	private boolean contentEqual(NCSB ncsb) {
 		if(! mNSet.equals(ncsb.mNSet)
 		|| ! mCSet.equals(ncsb.mCSet)
 		|| ! mSSet.equals(ncsb.mSSet)
 		|| ! mBSet.equals(ncsb.mBSet)) {
 			return false;
 		}
+		return true;
+	}
+	
+
+	public boolean coveredBy(NCSB other) {
+		if(! other.mNSet.subsetOf(mNSet)
+		|| ! other.mCSet.subsetOf(mCSet)
+		|| ! other.mSSet.subsetOf(mSSet)) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	// this.N >= other.N & this.C >= other.C & this.S >= other.S & this.B >= other.B
+	public boolean strictlyCoveredBy(NCSB other) {
+		if(! other.mNSet.subsetOf(mNSet)
+		|| ! other.mCSet.subsetOf(mCSet)
+		|| ! other.mSSet.subsetOf(mSSet)
+		|| ! other.mBSet.subsetOf(mBSet)) {
+			return false;
+		}
+
 		return true;
 	}
 	

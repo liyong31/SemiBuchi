@@ -148,7 +148,7 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			while(iter.hasNext()) {
 			    int u = iter.next();
 				StateNCSB stateU = (StateNCSB) mBuchiComplement.getState(u);
-				if(stateU.coveredBy(stateT)) return true;
+				if(stateU.getNCSB().coveredBy(stateT.getNCSB())) return true;
 			}
 			return false;
 		}
