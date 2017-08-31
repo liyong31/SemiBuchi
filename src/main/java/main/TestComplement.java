@@ -53,6 +53,8 @@ public class TestComplement {
 		buchiComplement.explore();
 		System.out.println("complement dot: \n" + buchiComplement.toDot());
 		System.out.println("complement BA: \n" + buchiComplement.toBA());
+		System.out.println("complement ATS: \n");
+		buchiComplement.toATS(System.out, parser.getAlphabet());
 		System.out.println("\n\nNCSB" + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
 		
 	}

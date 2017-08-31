@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import util.IntIterator;
 import util.IntSet;
@@ -191,6 +192,66 @@ public interface IBuchi {
 			}
 		}
 		return num;
+	}
+	
+	default public void toATS(PrintStream out, List<String> alphabet) {
+		final String PRE_BLANK = "   "; 
+		final String ITEM_BLANK = " ";
+		final String LINE_END = "},";
+		final String BLOCK_END = "\n" + PRE_BLANK + "}";
+		final String TRANS_PRE_BLANK = PRE_BLANK + "   "; 
+		out.println("FiniteAutomaton result = (");
+		
+        
+        out.print(PRE_BLANK + "alphabet = {");
+        for(int i = 0; i < this.getAlphabetSize(); i ++) {
+        	out.print(alphabet.get(i) + ITEM_BLANK);
+        }
+        out.println(LINE_END);
+        
+        // states
+		Collection<IState> states = getStates();
+		out.print(PRE_BLANK + "states = {");
+		for(IState state : states) {
+			out.print("s" + state.getId() + ITEM_BLANK);
+        }	
+        out.println(LINE_END);
+        // initial states
+        IntSet initialStates = getInitialStates();
+        IntIterator iter = initialStates.iterator();
+        out.print(PRE_BLANK + "initialStates = {");
+        while(iter.hasNext()) {
+        	int id = iter.next();
+        	out.print("s" + id + ITEM_BLANK);
+        }
+        out.println(LINE_END);
+        
+        // final states
+        IntSet finalStates = getFinalStates();
+        iter = finalStates.iterator();
+        out.print(PRE_BLANK + "finalStates = {");
+        while(iter.hasNext()) {
+        	int id = iter.next();
+        	out.print("s" + id + ITEM_BLANK);
+        }
+        out.println(LINE_END);
+        
+        // call transitions
+        out.print(PRE_BLANK + "transitions = {");
+		for(IState state : states) {
+			Set<Integer> letters = state.getEnabledLetters();
+			for(Integer letter : letters) {
+				IntSet succs = state.getSuccessors(letter);
+            	IntIterator iterInner = succs.iterator();
+            	while(iterInner.hasNext()) {
+            		int succ = iterInner.next();
+            		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
+            	}
+            }
+        }
+		out.println(BLOCK_END);
+       		
+		out.println(");");
 	}
 	
 	// a Buchi automaton is semideterministic if all transitions after the accepting states are deterministic
