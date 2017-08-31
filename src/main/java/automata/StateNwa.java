@@ -87,13 +87,13 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	}
 
 	@Override
-	public IntSet getSuccessorsReturn(int pred, int letter) {
+	public IntSet getSuccessorsReturn(int hier, int letter) {
 		assert mBuchi.getAlphabetReturn().get(letter);
 		Map<Integer, IntSet> succMap = mSuccessorsReturn.get(letter);
 		if(succMap == null) {
 			return UtilIntSet.newIntSet();
 		}
-		return getSuccessors(succMap, pred);
+		return getSuccessors(succMap, hier);
 	}
 
 	@Override

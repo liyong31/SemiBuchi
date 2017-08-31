@@ -55,7 +55,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		return  this.mNCSB.equals(state.mNCSB);
 	}
 	
-	private IntSet visitedLetters = UtilIntSet.newIntSet();
+//	private IntSet visitedLetters = UtilIntSet.newIntSet();
 	
 	/** 
 	 * compute the successor deckers for internal/call transition 
@@ -125,7 +125,6 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	}
 	
 	private IntSet computeSuccCallOrInternal(int letter) {
-		visitedLetters.set(letter);
 		
 		IntSet minusFSuccs = UtilIntSet.newIntSet();
 		IntSet interFSuccs = UtilIntSet.newIntSet();
@@ -169,6 +168,9 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	@Override
 	public IntSet getSuccessorsInternal(int letter) {
 		assert mComplement.getAlphabetInternal().get(letter);
+		if(super.getEnabledLettersInternal().contains(letter)) {
+			return super.getSuccessorsInternal(letter);
+		}
 		return computeSuccCallOrInternal(letter);
 	}
 	
@@ -182,11 +184,13 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	@Override
 	public IntSet getSuccessorsCall(int letter) {
 		assert mComplement.getAlphabetCall().get(letter);
+		if(super.getEnabledLettersCall().contains(letter)) {
+			return super.getSuccessorsCall(letter);
+		}
 		return computeSuccCallOrInternal(letter);
 	}
 	
 	private IntSet computeSuccReturn(int hier, int letter) {
-		visitedLetters.set(letter);
 		
 		StateNwaNCSB hierState = (StateNwaNCSB) mComplement.getState(hier);
 		NCSB hierNCSB = hierState.getNCSB();
@@ -238,6 +242,10 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	@Override
 	public IntSet getSuccessorsReturn(int hier, int letter) {
 		assert mComplement.getAlphabetReturn().get(letter);
+		if(super.getEnabledLettersReturn().contains(letter)
+		&& super.getEnabledHiersReturn(letter).contains(hier)) {
+			return super.getSuccessorsReturn(hier, letter);
+		}
 		return computeSuccReturn(hier, letter);
 	}
 	
