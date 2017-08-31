@@ -35,9 +35,6 @@ class SuccessorGenerator {
 		
 		// initialization
 		initialize();
-		
-		// d(C\F) /\ d(S) or d(B/\F) /\ d(S) should be empty
-		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
 	}
 	
 	private void initialize() {
@@ -60,7 +57,9 @@ class SuccessorGenerator {
 		// B successors
 		mBPrime =  mSuccNCSB.getBSet();
 		
-		// compute must in states
+		// compute must in (C/B) states
+		// in order not to mess up the code with the description 
+		// some lines may repeat in different situation
 		if(Options.optNCSB) {
 			// lazy NCSB initialization
 			if(mIsCurrBEmpty) {
@@ -68,18 +67,18 @@ class SuccessorGenerator {
 				// must in states computation
 				mMustIn = mSuccNCSB.copyCSet();
 				mMustIn.and(mF);                  // d(C) /\ F
-				mMustIn.or(nInterFSuccs);         // d(C\/N) /\F
+				mMustIn.or(nInterFSuccs);         // C_under = d(C\/N) /\F
 			}else {
 				mMustIn = mInterFSuccs.clone(); // d(B/\F)
 				mMustIn.and(mF);                // d(B/\F) /\F
-				mMustIn.or(mMinusFSuccs);       // d(B\F) \/ (d(B/\F) /\F)
+				mMustIn.or(mMinusFSuccs);       // B_under = d(B\F) \/ (d(B/\F) /\F)
 			}
 		}else {
 			// original NCSB
 			mMustIn = mInterFSuccs.clone(); // d(C/\F)
 			mMustIn.and(mF);                // d(C/\F) /\F
 			mMustIn.or(mMinusFSuccs);       // d(C\F) \/ (d(C/\F) /\F)
-			mMustIn.or(nInterFSuccs);       // d(C\F) \/ (d(C/\F) /\F) \/ (d(N)\/ F)
+			mMustIn.or(nInterFSuccs);       // C_under = d(C\F) \/ (d(C/\F) /\F) \/ (d(N)\/ F)
 		}
 		
 		// compute nondeterministic states from mInterFSuccs
@@ -89,6 +88,8 @@ class SuccessorGenerator {
 
 		mPs = new PowerSet(mInterFSuccs);
 		
+		// d(C\F) /\ d(S) or d(B/\F) /\ d(S) should be empty
+		hasSuccessors = !mMinusFSuccs.overlap(mSPrime);
 	}
 	
 	public boolean hasNext() {
