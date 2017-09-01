@@ -62,7 +62,7 @@ public class BuchiWa implements IBuchiWa {
 
 	@Override
 	public IntSet getInitialStates() {
-		return mInitStates.clone();
+		return mInitStates;
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class BuchiWa implements IBuchiWa {
 
 	@Override
 	public IntSet getFinalStates() {
-		return mFinalStates.clone();
+		return mFinalStates;
 	}
 
 	@Override
