@@ -74,12 +74,6 @@ public class StateWaNCSB extends StateWa implements IStateComplement {
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
 		IntSet SSuccs = succResult.mSuccs;
 		
-		// check d(S) and d(C)
-		if(SSuccs.overlap(mOperand.getFinalStates())
-		|| minusFSuccs.overlap(SSuccs)) {
-			return UtilIntSet.newIntSet();
-		}
-		
 		return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, letter);
 	}
 	
@@ -136,6 +130,11 @@ public class StateWaNCSB extends StateWa implements IStateComplement {
 	
 	private IntSet computeSuccessors(NCSB succNCSB, IntSet minusFSuccs
 			, IntSet interFSuccs, int letter) {
+		// check d(S) and d(C)
+		if(succNCSB.getSSet().overlap(mOperand.getFinalStates())
+		|| minusFSuccs.overlap(succNCSB.getSSet())) {
+			return UtilIntSet.newIntSet();
+		}
 		SuccessorGenerator generator = new SuccessorGenerator(mNCSB.getBSet().isEmpty()
 															, succNCSB
 															, minusFSuccs
