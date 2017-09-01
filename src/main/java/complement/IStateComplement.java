@@ -1,11 +1,11 @@
 package complement;
 
-import automata.IBuchi;
-import automata.IState;
+import automata.IBuchiWa;
+import automata.IStateWa;
 
-public interface IStateComplement extends IState {
+public interface IStateComplement extends IStateWa {
 	
-	IBuchi getOperand();
+	IBuchiWa getOperand();
 	
-	IBuchi getComplement();
+	IBuchiWa getComplement();
 }

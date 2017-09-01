@@ -1,6 +1,5 @@
 package complement;
 
-import automata.IBuchi;
 import automata.IBuchiWa;
 import automata.StateWa;
 
@@ -56,12 +55,12 @@ public class StateNCSB1 extends StateWa implements IStateComplement {
 	}
 
 	@Override
-	public IBuchi getOperand() {
+	public IBuchiWa getOperand() {
 		return this.mOperand;
 	}
 
 	@Override
-	public IBuchi getComplement() {
+	public IBuchiWa getComplement() {
 		return mComplement;
 	}
 	
