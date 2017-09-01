@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.IBuchi;
-import automata.IState;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
@@ -15,7 +15,7 @@ import util.UtilIntSet;
 
 public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 	
-	private final IBuchi mBuchi;
+	private final IBuchiWa mBuchi;
 	private int mIndex;
 	private final IntStack mStateStack;
 	private final Map<Integer,Integer> mIndexMap ;
@@ -25,7 +25,7 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 	private final Timer mTimer;
 	private Boolean mIsEmpty = true;
 	
-	public BuchiIsEmptyTarjanOriginal(IBuchi buchi, int timeLimit) {
+	public BuchiIsEmptyTarjanOriginal(IBuchiWa buchi, int timeLimit) {
 		
 		this.mBuchi = buchi;
 		this.TIME_LIMIT  = timeLimit;
@@ -69,7 +69,7 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 		mLowlinkMap.put(v, mIndex);
 		++ mIndex;			
 		
-		IState state = mBuchi.getState(v);
+		IStateWa state = mBuchi.getState(v);
 		//TODO only get enabled letters
 		for(int letter = 0; letter < mBuchi.getAlphabetSize(); letter ++) {
 			IntSet succs = state.getSuccessors(letter);
@@ -100,7 +100,7 @@ public class BuchiIsEmptyTarjanOriginal implements BuchiIsEmpty {
 			if(scc.cardinality() == 1 // only has a single state
 					&& hasAcc        // it is an accepting states
 					) {
-				IState s = mBuchi.getState(v);
+				IStateWa s = mBuchi.getState(v);
 				boolean hasSelfLoop = false;
 				for(Integer letter : s.getEnabledLetters()) {
 					if(s.getSuccessors(letter).get(v)) hasSelfLoop = true;

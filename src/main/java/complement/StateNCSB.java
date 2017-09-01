@@ -1,23 +1,22 @@
 package complement;
 
-import automata.IBuchi;
-
-import automata.StateGeneral;
+import automata.IBuchiWa;
+import automata.StateWa;
 
 import main.Options;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateNCSB extends StateGeneral implements IStateComplement {
+public class StateNCSB extends StateWa implements IStateComplement {
 
 
 	private NCSB mNCSB;
 	
-	private final IBuchi mOperand;
-	private final BuchiComplementSDBA mComplement;
+	private final IBuchiWa mOperand;
+	private final BuchiWaComplement mComplement;
 	
-	public StateNCSB(int id, BuchiComplementSDBA complement) {
+	public StateNCSB(int id, BuchiWaComplement complement) {
 		super(id);
 		this.mComplement = complement;
 		this.mOperand = complement.getOperand();
@@ -33,12 +32,12 @@ public class StateNCSB extends StateGeneral implements IStateComplement {
 	}
 
 	@Override
-	public IBuchi getOperand() {
+	public IBuchiWa getOperand() {
 		return this.mOperand;
 	}
 
 	@Override
-	public IBuchi getComplement() {
+	public IBuchiWa getComplement() {
 		return mComplement;
 	}	
 	

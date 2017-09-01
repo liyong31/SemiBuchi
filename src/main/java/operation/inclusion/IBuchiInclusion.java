@@ -2,22 +2,22 @@ package operation.inclusion;
 
 import java.util.List;
 
-import automata.IBuchi;
-import automata.IState;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import complement.IBuchiComplement;
 import util.IPair;
 
 public interface IBuchiInclusion {
 	
-	IBuchi getFstBuchi();
-	IBuchi getSndBuchi();
+	IBuchiWa getFstBuchi();
+	IBuchiWa getSndBuchi();
 	IBuchiComplement getSndBuchiComplement();
-	IBuchi getBuchiDifference();
+	IBuchiWa getBuchiDifference();
 	
 	Boolean isIncluded();
 	
     IPair<List<Integer>, List<Integer>> getCounterexampleWord();
-    IPair<List<IState>, List<IState>> getCounterexampleRun();
+    IPair<List<IStateWa>, List<IStateWa>> getCounterexampleRun();
     
     String getName();
 

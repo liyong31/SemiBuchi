@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
+
+import automata.BuchiWa;
+
+import automata.IBuchiWa;
 import util.PairXX;
 import util.parser.ParserType;
 import util.parser.SingleParser;
@@ -20,7 +22,7 @@ import util.parser.UtilParser;
 
 public class BAFileParser implements SingleParser {
 	
-	IBuchi mBuchi;	
+	IBuchiWa mBuchi;	
 	private Map<String, Integer> mAlphabetMap;
 	private Map<String, Integer> mStateMap;
 	
@@ -38,7 +40,7 @@ public class BAFileParser implements SingleParser {
 	}
 	
 	@Override
-	public IBuchi getBuchi() {
+	public IBuchiWa getBuchi() {
 		return mBuchi;
 	}
 	
@@ -60,7 +62,7 @@ public class BAFileParser implements SingleParser {
 	}
 	
 	protected void parseEnd() {
-		mBuchi = new BuchiGeneral(mAlphabetMap.size());
+		mBuchi = new BuchiWa(mAlphabetMap.size());
 		boolean allFinal = mFinals.isEmpty();
 		for(int i = 0; i < mStateMap.size(); i ++) {
 			mBuchi.addState();

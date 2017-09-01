@@ -9,17 +9,17 @@ import java.util.List;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class BuchiGeneral implements IBuchi {
+public class BuchiWa implements IBuchiWa {
 
 	private final IntSet mInitStates;
 	
 	private final IntSet mFinalStates;
 	
-	private final List<IState> mStates;
+	private final List<IStateWa> mStates;
 	
 	private final int mAlphabetSize;
 		
-	public BuchiGeneral(int alphabetSize) {
+	public BuchiWa(int alphabetSize) {
 		this.mAlphabetSize = alphabetSize;
 		this.mInitStates  = UtilIntSet.newIntSet();
 		this.mFinalStates = UtilIntSet.newIntSet();
@@ -28,29 +28,32 @@ public class BuchiGeneral implements IBuchi {
 	
 	@Override
 	public int getAlphabetSize() {
-		// TODO Auto-generated method stub
 		return mAlphabetSize;
 	}
 
 	@Override
-	public IState addState() {
+	public IStateWa addState() {
 		int id = mStates.size();
-		mStates.add(new StateGeneral(id));
+		mStates.add(new StateWa(id));
 		return mStates.get(id);
+	}
+	
+	@Override
+	public IStateWa makeState(int id) {
+		return new StateWa(id);
 	}
 	
 	/** should keep it safe */
 	@Override
-	public int addState(IState state) {
-		// TODO Auto-generated method stub
+	public int addState(IStateWa state) {
 		int id = mStates.size();
 		mStates.add(state);
 		return id;
 	}
 
 	@Override
-	public IState getState(int id) {
-		// TODO Auto-generated method stub
+	public IStateWa getState(int id) {
+		assert id < mStates.size();
 		if(id < mStates.size()) {
 			return mStates.get(id);
 		}
@@ -59,49 +62,41 @@ public class BuchiGeneral implements IBuchi {
 
 	@Override
 	public IntSet getInitialStates() {
-		// TODO Auto-generated method stub
 		return mInitStates.clone();
 	}
 
 	@Override
 	public boolean isInitial(int id) {
-		// TODO Auto-generated method stub
 		return mInitStates.get(id);
 	}
 
 	@Override
 	public boolean isFinal(int id) {
-		// TODO Auto-generated method stub
 		return mFinalStates.get(id);
 	}
 
 	@Override
 	public void setInitial(int id) {
-		// TODO Auto-generated method stub
 		mInitStates.set(id);
 	}
 
 	@Override
 	public void setFinal(int id) {
-		// TODO Auto-generated method stub
 		mFinalStates.set(id);
 	}
 
 	@Override
-	public Collection<IState> getStates() {
-		// TODO Auto-generated method stub
+	public Collection<IStateWa> getStates() {
 		return Collections.unmodifiableList(mStates);
 	}
 
 	@Override
 	public IntSet getFinalStates() {
-		// TODO Auto-generated method stub
 		return mFinalStates.clone();
 	}
 
 	@Override
 	public int getStateSize() {
-		// TODO Auto-generated method stub
 		return mStates.size();
 	}
 	
@@ -111,7 +106,6 @@ public class BuchiGeneral implements IBuchi {
 
 	@Override
 	public IntSet getSuccessors(int state, int letter) {
-		// TODO Auto-generated method stub
 		return mStates.get(state).getSuccessors(letter);
 	}
 
@@ -128,10 +122,10 @@ public class BuchiGeneral implements IBuchi {
 	@Override
 	public void makeComplete() {
 		// TODO Auto-generated method stub
-		IState deadState = addState();;
-		Iterator<IState> iter = mStates.iterator();
+		IStateWa deadState = addState();
+		Iterator<IStateWa> iter = mStates.iterator();
 		while(iter.hasNext()) {
-			IState state = iter.next();
+			IStateWa state = iter.next();
             for (int letter = 0; letter < getAlphabetSize(); letter ++) {
             	IntSet succs = state.getSuccessors(letter);
             	if(succs.cardinality() == 0) {

@@ -2,9 +2,9 @@ package operation.inclusion;
 
 import java.util.List;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
-import automata.IState;
+import automata.BuchiWa;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import complement.IBuchiComplement;
 import main.RunRabit;
 import main.TaskInclusion;
@@ -12,23 +12,23 @@ import util.IPair;
 
 public class BuchiInclusionRABIT implements IBuchiInclusion {
 
-	private final IBuchi mFstOperand;
-	private final IBuchi mSndOperand;
+	private final IBuchiWa mFstOperand;
+	private final IBuchiWa mSndOperand;
 	private final TaskInclusion mTask;
 	
-	public BuchiInclusionRABIT(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionRABIT(TaskInclusion task, IBuchiWa fstOp, IBuchiWa sndOp) {
 		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
 	}
 	@Override
-	public IBuchi getFstBuchi() {
+	public IBuchiWa getFstBuchi() {
 		// TODO Auto-generated method stub
 		return mFstOperand;
 	}
 
 	@Override
-	public IBuchi getSndBuchi() {
+	public IBuchiWa getSndBuchi() {
 		// TODO Auto-generated method stub
 		return mSndOperand;
 	}
@@ -40,9 +40,9 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	}
 
 	@Override
-	public IBuchi getBuchiDifference() {
+	public IBuchiWa getBuchiDifference() {
 		// TODO Auto-generated method stub
-		return new BuchiGeneral(1);
+		return new BuchiWa(1);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	}
 
 	@Override
-	public IPair<List<IState>, List<IState>> getCounterexampleRun() {
+	public IPair<List<IStateWa>, List<IStateWa>> getCounterexampleRun() {
 		// TODO Auto-generated method stub
 		return null;
 	}

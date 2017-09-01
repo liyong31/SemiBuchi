@@ -19,7 +19,10 @@ import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplement {
+/**
+ * Only valid for semi-deterministic Buchi nesed word automata
+ * */
+public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement {
 
 	private final IBuchiNwa mOperand;
 	private final TObjectIntMap<DoubleDecker> mDeckerMap;
@@ -29,7 +32,7 @@ public class BuchiNwaComplementSDBA extends BuchiNwa implements IBuchiNwaComplem
 	private final IntSet mFinalDeckers;
 	private final int EMPTY_DOWN = -1;
 	
-	public BuchiNwaComplementSDBA(IBuchiNwa buchi) {
+	public BuchiNwaComplement(IBuchiNwa buchi) {
 		super(buchi.getAlphabetCall(), buchi.getAlphabetInternal(), buchi.getAlphabetReturn());
 		this.mOperand = buchi;
 		this.mDeckerMap = new TObjectIntHashMap<>();

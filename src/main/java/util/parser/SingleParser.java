@@ -1,9 +1,9 @@
 package util.parser;
 
-import automata.IBuchi;
+import automata.IBuchiWa;
 
 public interface SingleParser extends Parser {
 	
-	IBuchi getBuchi();
+	IBuchiWa getBuchi();
 
 }

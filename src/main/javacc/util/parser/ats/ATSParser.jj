@@ -3,15 +3,15 @@
  */options{
   JDK_VERSION = "1.8";  static = false;}PARSER_BEGIN(ATSParser)package util.parser.ats;
 
-import automata.IBuchi;
-import automata.IState;
-import automata.BuchiGeneral;
+import automata.IBuchiWa;
+import automata.IStateWa;
+import automata.BuchiWa;
 
 import util.parser.ats.ATSFileParser;
 
 public class ATSParser{
 
-  private IBuchi buchi;
+  private IBuchiWa buchi;
 
   private ATSFileParser parser ;
   
@@ -48,7 +48,7 @@ public class ATSParser{
 
 private void parseFile() :
 {
-  IBuchi fst, snd;
+  IBuchiWa fst, snd;
 }
 {
   (
@@ -83,7 +83,7 @@ private void parseAutomaton() :
 
   parseAlphabet()
   {
-    buchi = new BuchiGeneral(parser.getAlphabetSize());
+    buchi = new BuchiWa(parser.getAlphabetSize());
   }
   parseStates()
   parseInitStates()
@@ -133,7 +133,7 @@ private void parseStates() :
     stateStr = <STRING>
     {
       String state = stateStr.toString();
-      IState st = buchi.addState();
+      IStateWa st = buchi.addState();
       parser.putState(state, st.getId());
     }
   )+
@@ -210,7 +210,7 @@ private void parseTransitions() :
     targetStr = <STRING>
     {
       targetId = parser.getStateId(targetStr.toString());
-      IState state = buchi.getState(sourceId);
+      IStateWa state = buchi.getState(sourceId);
       state.addSuccessor(letter, targetId);
     }
     <RIGHTPARA>

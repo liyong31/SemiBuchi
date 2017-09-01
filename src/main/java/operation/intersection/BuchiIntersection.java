@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import automata.Acc;
-import automata.BuchiGeneral;
-import automata.IBuchi;
+import automata.BuchiWa;
+import automata.IBuchiWa;
 
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -14,14 +14,14 @@ import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class BuchiIntersection extends BuchiGeneral implements IBuchiIntersection {
+public class BuchiIntersection extends BuchiWa implements IBuchiIntersection {
 
-	private final IBuchi mFstOperand;
-	private final IBuchi mSndOperand;
+	private final IBuchiWa mFstOperand;
+	private final IBuchiWa mSndOperand;
 	
 	private final TObjectIntMap<StateIntersection> mState2Int = new TObjectIntHashMap<>();
 		
-	public BuchiIntersection(IBuchi fstOp, IBuchi sndOp) {
+	public BuchiIntersection(IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(fstOp.getAlphabetSize());
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
@@ -29,17 +29,17 @@ public class BuchiIntersection extends BuchiGeneral implements IBuchiIntersectio
 	}
 	
 	@Override
-	public IBuchi getFstBuchi() {
+	public IBuchiWa getFstBuchi() {
 		return mFstOperand;
 	}
 
 	@Override
-	public IBuchi getSndBuchi() {
+	public IBuchiWa getSndBuchi() {
 		return mSndOperand;
 	}
 
 	@Override
-	public IBuchi getIntersection() {
+	public IBuchiWa getIntersection() {
 		return this;
 	}
 	

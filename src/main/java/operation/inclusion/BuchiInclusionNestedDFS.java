@@ -4,9 +4,9 @@ import java.util.BitSet;
 import java.util.List;
 import java.util.Stack;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
-import automata.IState;
+import automata.BuchiWa;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import complement.StateNCSB;
 import main.TaskInclusion;
 import util.IPair;
@@ -16,7 +16,7 @@ import util.IntSet;
 public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	
 
-	public BuchiInclusionNestedDFS(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionNestedDFS(TaskInclusion task, IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(task, fstOp, sndOp);
 	}
 	
@@ -27,7 +27,7 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 	}
 
 	@Override
-	public IPair<List<IState>, List<IState>> getCounterexampleRun() {
+	public IPair<List<IStateWa>, List<IStateWa>> getCounterexampleRun() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -112,7 +112,7 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 						// pair (X, Y)
 						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);
-						IState stateSucc = getOrAddState(pairSucc);
+						IStateWa stateSucc = getOrAddState(pairSucc);
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
 						// now current successor is stateSucc
 						if(! mFstTable.get(stateSucc.getId())) fstDFS(stateSucc.getId());
@@ -163,7 +163,7 @@ public class BuchiInclusionNestedDFS extends BuchiInclusion {
 						// pair (X, Y)
 						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);
-						IState stateSucc = getOrAddState(pairSucc);
+						IStateWa stateSucc = getOrAddState(pairSucc);
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
 						// now current successor is stateSucc
 						if(existLoop(stateSucc.getId()) && ! mFstFinalInSndStack.isEmpty()) {

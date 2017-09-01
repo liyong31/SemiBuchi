@@ -1,10 +1,10 @@
 package util.parser;
 
-import automata.IBuchi;
+import automata.IBuchiWa;
 
 public interface DoubleParser extends Parser {
 	
-	IBuchi getFstBuchi();
-	IBuchi getSndBuchi();
+	IBuchiWa getFstBuchi();
+	IBuchiWa getSndBuchi();
 
 }

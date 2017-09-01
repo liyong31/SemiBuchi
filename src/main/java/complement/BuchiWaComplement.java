@@ -5,9 +5,9 @@ import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
-import automata.IState;
+import automata.BuchiWa;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import main.Options;
@@ -16,15 +16,15 @@ import util.IntSet;
 import util.UtilIntSet;
 
 /**
- * only valid for semi-deterministic Buchi automaton
+ * only valid for semi-deterministic Buchi word automata
  * */
-public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplement {
+public class BuchiWaComplement extends BuchiWa implements IBuchiComplement {
 
-	private final IBuchi mOperand;
+	private final IBuchiWa mOperand;
 	
 	private final List<IntSet> mOpTransUsed;
 	
-	public BuchiComplementSDBA(IBuchi buchi) {
+	public BuchiWaComplement(IBuchiWa buchi) {
 		super(buchi.getAlphabetSize());
 		// TODO Auto-generated constructor stub
 		this.mOperand = buchi;
@@ -73,8 +73,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	}
 
 	@Override
-	public IBuchi getOperand() {
-		// TODO Auto-generated method stub
+	public IBuchiWa getOperand() {
 		return mOperand;
 	}
 	
@@ -87,7 +86,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 		
 		mExplored = true;
 		
-		LinkedList<IState> walkList = new LinkedList<>();
+		LinkedList<IStateWa> walkList = new LinkedList<>();
 		IntSet initialStates = getInitialStates();
 		
 		IntIterator iter = initialStates.iterator();
@@ -99,7 +98,7 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
         BitSet visited = new BitSet();
         
         while(! walkList.isEmpty()) {
-        	IState s = walkList.remove();
+        	IStateWa s = walkList.remove();
         	if(visited.get(s.getId())) continue;
         	visited.set(s.getId());
         	if(Options.verbose) System.out.println("s"+ s.getId() + ": " + s.toString());
@@ -121,7 +120,6 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 
 	@Override
 	public void useOpTransition(int letter, IntSet states) {
-		// TODO Auto-generated method stub
 		this.mOpTransUsed.get(letter).or(states);
 	}
 

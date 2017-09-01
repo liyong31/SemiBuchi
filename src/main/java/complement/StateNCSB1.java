@@ -1,8 +1,8 @@
 package complement;
 
 import automata.IBuchi;
-
-import automata.StateGeneral;
+import automata.IBuchiWa;
+import automata.StateWa;
 
 import main.Options;
 import util.IntIterator;
@@ -10,7 +10,7 @@ import util.IntSet;
 import util.PowerSet;
 import util.UtilIntSet;
 
-public class StateNCSB1 extends StateGeneral implements IStateComplement {
+public class StateNCSB1 extends StateWa implements IStateComplement {
 
 
 	private IntSet mNSet;
@@ -18,10 +18,10 @@ public class StateNCSB1 extends StateGeneral implements IStateComplement {
 	private IntSet mSSet;
 	private IntSet mBSet;
 	
-	private final IBuchi mOperand;
-	private final BuchiComplementSDBA mComplement;
+	private final IBuchiWa mOperand;
+	private final BuchiWaComplement mComplement;
 	
-	public StateNCSB1(int id, BuchiComplementSDBA complement) {
+	public StateNCSB1(int id, BuchiWaComplement complement) {
 		super(id);
 		// TODO Auto-generated constructor stub
 		this.mComplement = complement;

@@ -12,9 +12,7 @@ import util.UtilIntSet;
 /**
  * Buchi nested word automata 
  * */
-public interface IBuchiNwa {
-	
-	Acc getAcceptance();
+public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	
 	IntSet getAlphabetInternal();
 	
@@ -26,45 +24,6 @@ public interface IBuchiNwa {
 	default public int getNwaAlphabetSize() {
 		return getAlphabetInternal().cardinality() + getAlphabetCall().cardinality() + getAlphabetReturn().cardinality();
 	}
-	
-	int getStateSize();
-	
-	IStateNwa addState();
-	
-	int addState(IStateNwa state);
-	
-	IStateNwa getState(int id);
-	
-	IStateNwa makeState(int id);
-	
-	IntSet getInitialStates();
-
-	IntSet getFinalStates();
-	
-	
-	default public boolean isInitial(IStateNwa s) {
-		return isInitial(s.getId());
-	}
-	
-	boolean isInitial(int id);
-	
-	default public boolean isFinal(IStateNwa s) {
-		return isFinal(s.getId());
-	}
-	
-	boolean isFinal(int id);
-	
-	default public void setInitial(IStateNwa s) {
-		setInitial(s.getId());
-	}
-	
-	void setInitial(int id);
-	
-	default public void setFinal(IStateNwa s) {
-		setFinal(s.getId());
-	}
-	
-	void setFinal(int id);
 	
 	// should use functional programming to following three 
 	default public IntSet getSuccessorsInternal(IntSet states, int letter) {
@@ -249,6 +208,35 @@ public interface IBuchiNwa {
 			}
 		}
 		return num;
+	}
+	
+	@Override
+	default public void makeComplete() {
+		assert false : "unsupported function in nested word automata" ;
+	}
+
+	@Override
+	default public String toDot() {
+		assert false : "unsupported function in nested word automata" ;
+		return null;
+	}
+	
+	@Override
+	default public String toBA() {
+		assert false : "unsupported function in nested word automata" ;
+		return null;
+	}
+
+	@Override
+	default public boolean isSemiDeterministic() {
+		assert false : "unsupported function in nested word automata" ;
+		return false;
+	}
+
+	@Override
+	default public boolean isDeterministic(int state) {
+		assert false : "unsupported function in nested word automata" ;
+		return false;
 	}
 	
 	

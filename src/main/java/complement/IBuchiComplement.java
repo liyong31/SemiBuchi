@@ -1,11 +1,11 @@
 package complement;
 
 
-import automata.IBuchi;
+import automata.IBuchiWa;
 import util.IntSet;
 
-public interface IBuchiComplement extends IBuchi {
-	IBuchi getOperand();
+public interface IBuchiComplement extends IBuchiWa {
+	IBuchiWa getOperand();
 	void useOpTransition(int letter, IntSet states);
 	int getNumUsedOpTransition();
 }

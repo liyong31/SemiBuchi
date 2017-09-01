@@ -1,27 +1,27 @@
 package operation.universality;
 
 
-import automata.IBuchi;
-import complement.BuchiComplementSDBA;
+import automata.IBuchiWa;
+import complement.BuchiWaComplement;
 
 public abstract class BuchiUniversality implements IBuchiUniversality {
 	
-	protected IBuchi mBuchi;
-	protected BuchiComplementSDBA mBuchiComplement;
+	protected IBuchiWa mBuchi;
+	protected BuchiWaComplement mBuchiComplement;
 	
-	public BuchiUniversality(IBuchi buchi) {
+	public BuchiUniversality(IBuchiWa buchi) {
 		this.mBuchi = buchi;
-		this.mBuchiComplement = new BuchiComplementSDBA(buchi);
+		this.mBuchiComplement = new BuchiWaComplement(buchi);
 	}
 
 	@Override
-	public IBuchi getBuchi() {
+	public IBuchiWa getBuchi() {
 		// TODO Auto-generated method stub
 		return mBuchi;
 	}
 
 	@Override
-	public IBuchi getBuchiComplement() {
+	public IBuchiWa getBuchiComplement() {
 		// TODO Auto-generated method stub
 		return mBuchiComplement;
 	}

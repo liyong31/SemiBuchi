@@ -1,6 +1,6 @@
 package operation.inclusion;
 
-import automata.StateGeneral;
+import automata.StateWa;
 import complement.StateNCSB;
 import util.IPair;
 
@@ -9,7 +9,7 @@ public class InclusionPairNCSB implements IPair<Integer, StateNCSB>{
 	private final int mFstStateId;
 	private final StateNCSB mSndState;
 		
-	public InclusionPairNCSB(StateGeneral fstState, StateNCSB sndState) {
+	public InclusionPairNCSB(StateWa fstState, StateNCSB sndState) {
 		this.mFstStateId = fstState.getId();
 		this.mSndState = sndState;
 	}

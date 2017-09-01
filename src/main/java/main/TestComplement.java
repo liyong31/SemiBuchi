@@ -1,15 +1,12 @@
 package main;
 
 import java.io.File;
-import java.util.List;
 
-import automata.IBuchi;
-import complement.BuchiComplementSDBA;
-import util.PairXX;
+import automata.IBuchiWa;
+import complement.BuchiWaComplement;
 import util.parser.ParserType;
 import util.parser.SingleParser;
 import util.parser.UtilParser;
-import util.parser.ats.ATSFileParser;
 
 public class TestComplement {
 	
@@ -46,12 +43,12 @@ public class TestComplement {
 		}
 		
 		parser.parse(fileIn.getAbsolutePath());
-		IBuchi buchi = parser.getBuchi();
+		IBuchiWa buchi = parser.getBuchi();
 //		if(Options.optNCSB) buchi.makeComplete();
 		System.out.println("original dot: \n" + buchi.toDot());
 		System.out.println("original BA: \n" + buchi.toBA());
 		System.out.println("isSemiDeterministic: " + buchi.isSemiDeterministic());
-		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
+		BuchiWaComplement buchiComplement = new BuchiWaComplement(buchi);
 		buchiComplement.explore();
 		System.out.println("complement dot: \n" + buchiComplement.toDot());
 		System.out.println("complement BA: \n" + buchiComplement.toBA());

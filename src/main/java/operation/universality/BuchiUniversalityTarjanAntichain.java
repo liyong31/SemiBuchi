@@ -4,7 +4,9 @@ import java.util.BitSet;
 import java.util.List;
 
 import automata.IBuchi;
+import automata.IBuchiWa;
 import automata.IState;
+import automata.IStateWa;
 import util.IPair;
 import util.IntArray;
 import util.IntIterator;
@@ -14,7 +16,7 @@ import util.Timer;
 
 public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 
-	public BuchiUniversalityTarjanAntichain(IBuchi buchi) {
+	public BuchiUniversalityTarjanAntichain(IBuchiWa buchi) {
 		super(buchi);
 		// TODO Auto-generated constructor stub
 	}
@@ -94,7 +96,7 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 			
 			mTable.set(n);
 			
-			IState state = mBuchiComplement.getState(n);
+			IStateWa state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
 				IntSet succs = state.getSuccessors(letter);

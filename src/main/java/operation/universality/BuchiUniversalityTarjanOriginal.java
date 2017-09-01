@@ -3,13 +3,14 @@ package operation.universality;
 import java.util.List;
 
 import automata.IBuchi;
+import automata.IBuchiWa;
 import operation.emptiness.BuchiIsEmpty;
 import operation.emptiness.BuchiIsEmptyTarjanOriginal;
 import util.IPair;
 
 public class BuchiUniversalityTarjanOriginal extends BuchiUniversality {
 
-	public BuchiUniversalityTarjanOriginal(IBuchi buchi) {
+	public BuchiUniversalityTarjanOriginal(IBuchiWa buchi) {
 		super(buchi);
 		// TODO Auto-generated constructor stub
 	}

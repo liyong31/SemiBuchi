@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.BuchiGeneral;
 import automata.IBuchi;
+import automata.IBuchiWa;
 import automata.IState;
+import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
@@ -18,7 +19,7 @@ import util.Timer;
 // by Andreas Gaiser and Stefan Schwoon
 public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 	
-	private final IBuchi mBuchi;
+	private final IBuchiWa mBuchi;
 	private int mDepth;
 	private final IntStack mRootsStack;             // C99 's root stack
 	private final IntStack mActiveStack;            // tarjan's stack
@@ -28,7 +29,7 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 	private final Timer mTimer;
 	private Boolean mIsEmpty = true;
 	
-	public BuchiIsEmptyASCC(IBuchi buchi, int timeLimit) {
+	public BuchiIsEmptyASCC(IBuchiWa buchi, int timeLimit) {
 		
 		this.mBuchi = buchi;
 		this.TIME_LIMIT = timeLimit;
@@ -73,7 +74,7 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 		mActiveStack.push(n);
 		mCurrent.set(n);
 		
-		IState state = mBuchi.getState(n);
+		IStateWa state = mBuchi.getState(n);
 		//TODO only get enabled letters
 		for(int letter = 0; letter < mBuchi.getAlphabetSize(); letter ++) {
 			IntSet succs = state.getSuccessors(letter);

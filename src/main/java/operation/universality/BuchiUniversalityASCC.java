@@ -2,14 +2,15 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchi;
+
+import automata.IBuchiWa;
 import operation.emptiness.BuchiIsEmpty;
 import operation.emptiness.BuchiIsEmptyASCC;
 import util.IPair;
 
 public class BuchiUniversalityASCC extends BuchiUniversality {
 
-	public BuchiUniversalityASCC(IBuchi buchi) {
+	public BuchiUniversalityASCC(IBuchiWa buchi) {
 		super(buchi);
 		// TODO Auto-generated constructor stub
 	}

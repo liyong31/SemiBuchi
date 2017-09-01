@@ -3,8 +3,8 @@ package operation.universality;
 import java.util.BitSet;
 import java.util.List;
 
-import automata.IBuchi;
-import automata.IState;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import complement.StateNCSB;
 import util.IPair;
 import util.IntIterator;
@@ -15,7 +15,7 @@ import util.Timer;
 // only plain nested DFS
 public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 
-	public BuchiUniversalityNestedDFSAntichain(IBuchi buchi) {
+	public BuchiUniversalityNestedDFSAntichain(IBuchiWa buchi) {
 		super(buchi);
 		// TODO Auto-generated constructor stub
 	}
@@ -82,7 +82,7 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			mFstStack.push(n);
 			mFstTable.set(n);
 			
-			IState state = mBuchiComplement.getState(n);
+			IStateWa state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
 				IntSet succs = state.getSuccessors(letter);
@@ -114,7 +114,7 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			mSndStack.push(n);
 			mSndTable.set(n);
 
-			IState state = mBuchiComplement.getState(n);
+			IStateWa state = mBuchiComplement.getState(n);
 			//TODO only get enabled letters
 			for(int letter = 0; letter < mBuchiComplement.getAlphabetSize(); letter ++) {
 				IntSet succs = state.getSuccessors(letter);

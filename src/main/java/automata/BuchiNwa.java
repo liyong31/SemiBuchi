@@ -134,4 +134,5 @@ public class BuchiNwa implements IBuchiNwa {
 		return new StateNwa(this, id);
 	}
 
+
 }

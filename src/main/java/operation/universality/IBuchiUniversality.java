@@ -2,15 +2,15 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchi;
+import automata.IBuchiWa;
 import util.IPair;
 
 // check whether given Buchi accepts \sigma^\omega
 
 public interface IBuchiUniversality {
 	
-	IBuchi getBuchi();
-	IBuchi getBuchiComplement();
+	IBuchiWa getBuchi();
+	IBuchiWa getBuchiComplement();
 	
 	Boolean isUniversal();
 	

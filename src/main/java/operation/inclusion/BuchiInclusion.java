@@ -6,10 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
+import automata.BuchiWa;
+import automata.IBuchiWa;
 import automata.IState;
-import complement.BuchiComplementSDBA;
+import automata.IStateWa;
+import complement.BuchiWaComplement;
 import complement.IBuchiComplement;
 import complement.StateNCSB;
 import main.TaskInclusion;
@@ -18,20 +19,20 @@ import util.IntIterator;
 
 public abstract class BuchiInclusion implements IBuchiInclusion{
 	
-	protected final IBuchi mFstOperand;
-	protected final IBuchi mSndOperand;
-	protected final BuchiComplementSDBA mSndComplement;
+	protected final IBuchiWa mFstOperand;
+	protected final IBuchiWa mSndOperand;
+	protected final BuchiWaComplement mSndComplement;
 	
-	protected final IBuchi mResult;
+	protected final IBuchiWa mResult;
 	// use antichain to accelerate inclusion check
 	protected final TaskInclusion mTask;
 	
-	protected BuchiInclusion(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
+	protected BuchiInclusion(TaskInclusion task, IBuchiWa fstOp, IBuchiWa sndOp) {
 		this.mTask = task;
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
-		this.mSndComplement = new BuchiComplementSDBA(sndOp);
-		this.mResult = new BuchiGeneral(fstOp.getAlphabetSize());
+		this.mSndComplement = new BuchiWaComplement(sndOp);
+		this.mResult = new BuchiWa(fstOp.getAlphabetSize());
 		this.mTask.setOperation(this);
 		computeInitalStates();
 	}
@@ -45,19 +46,19 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 		    	int snd = sndIter.next();
 				StateNCSB sndState = (StateNCSB)mSndComplement.getState(snd);
 				InclusionPairNCSB pair = new InclusionPairNCSB(fst, sndState);
-				IState state = getOrAddState(pair);
+				IStateWa state = getOrAddState(pair);
 				mResult.setInitial(state);
 			}
 		}
 	}
 
-	protected final Map<InclusionPairNCSB, IState> mPairStateMap = new HashMap<>();
+	protected final Map<InclusionPairNCSB, IStateWa> mPairStateMap = new HashMap<>();
 	protected final BitSet mFstFinalStates = new BitSet();
 	protected final BitSet mSndFinalStates = new BitSet();
 	protected final List<InclusionPairNCSB> mPairNCSBArray = new ArrayList<>();
 	
-	protected IState getOrAddState(InclusionPairNCSB pair) {
-		IState state = mPairStateMap.get(pair);
+	protected IStateWa getOrAddState(InclusionPairNCSB pair) {
+		IStateWa state = mPairStateMap.get(pair);
 		if(state == null) {
 			state = mResult.addState();
 			mPairNCSBArray.add(pair);
@@ -72,12 +73,12 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	
 	
 	@Override
-	public IBuchi getFstBuchi() {
+	public IBuchiWa getFstBuchi() {
 		return mFstOperand;
 	}
 	
 	@Override
-	public IBuchi getSndBuchi() {
+	public IBuchiWa getSndBuchi() {
 		return mSndOperand;
 	}
 
@@ -87,7 +88,7 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 	
 	@Override
-	public IBuchi getBuchiDifference() {
+	public IBuchiWa getBuchiDifference() {
 		return mResult;
 	}
 

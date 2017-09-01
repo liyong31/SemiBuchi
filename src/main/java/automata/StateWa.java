@@ -10,11 +10,11 @@ import util.UtilIntSet;
 
 
 //TODO deal with automata with large alphabet
-public class StateGeneral implements IState, Comparable<StateGeneral> {
+public class StateWa implements IStateWa, Comparable<StateWa> {
 
 	private final int mId;
 	private final Map<Integer, IntSet> mSuccessors;
-	public StateGeneral(int id) {
+	public StateWa(int id) {
 		this.mId = id;
 		this.mSuccessors = new HashMap<>();
 	}
@@ -49,15 +49,15 @@ public class StateGeneral implements IState, Comparable<StateGeneral> {
 	}
 
 	@Override
-	public int compareTo(StateGeneral other) {
+	public int compareTo(StateWa other) {
 		return mId - other.mId;
 	}
 	
 	public boolean equals(Object other) {
-		if(!(other instanceof StateGeneral)) {
+		if(!(other instanceof StateWa)) {
 			return false;
 		}
-		StateGeneral otherState = (StateGeneral)other;
+		StateWa otherState = (StateWa)other;
 		return otherState.mId == this.mId;
 	}
 	

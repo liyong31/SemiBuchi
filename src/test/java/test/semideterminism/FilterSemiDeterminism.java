@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import automata.IBuchi;
+import automata.IBuchiWa;
 import util.PairXX;
 import util.parser.ats.ATSFileParser;
 
@@ -23,7 +24,7 @@ public class FilterSemiDeterminism {
 		
 		File fileDir = new File(dir);
 		List<String> nonSemiDetFiles = new ArrayList<>();
-		List<IBuchi> buchis = new ArrayList<>();
+		List<IBuchiWa> buchis = new ArrayList<>();
 		
 		int numSemiDets = 0;
 		for(File f : fileDir.listFiles( )) {
@@ -49,10 +50,10 @@ public class FilterSemiDeterminism {
 	private static boolean isSemiDeterministic(File file) {
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(file.getAbsolutePath());
-		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
+		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
 		boolean isSemiDet = false;
-		for(PairXX<IBuchi> pair : pairs) {
-			IBuchi buchi = pair.getSndElement();
+		for(PairXX<IBuchiWa> pair : pairs) {
+			IBuchiWa buchi = pair.getSndElement();
 			System.out.println(buchi.toDot());
 
 			isSemiDet = buchi.isSemiDeterministic();

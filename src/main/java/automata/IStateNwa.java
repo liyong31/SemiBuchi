@@ -7,9 +7,7 @@ import util.IntSet;
 /**
  * State interface of nested word automata
  * */
-public interface IStateNwa {
-	
-	int getId();
+public interface IStateNwa extends IState {
 
 	// setters
 	void addSuccessorInternal(int letter, int state);
@@ -32,12 +30,4 @@ public interface IStateNwa {
 	Set<Integer> getEnabledLettersReturn();
 	
 	Set<Integer> getEnabledHiersReturn(int letter);
-
-	// ----- general requirements
-	boolean equals(Object otherState);
-	
-	int hashCode();
-	
-	String toString();
-
 }

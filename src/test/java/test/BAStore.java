@@ -1,15 +1,15 @@
 package test;
 
-import automata.BuchiGeneral;
-import automata.IState;
+import automata.BuchiWa;
+import automata.IStateWa;
 
 public class BAStore {
 	
-	public static BuchiGeneral getA() {
+	public static BuchiWa getA() {
 		
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
+		BuchiWa buchi = new BuchiWa(2);
+		IStateWa aState = buchi.addState();
+		IStateWa bState = buchi.addState();
 		
 		aState.addSuccessor(0, aState.getId());	
 		aState.addSuccessor(0, bState.getId());		
@@ -25,10 +25,10 @@ public class BAStore {
 		return buchi;
 	}
 	
-	public static BuchiGeneral getB() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
+	public static BuchiWa getB() {
+		BuchiWa buchi = new BuchiWa(2);
+		IStateWa aState = buchi.addState();
+		IStateWa bState = buchi.addState();
 		
 		aState.addSuccessor(0, bState.getId());		
 
@@ -41,10 +41,10 @@ public class BAStore {
 		return buchi;
 	}
 	
-	public static BuchiGeneral getC() {
-		BuchiGeneral buchi = new BuchiGeneral(2);
-		IState aState = buchi.addState();
-		IState bState = buchi.addState();
+	public static BuchiWa getC() {
+		BuchiWa buchi = new BuchiWa(2);
+		IStateWa aState = buchi.addState();
+		IStateWa bState = buchi.addState();
 		
 		aState.addSuccessor(0, bState.getId());		
 
@@ -56,9 +56,9 @@ public class BAStore {
 	}
 	
 	// full set
-	public static BuchiGeneral getD() {
-		BuchiGeneral buchi = new BuchiGeneral(1);
-		IState aState = buchi.addState();
+	public static BuchiWa getD() {
+		BuchiWa buchi = new BuchiWa(1);
+		IStateWa aState = buchi.addState();
 		
 		aState.addSuccessor(0, aState.getId());		
 		
@@ -68,9 +68,9 @@ public class BAStore {
 	}
 	
 	// empty
-	public static BuchiGeneral getE() {
-		BuchiGeneral buchi = new BuchiGeneral(1);
-		IState aState = buchi.addState();
+	public static BuchiWa getE() {
+		BuchiWa buchi = new BuchiWa(1);
+		IStateWa aState = buchi.addState();
 		
 		aState.addSuccessor(0, aState.getId());	
 		

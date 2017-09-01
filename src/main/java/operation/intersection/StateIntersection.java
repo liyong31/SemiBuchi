@@ -1,13 +1,13 @@
 package operation.intersection;
 
 
-import automata.IBuchi;
-import automata.StateGeneral;
+import automata.IBuchiWa;
+import automata.StateWa;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateIntersection extends StateGeneral {
+public class StateIntersection extends StateWa {
 
 	private final BuchiIntersection mBuchiIntersection;
 	
@@ -66,8 +66,8 @@ public class StateIntersection extends StateGeneral {
 		
 		visitedLetters.set(letter);
 		// compute successors
-		IBuchi fstOp = mBuchiIntersection.getFstBuchi();
-		IBuchi sndOp = mBuchiIntersection.getSndBuchi();
+		IBuchiWa fstOp = mBuchiIntersection.getFstBuchi();
+		IBuchiWa sndOp = mBuchiIntersection.getSndBuchi();
 		IntSet fstSuccs = fstOp.getState(mLeft).getSuccessors(letter);
 		IntSet sndSuccs = sndOp.getState(mRight).getSuccessors(letter);
 		

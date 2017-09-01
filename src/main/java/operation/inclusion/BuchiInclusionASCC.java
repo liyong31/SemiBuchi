@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import automata.BuchiGeneral;
-import automata.IState;
-import automata.IBuchi;
+import automata.BuchiWa;
+import automata.IStateWa;
+import automata.IBuchiWa;
 import complement.StateNCSB;
 import main.TaskInclusion;
 import util.IPair;
@@ -25,7 +25,7 @@ import util.Timer;
  * **/
 public class BuchiInclusionASCC extends BuchiInclusion {
 		
-	public BuchiInclusionASCC(TaskInclusion task, IBuchi fstOp, IBuchi sndOp) {
+	public BuchiInclusionASCC(TaskInclusion task, IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(task, fstOp, sndOp);
 	}
 		
@@ -49,7 +49,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 	}
 
 	@Override
-	public IPair<List<IState>, List<IState>> getCounterexampleRun() {
+	public IPair<List<IStateWa>, List<IStateWa>> getCounterexampleRun() {
 		return null;
 	}
 	
@@ -139,7 +139,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 						// pair (X, Y)
 						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);
-						IState stateSucc = getOrAddState(pairSucc);
+						IStateWa stateSucc = getOrAddState(pairSucc);
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
 						if(! mDfsNum.containsKey(stateSucc.getId())){
 							dfs(stateSucc.getId());

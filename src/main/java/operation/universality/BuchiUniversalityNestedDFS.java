@@ -2,14 +2,14 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchi;
+import automata.IBuchiWa;
 import operation.emptiness.BuchiIsEmpty;
 import operation.emptiness.BuchiIsEmptyNestedDFS;
 import util.IPair;
 
 public class BuchiUniversalityNestedDFS extends BuchiUniversality {
 
-	public BuchiUniversalityNestedDFS(IBuchi buchi) {
+	public BuchiUniversalityNestedDFS(IBuchiWa buchi) {
 		super(buchi);
 		// TODO Auto-generated constructor stub
 	}

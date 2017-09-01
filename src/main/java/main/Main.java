@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 
 import automata.IBuchi;
-
-import complement.BuchiComplementSDBA;
+import automata.IBuchiWa;
+import complement.BuchiWaComplement;
 import operation.inclusion.BuchiInclusionASCC;
 import operation.inclusion.BuchiInclusionASCCAntichain;
 import operation.inclusion.BuchiInclusionComplement;
@@ -133,9 +133,9 @@ public class Main {
 		if(Options.verbose) System.out.println("Parsing file " + file.getName() + " ....");
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(file.getAbsolutePath());
-		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
+		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
 				
-		for(PairXX<IBuchi> pair : pairs) {
+		for(PairXX<IBuchiWa> pair : pairs) {
 			task = new TaskInclusion(file.getName(), time);
 			if(tarjan) {
 				task.setOperation(new BuchiInclusionComplement(task, pair.getFstElement(), pair.getSndElement()));
@@ -186,10 +186,10 @@ public class Main {
 		assert parser != null;
 		
 		parser.parse(fileIn.getAbsolutePath());
-		IBuchi buchi = parser.getBuchi();
+		IBuchiWa buchi = parser.getBuchi();
 //		buchi.makeComplete();
 		long time = System.currentTimeMillis();
-		BuchiComplementSDBA buchiComplement = new BuchiComplementSDBA(buchi);
+		BuchiWaComplement buchiComplement = new BuchiWaComplement(buchi);
 		buchiComplement.explore();
 		time = System.currentTimeMillis() - time;
 		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
@@ -241,9 +241,9 @@ public class Main {
 				if(f.getName().endsWith(FILE_EXT)) {
 					ATSFileParser atsParser =  new ATSFileParser();
 					atsParser.parse(f.getAbsolutePath());
-					List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
+					List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
 					
-					for(PairXX<IBuchi> pair : pairs) {
+					for(PairXX<IBuchiWa> pair : pairs) {
 						List<TaskInclusion> tasks = new ArrayList<TaskInclusion>();
 
 						TaskInclusion taskNscb = new TaskInclusion(f.getName(), time);

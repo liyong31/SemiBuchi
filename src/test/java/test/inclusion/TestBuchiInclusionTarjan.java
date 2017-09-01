@@ -3,6 +3,7 @@ package test.inclusion;
 import java.util.List;
 
 import automata.IBuchi;
+import automata.IBuchiWa;
 import main.TaskInclusion;
 import operation.inclusion.BuchiInclusionComplement;
 import util.PairXX;
@@ -16,10 +17,10 @@ public class TestBuchiInclusionTarjan {
 				+ "bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats";
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(dir);
-		List<PairXX<IBuchi>> pairs = atsParser.getBuchiPairs();
+		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
 		TaskInclusion task = new TaskInclusion("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats",
 				20 * 1000);
-		for(PairXX<IBuchi> pair : pairs) {
+		for(PairXX<IBuchiWa> pair : pairs) {
 			BuchiInclusionComplement complement = new BuchiInclusionComplement(task, pair.getFstElement(), pair.getSndElement());
 			System.out.println("IsIncluded: " + complement.isIncluded() + "");
 			//System.out.println(complement.getBuchiDifference().toDot());

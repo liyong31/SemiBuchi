@@ -3,9 +3,9 @@ package operation.emptiness;
 import java.util.BitSet;
 import java.util.List;
 
-import automata.BuchiGeneral;
-import automata.IBuchi;
-import automata.IState;
+import automata.BuchiWa;
+import automata.IBuchiWa;
+import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
@@ -14,7 +14,7 @@ import util.Timer;
 
 public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 
-	private final IBuchi mBuchi;
+	private final IBuchiWa mBuchi;
 	private final IntStack mFstStack;
 	private final IntStack mSndStack;
 
@@ -24,7 +24,7 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 	private final long TIME_LIMIT;
 	private Timer mTimer;
 
-	public BuchiIsEmptyNestedDFS(IBuchi buchi, long timeLimit) {
+	public BuchiIsEmptyNestedDFS(IBuchiWa buchi, long timeLimit) {
 		this.mBuchi = buchi;
 		this.TIME_LIMIT = timeLimit;
 		this.mFstStack = new IntStack();
@@ -66,7 +66,7 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 		mFstStack.push(n);
 		mFstTable.set(n);
 
-		IState state = mBuchi.getState(n);
+		IStateWa state = mBuchi.getState(n);
 		// TODO only get enabled letters
 		for (int letter = 0; letter < mBuchi.getAlphabetSize(); letter++) {
 			IntSet succs = state.getSuccessors(letter);
@@ -99,7 +99,7 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 		mSndStack.push(n);
 		mSndTable.set(n);
 
-		IState state = mBuchi.getState(n);
+		IStateWa state = mBuchi.getState(n);
 		// TODO only get enabled letters
 		for (int letter = 0; letter < mBuchi.getAlphabetSize(); letter++) {
 			IntSet succs = state.getSuccessors(letter);
@@ -135,12 +135,12 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 	}
 	
 	public static void main(String[] args) {
-		IBuchi buchi = new BuchiGeneral(2);
-		IState a = buchi.addState();
-		IState b = buchi.addState();
-		IState c = buchi.addState();
-		IState d = buchi.addState();
-		IState e = buchi.addState();
+		IBuchiWa buchi = new BuchiWa(2);
+		IStateWa a = buchi.addState();
+		IStateWa b = buchi.addState();
+		IStateWa c = buchi.addState();
+		IStateWa d = buchi.addState();
+		IStateWa e = buchi.addState();
 		
 		a.addSuccessor(0, b.getId());
 		b.addSuccessor(0, c.getId());

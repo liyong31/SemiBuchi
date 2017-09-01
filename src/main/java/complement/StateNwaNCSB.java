@@ -15,12 +15,12 @@ import util.UtilIntSet;
 
 public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	
-	private final BuchiNwaComplementSDBA mComplement;
+	private final BuchiNwaComplement mComplement;
 	private final IBuchiNwa mOperand;
 	
 	private NCSB mNCSB;
 	
-	public StateNwaNCSB(BuchiNwaComplementSDBA complement, int id) {
+	public StateNwaNCSB(BuchiNwaComplement complement, int id) {
 		super(complement, id);
 		this.mComplement = complement;
 		this.mOperand = complement.getOperand();

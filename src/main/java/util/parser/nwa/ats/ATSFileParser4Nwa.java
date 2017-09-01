@@ -11,7 +11,7 @@ import java.util.Map;
 
 import automata.BuchiNwa;
 import automata.IBuchiNwa;
-import complement.BuchiNwaComplementSDBA;
+import complement.BuchiNwaComplement;
 import complement.DoubleDecker;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
@@ -129,14 +129,14 @@ public class ATSFileParser4Nwa {
 //		map.put(new DoubleDecker(-1, 2), 0);
 //		System.out.println(map.containsKey(new DoubleDecker(-1, 2)));
 		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
-		parser.parse("/home/liyong/workspace-neon/SemiBuchi/target/test6.ats");
+		parser.parse("/home/liyong/workspace-neon/SemiBuchi/test.ats");
 		IBuchiNwa buchi = parser.getBuchi(0);
 		buchi.toATS(System.out, parser.getAlphabet());
 		Options.setChoice = 3;
-		BuchiNwaComplementSDBA complement = new BuchiNwaComplementSDBA(buchi);
+		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
 		Options.verbose = false;
-		Options.optNCSB = true;
-		Options.optBeqC = true;
+		Options.optNCSB = false;
+		Options.optBeqC = false;
 		
 		complement.explore();
 		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
