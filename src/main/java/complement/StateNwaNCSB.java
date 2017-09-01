@@ -194,7 +194,6 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		IntSet minusFSuccs = UtilIntSet.newIntSet();
 		IntSet interFSuccs = UtilIntSet.newIntSet();
 		// Compute the successors of B
-//		SuccessorResult succResult = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierNCSB.getBSet(), letter, true);
 		TIntObjectMap<List<Integer>> hierDoubleDeckers = doubleDeckerSetToMap(hierNCSB);
 		SuccessorResult succResult = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierDoubleDeckers, letter, true);
 		if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
@@ -237,43 +236,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	}
 	
 	
-	/**
-	 * compute the return double decker id for return transitions
-	 * */
-//	private SuccessorResult computeSuccDoubleDeckers_Return(IntSet predDoubleDecker, IntSet predHier, int letter, boolean testTransition) {
-//		TIntObjectMap<List<Integer>> predHierDoubleDeckerMap = doubleDeckerSetToMap(predHier, false);
-//		SuccessorResult succResult = new SuccessorResult();
-//		IntIterator iterDoubleDecker = predDoubleDecker.iterator();
-//		while(iterDoubleDecker.hasNext()) {
-//			int doubleDecker = iterDoubleDecker.next();
-//			int downState = mComplement.getDownState(doubleDecker);
-//			int upState = mComplement.getUpState(doubleDecker);
-//			// predHier should contain all downState as its upState
-//			if(! predHierDoubleDeckerMap.containsKey(downState)) {
-//				succResult.hasSuccs = false;
-//				return succResult;
-//			}
-//			// compute successors of return
-//			IntSet upStateSuccs = mOperand.getSuccessorsReturn(upState, downState, letter);
-//			if (testTransition && noTransitionAssertion_MinusF(upState, upStateSuccs)) {
-//				succResult.hasSuccs = false;
-//				return succResult;
-//			}
-//			
-//			List<Integer> downHiers = predHierDoubleDeckerMap.get(downState);
-//			// put (upHier, succ)
-//			for(Integer downHier : downHiers) {
-//				IntSet succDeckers = mComplement.generateDeckers(downHier, upStateSuccs);
-//				succResult.mSuccs.or(succDeckers);
-//				if(mOperand.isFinal(upState)) {
-//					if(testTransition) succResult.mInterFSuccs.or(succDeckers);
-//				}else {
-//					if(testTransition) succResult.mMinusFSuccs.or(succDeckers);
-//				}
-//			}
-//		}
-//		return succResult;
-//	}
+
 	private SuccessorResult computeSuccDoubleDeckers_Return(IntSet predDoubleDecker, TIntObjectMap<List<Integer>> predHierDoubleDeckerMap, int letter, boolean testTransition) {
 		SuccessorResult succResult = new SuccessorResult();
 		IntIterator iterDoubleDecker = predDoubleDecker.iterator();
