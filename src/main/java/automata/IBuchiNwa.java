@@ -66,10 +66,7 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 
 	IntSet getSuccessorsCall(int state, int letter);
 
-	IntSet getSuccessorsReturn(int state, int pred, int letter);
-
-	Collection<IStateNwa> getStates();
-	
+	IntSet getSuccessorsReturn(int state, int hier, int letter);	
 	
 	default public void toATS(PrintStream out, List<String> alphabet) {
 		final String PRE_BLANK = "   "; 
