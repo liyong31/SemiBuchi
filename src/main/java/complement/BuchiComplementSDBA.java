@@ -38,14 +38,14 @@ public class BuchiComplementSDBA extends BuchiGeneral implements IBuchiComplemen
 	private final TObjectIntMap<StateNCSB> mState2Int = new TObjectIntHashMap<>();
 
 	private void computeInitialStates() {
-		// TODO Auto-generated method stub
 		StateNCSB state = new StateNCSB(0, this);
-		// TODO get also the initial states where initial state is also final state
-		IntSet csets = mOperand.getInitialStates().clone();
-		csets.and(mOperand.getFinalStates()); // goto C
-		NCSB ncsb = new NCSB(mOperand.getInitialStates(), csets, UtilIntSet.newIntSet(), csets);
+		IntSet C = mOperand.getInitialStates().clone();
+		C.and(mOperand.getFinalStates()); // goto C
+		IntSet N = mOperand.getInitialStates().clone();
+		N.andNot(C);
+		NCSB ncsb = new NCSB(N, C, UtilIntSet.newIntSet(), C);
 		state.setNCSB(ncsb);
-		if(csets.isEmpty()) this.setFinal(0);
+		if(C.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
 		mState2Int.put(state, id);
