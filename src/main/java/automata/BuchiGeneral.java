@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -121,26 +120,9 @@ public class BuchiGeneral implements IBuchi {
 	@Override
 	public Acc getAcceptance() {
 		if(acc == null) {
-			acc = new AccBuchi();
+			acc = new AccBuchi(mFinalStates);
 		}
 		return acc;
-	}
-	
-	private class AccBuchi implements Acc {
-		List<IntSet> accs = new ArrayList<>();
-		
-		public AccBuchi() {
-			accs.add(mFinalStates);
-		}
-		@Override
-		public boolean isAccepted(IntSet set) {
-			return mFinalStates.overlap(set);
-		}
-
-		@Override
-		public List<IntSet> getAccs() {
-			return Collections.unmodifiableList(accs);
-		}
 	}
 
 	@Override
