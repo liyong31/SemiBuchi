@@ -134,34 +134,29 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		IntSet interFSuccs = UtilIntSet.newIntSet();
 		
 		// Compute the successors of B
-		SuccessorResult resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getBSet(), letter, true);
-		if(!resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		IntSet BSuccs = resultSucc.mSuccs;
-		minusFSuccs.or(resultSucc.mMinusFSuccs);
-		interFSuccs.or(resultSucc.mInterFSuccs);
-		
-		IntSet temp = minusFSuccs.clone();
-		temp.or(interFSuccs);
-		assert BSuccs.equals(temp);
+		SuccessorResult succResult = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getBSet(), letter, true);
+		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
+		IntSet BSuccs = succResult.mSuccs;
+		minusFSuccs.or(succResult.mMinusFSuccs);
+		interFSuccs.or(succResult.mInterFSuccs);
 		
 		// First compute the successors of C
-		IntSet CSuccs = UtilIntSet.newIntSet();
-		CSuccs.or(BSuccs);
         IntSet CMinusB = mNCSB.copyCSet();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
-        resultSucc = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.optNCSB);
-		if(!resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		CSuccs.or( resultSucc.mSuccs);
-		minusFSuccs.or(resultSucc.mMinusFSuccs);
-		interFSuccs.or(resultSucc.mInterFSuccs);
+        succResult = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.optNCSB);
+		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
+		IntSet CSuccs = succResult.mSuccs;
+		CSuccs.or(BSuccs);
+		minusFSuccs.or(succResult.mMinusFSuccs);
+		interFSuccs.or(succResult.mInterFSuccs);
 		
 		// Compute the successors of N
-		resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getNSet(), letter, false);
-		IntSet NSuccs = resultSucc.mSuccs;
+		succResult = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getNSet(), letter, false);
+		IntSet NSuccs = succResult.mSuccs;
 		
 		// Compute the successors of S
-		resultSucc = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getSSet(), letter, false);
-		IntSet SSuccs = resultSucc.mSuccs;
+		succResult = computeSuccDoubleDeckers_CallOrInternal(mNCSB.getSSet(), letter, false);
+		IntSet SSuccs = succResult.mSuccs;
 		
         return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, -1, letter);
 	}
@@ -199,40 +194,34 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		IntSet minusFSuccs = UtilIntSet.newIntSet();
 		IntSet interFSuccs = UtilIntSet.newIntSet();
 		// Compute the successors of B
-//		SuccessorResult resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierNCSB.getBSet(), letter, true);
+//		SuccessorResult succResult = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierNCSB.getBSet(), letter, true);
 		TIntObjectMap<List<Integer>> hierDoubleDeckers = doubleDeckerSetToMap(hierNCSB);
-		SuccessorResult resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierDoubleDeckers, letter, true);
-		if(! resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		IntSet BSuccs = resultSucc.mSuccs;
-		minusFSuccs.or(resultSucc.mMinusFSuccs);
-		interFSuccs.or(resultSucc.mInterFSuccs);
+		SuccessorResult succResult = computeSuccDoubleDeckers_Return(mNCSB.getBSet(), hierDoubleDeckers, letter, true);
+		if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
+		IntSet BSuccs = succResult.mSuccs;
+		minusFSuccs.or(succResult.mMinusFSuccs);
+		interFSuccs.or(succResult.mInterFSuccs);
 		
 		// First compute the successors of C
-		IntSet CSuccs = UtilIntSet.newIntSet();
-		CSuccs.or(BSuccs);
         IntSet CMinusB = mNCSB.getCSet().clone();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
         
-//        IntSet hierCMinusB = hierNCSB.getCSet().clone();
-//        hierCMinusB.andNot(hierNCSB.getBSet());
-		resultSucc = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, !Options.optNCSB);
-//        resultSucc = computeSuccDoubleDeckers_Return(CMinusB, hierCMinusB, letter, true);
-        if(! resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		CSuccs.or(resultSucc.mSuccs);
-		minusFSuccs.or(resultSucc.mMinusFSuccs);
-		interFSuccs.or(resultSucc.mInterFSuccs);
+		succResult = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, !Options.optNCSB);
+        if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
+        IntSet CSuccs = succResult.mSuccs;
+		CSuccs.or(BSuccs);                 // add successors of B
+		minusFSuccs.or(succResult.mMinusFSuccs);
+		interFSuccs.or(succResult.mInterFSuccs);
 		
 		// Compute the successors of N
-//		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getNSet(), hierNCSB.getNSet(), letter, false);
-		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getNSet(), hierDoubleDeckers, letter, false);
-		if(! resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		IntSet NSuccs = resultSucc.mSuccs;
+		succResult = computeSuccDoubleDeckers_Return(mNCSB.getNSet(), hierDoubleDeckers, letter, false);
+		if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
+		IntSet NSuccs = succResult.mSuccs;
 		
 		// Compute the successors of S
-//		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getSSet(), hierNCSB.getSSet(), letter, false);
-		resultSucc = computeSuccDoubleDeckers_Return(mNCSB.getSSet(), hierDoubleDeckers, letter, false);
-		if(! resultSucc.hasSuccessor) return UtilIntSet.newIntSet();
-		IntSet SSuccs = resultSucc.mSuccs;
+		succResult = computeSuccDoubleDeckers_Return(mNCSB.getSSet(), hierDoubleDeckers, letter, false);
+		if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
+		IntSet SSuccs = succResult.mSuccs;
 		
         return computeSuccessors(new NCSB(NSuccs, CSuccs, SSuccs, BSuccs), minusFSuccs, interFSuccs, hier, letter);
 	}
@@ -253,7 +242,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	 * */
 //	private SuccessorResult computeSuccDoubleDeckers_Return(IntSet predDoubleDecker, IntSet predHier, int letter, boolean testTransition) {
 //		TIntObjectMap<List<Integer>> predHierDoubleDeckerMap = doubleDeckerSetToMap(predHier, false);
-//		SuccessorResult resultSucc = new SuccessorResult();
+//		SuccessorResult succResult = new SuccessorResult();
 //		IntIterator iterDoubleDecker = predDoubleDecker.iterator();
 //		while(iterDoubleDecker.hasNext()) {
 //			int doubleDecker = iterDoubleDecker.next();
@@ -261,32 +250,32 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 //			int upState = mComplement.getUpState(doubleDecker);
 //			// predHier should contain all downState as its upState
 //			if(! predHierDoubleDeckerMap.containsKey(downState)) {
-//				resultSucc.hasSuccs = false;
-//				return resultSucc;
+//				succResult.hasSuccs = false;
+//				return succResult;
 //			}
 //			// compute successors of return
 //			IntSet upStateSuccs = mOperand.getSuccessorsReturn(upState, downState, letter);
 //			if (testTransition && noTransitionAssertion_MinusF(upState, upStateSuccs)) {
-//				resultSucc.hasSuccs = false;
-//				return resultSucc;
+//				succResult.hasSuccs = false;
+//				return succResult;
 //			}
 //			
 //			List<Integer> downHiers = predHierDoubleDeckerMap.get(downState);
 //			// put (upHier, succ)
 //			for(Integer downHier : downHiers) {
 //				IntSet succDeckers = mComplement.generateDeckers(downHier, upStateSuccs);
-//				resultSucc.mSuccs.or(succDeckers);
+//				succResult.mSuccs.or(succDeckers);
 //				if(mOperand.isFinal(upState)) {
-//					if(testTransition) resultSucc.mInterFSuccs.or(succDeckers);
+//					if(testTransition) succResult.mInterFSuccs.or(succDeckers);
 //				}else {
-//					if(testTransition) resultSucc.mMinusFSuccs.or(succDeckers);
+//					if(testTransition) succResult.mMinusFSuccs.or(succDeckers);
 //				}
 //			}
 //		}
-//		return resultSucc;
+//		return succResult;
 //	}
 	private SuccessorResult computeSuccDoubleDeckers_Return(IntSet predDoubleDecker, TIntObjectMap<List<Integer>> predHierDoubleDeckerMap, int letter, boolean testTransition) {
-		SuccessorResult resultSucc = new SuccessorResult();
+		SuccessorResult succResult = new SuccessorResult();
 		IntIterator iterDoubleDecker = predDoubleDecker.iterator();
 		while(iterDoubleDecker.hasNext()) {
 			int doubleDecker = iterDoubleDecker.next();
@@ -294,31 +283,31 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 			int upState = mComplement.getUpState(doubleDecker);
 			// predHier should contain all downState as its upState
 			if(! predHierDoubleDeckerMap.containsKey(downState)) {
-				resultSucc.hasSuccessor = false;
-				return resultSucc;
+				succResult.hasSuccessor = false;
+				return succResult;
 			}
 			// compute successors of return
 			IntSet upStateSuccs = mOperand.getSuccessorsReturn(upState, downState, letter);
 			if (testTransition && noTransitionAssertion_MinusF(upState, upStateSuccs)) {
-				resultSucc.hasSuccessor = false;
-				return resultSucc;
+				succResult.hasSuccessor = false;
+				return succResult;
 			}
 			
 			List<Integer> downHiers = predHierDoubleDeckerMap.get(downState);
 			// put (upHier, succ)
 			for(Integer downHier : downHiers) {
 				IntSet succDeckers = mComplement.generateDeckers(downHier, upStateSuccs);
-				resultSucc.mSuccs.or(succDeckers);
+				succResult.mSuccs.or(succDeckers);
 				if(testTransition) {
 					if(mOperand.isFinal(upState)) {
-						 resultSucc.mInterFSuccs.or(succDeckers);
+						 succResult.mInterFSuccs.or(succDeckers);
 					}else {
-						 resultSucc.mMinusFSuccs.or(succDeckers);
+						 succResult.mMinusFSuccs.or(succDeckers);
 					}
 				}
 			}
 		}
-		return resultSucc;
+		return succResult;
 	}
 	
 	private TIntObjectMap<List<Integer>> doubleDeckerSetToMap(NCSB hierNCSB) {
