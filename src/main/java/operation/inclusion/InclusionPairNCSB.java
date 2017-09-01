@@ -1,20 +1,20 @@
 package operation.inclusion;
 
 import automata.StateWa;
-import complement.StateNCSB;
+import complement.StateWaNCSB;
 import util.IPair;
 
-public class InclusionPairNCSB implements IPair<Integer, StateNCSB>{
+public class InclusionPairNCSB implements IPair<Integer, StateWaNCSB>{
 	
 	private final int mFstStateId;
-	private final StateNCSB mSndState;
+	private final StateWaNCSB mSndState;
 		
-	public InclusionPairNCSB(StateWa fstState, StateNCSB sndState) {
+	public InclusionPairNCSB(StateWa fstState, StateWaNCSB sndState) {
 		this.mFstStateId = fstState.getId();
 		this.mSndState = sndState;
 	}
 	
-	public InclusionPairNCSB(int fstStateId, StateNCSB sndState) {
+	public InclusionPairNCSB(int fstStateId, StateWaNCSB sndState) {
 		this.mFstStateId = fstStateId;
 		this.mSndState = sndState;
 	}
@@ -64,7 +64,7 @@ public class InclusionPairNCSB implements IPair<Integer, StateNCSB>{
 	}
 	
 	@Override
-	public StateNCSB getSndElement() {
+	public StateWaNCSB getSndElement() {
 		return mSndState;
 	}
 }

@@ -8,7 +8,7 @@ import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateNCSB extends StateWa implements IStateComplement {
+public class StateWaNCSB extends StateWa implements IStateComplement {
 
 
 	private NCSB mNCSB;
@@ -16,7 +16,7 @@ public class StateNCSB extends StateWa implements IStateComplement {
 	private final IBuchiWa mOperand;
 	private final BuchiWaComplement mComplement;
 	
-	public StateNCSB(int id, BuchiWaComplement complement) {
+	public StateWaNCSB(int id, BuchiWaComplement complement) {
 		super(id);
 		this.mComplement = complement;
 		this.mOperand = complement.getOperand();
@@ -86,10 +86,10 @@ public class StateNCSB extends StateWa implements IStateComplement {
 
 	public boolean equals(Object obj) {
 		if(this == obj) return true;
-		if(!(obj instanceof StateNCSB)) {
+		if(!(obj instanceof StateWaNCSB)) {
 			return false;
 		}
-		StateNCSB other = (StateNCSB)obj;
+		StateWaNCSB other = (StateWaNCSB)obj;
 		return  mNCSB.equals(other.mNCSB);
 	}
 	
@@ -145,7 +145,7 @@ public class StateNCSB extends StateWa implements IStateComplement {
 		while(generator.hasNext()) {
 		    NCSB ncsb = generator.next();
 		    if(ncsb == null) continue;
-			StateNCSB succ = mComplement.addState(ncsb);
+			StateWaNCSB succ = mComplement.addState(ncsb);
 			super.addSuccessor(letter, succ.getId());
 			succs.set(succ.getId());
 		}

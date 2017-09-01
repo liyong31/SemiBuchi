@@ -12,7 +12,7 @@ import automata.IState;
 import automata.IStateWa;
 import complement.BuchiWaComplement;
 import complement.IBuchiComplement;
-import complement.StateNCSB;
+import complement.StateWaNCSB;
 import main.TaskInclusion;
 import util.IntIterator;
 
@@ -44,7 +44,7 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 		    IntIterator sndIter = mSndComplement.getInitialStates().iterator();
 		    while(sndIter.hasNext()) {
 		    	int snd = sndIter.next();
-				StateNCSB sndState = (StateNCSB)mSndComplement.getState(snd);
+				StateWaNCSB sndState = (StateWaNCSB)mSndComplement.getState(snd);
 				InclusionPairNCSB pair = new InclusionPairNCSB(fst, sndState);
 				IStateWa state = getOrAddState(pair);
 				mResult.setInitial(state);

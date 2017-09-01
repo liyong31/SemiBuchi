@@ -5,7 +5,7 @@ import java.util.List;
 
 import automata.IBuchiWa;
 import automata.IStateWa;
-import complement.StateNCSB;
+import complement.StateWaNCSB;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
@@ -139,7 +139,7 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 		
 		// we know that the stack cannot have two same elements
 		private boolean hasCoveredStatesInStack(int t) {
-			StateNCSB stateT = (StateNCSB) mBuchiComplement.getState(t);
+			StateWaNCSB stateT = (StateWaNCSB) mBuchiComplement.getState(t);
 			IntSet items = mFstStack.getItems();
 			items.clear(mFstStack.peek());
 			// only keep final states in stack
@@ -147,7 +147,7 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			IntIterator iter = items.iterator();
 			while(iter.hasNext()) {
 			    int u = iter.next();
-				StateNCSB stateU = (StateNCSB) mBuchiComplement.getState(u);
+				StateWaNCSB stateU = (StateWaNCSB) mBuchiComplement.getState(u);
 				if(stateU.getNCSB().coveredBy(stateT.getNCSB())) return true;
 			}
 			return false;

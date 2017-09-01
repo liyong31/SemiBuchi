@@ -35,10 +35,10 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiComplement {
 		computeInitialStates();
 	}
 	
-	private final TObjectIntMap<StateNCSB> mState2Int = new TObjectIntHashMap<>();
+	private final TObjectIntMap<StateWaNCSB> mState2Int = new TObjectIntHashMap<>();
 
 	private void computeInitialStates() {
-		StateNCSB state = new StateNCSB(0, this);
+		StateWaNCSB state = new StateWaNCSB(0, this);
 		IntSet C = mOperand.getInitialStates().clone();
 		C.and(mOperand.getFinalStates()); // goto C
 		IntSet N = mOperand.getInitialStates().clone();
@@ -52,16 +52,16 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiComplement {
 	}
 	
 
-	protected StateNCSB addState(NCSB ncsb) {
+	protected StateWaNCSB addState(NCSB ncsb) {
 		
-		StateNCSB state = new StateNCSB(0, this);
+		StateWaNCSB state = new StateWaNCSB(0, this);
 		state.setNCSB(ncsb);
 		
 		if(mState2Int.containsKey(state)) {
-			return (StateNCSB) getState(mState2Int.get(state));
+			return (StateWaNCSB) getState(mState2Int.get(state));
 		}else {
 			int index = getStateSize();
-			StateNCSB newState = new StateNCSB(index, this);
+			StateWaNCSB newState = new StateWaNCSB(index, this);
 			newState.setNCSB(ncsb);
 			int id = this.addState(newState);
 			mState2Int.put(newState, id);

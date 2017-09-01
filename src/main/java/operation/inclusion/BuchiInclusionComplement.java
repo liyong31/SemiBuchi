@@ -9,7 +9,7 @@ import java.util.Stack;
 
 import automata.BuchiWa;
 import automata.IStateWa;
-import complement.StateNCSB;
+import complement.StateWaNCSB;
 import main.TaskInclusion;
 import automata.IBuchi;
 import automata.IBuchiWa;
@@ -125,7 +125,7 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 					while(sndIter.hasNext()) {
 						int sndSucc = sndIter.next();
 						// pair (X, Y)
-						StateNCSB yState = (StateNCSB) mSndComplement.getState(sndSucc);
+						StateWaNCSB yState = (StateWaNCSB) mSndComplement.getState(sndSucc);
 						InclusionPairNCSB pairSucc = new InclusionPairNCSB(fstSucc, yState);
 						IStateWa stateSucc = getOrAddState(pairSucc);
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
