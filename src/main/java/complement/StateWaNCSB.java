@@ -8,7 +8,7 @@ import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateWaNCSB extends StateWa implements IStateComplement {
+public class StateWaNCSB extends StateWa implements IStateWaComplement {
 
 
 	private NCSB mNCSB;

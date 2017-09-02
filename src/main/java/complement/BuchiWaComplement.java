@@ -18,7 +18,7 @@ import util.UtilIntSet;
 /**
  * only valid for semi-deterministic Buchi word automata
  * */
-public class BuchiWaComplement extends BuchiWa implements IBuchiComplement {
+public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 
 	private final IBuchiWa mOperand;
 	

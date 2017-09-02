@@ -3,7 +3,7 @@ package complement;
 import automata.IBuchiWa;
 import automata.IStateWa;
 
-public interface IStateComplement extends IStateWa {
+public interface IStateWaComplement extends IStateWa {
 	
 	IBuchiWa getOperand();
 	

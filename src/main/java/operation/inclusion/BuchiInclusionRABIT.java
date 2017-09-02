@@ -5,7 +5,7 @@ import java.util.List;
 import automata.BuchiWa;
 import automata.IBuchiWa;
 import automata.IStateWa;
-import complement.IBuchiComplement;
+import complement.IBuchiWaComplement;
 import main.RunRabit;
 import main.TaskInclusion;
 import util.IPair;
@@ -34,7 +34,7 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	}
 
 	@Override
-	public IBuchiComplement getSndBuchiComplement() {
+	public IBuchiWaComplement getSndBuchiComplement() {
 		// TODO Auto-generated method stub
 		return null;
 	}

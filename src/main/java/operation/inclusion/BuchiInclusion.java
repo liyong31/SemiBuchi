@@ -11,7 +11,7 @@ import automata.IBuchiWa;
 import automata.IState;
 import automata.IStateWa;
 import complement.BuchiWaComplement;
-import complement.IBuchiComplement;
+import complement.IBuchiWaComplement;
 import complement.StateWaNCSB;
 import main.TaskInclusion;
 import util.IntIterator;
@@ -83,7 +83,7 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 
 	@Override
-	public IBuchiComplement getSndBuchiComplement() {
+	public IBuchiWaComplement getSndBuchiComplement() {
 		return mSndComplement;
 	}
 	

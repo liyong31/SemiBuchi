@@ -4,14 +4,14 @@ import java.util.List;
 
 import automata.IBuchiWa;
 import automata.IStateWa;
-import complement.IBuchiComplement;
+import complement.IBuchiWaComplement;
 import util.IPair;
 
 public interface IBuchiInclusion {
 	
 	IBuchiWa getFstBuchi();
 	IBuchiWa getSndBuchi();
-	IBuchiComplement getSndBuchiComplement();
+	IBuchiWaComplement getSndBuchiComplement();
 	IBuchiWa getBuchiDifference();
 	
 	Boolean isIncluded();

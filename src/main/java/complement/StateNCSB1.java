@@ -9,7 +9,7 @@ import util.IntSet;
 import util.PowerSet;
 import util.UtilIntSet;
 
-public class StateNCSB1 extends StateWa implements IStateComplement {
+public class StateNCSB1 extends StateWa implements IStateWaComplement {
 
 
 	private IntSet mNSet;
@@ -83,7 +83,7 @@ public class StateNCSB1 extends StateWa implements IStateComplement {
 
 	public boolean equals(Object otherState) {
 		if(this == otherState) return true;
-		if(!(otherState instanceof IStateComplement)) {
+		if(!(otherState instanceof IStateWaComplement)) {
 			return false;
 		}
 		StateNCSB1 state = (StateNCSB1)otherState;
