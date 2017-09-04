@@ -53,7 +53,9 @@ public class StateWa implements IStateWa, Comparable<StateWa> {
 		return mId - other.mId;
 	}
 	
+	@Override
 	public boolean equals(Object other) {
+		if(this == other) return true;
 		if(!(other instanceof StateWa)) {
 			return false;
 		}
@@ -61,10 +63,12 @@ public class StateWa implements IStateWa, Comparable<StateWa> {
 		return otherState.mId == this.mId;
 	}
 	
+	@Override
 	public int hashCode() {
 		return mId;
 	}
 	
+	@Override
 	public String toString() {
 		return "s" + mId;
 	}
