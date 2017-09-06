@@ -46,12 +46,12 @@ public class TestComplement {
 		IBuchiWa buchi = parser.getBuchi();
 //		if(Options.optNCSB) buchi.makeComplete();
 		System.out.println("original dot: \n" + buchi.toDot());
-		System.out.println("original BA: \n" + buchi.toBA());
+//		System.out.println("original BA: \n" + buchi.toBA());
 		System.out.println("isSemiDeterministic: " + buchi.isSemiDeterministic());
 		BuchiWaComplement buchiComplement = new BuchiWaComplement(buchi);
 		buchiComplement.explore();
 		System.out.println("complement dot: \n" + buchiComplement.toDot());
-		System.out.println("complement BA: \n" + buchiComplement.toBA());
+//		System.out.println("complement BA: \n" + buchiComplement.toBA());
 		System.out.println("complement ATS: \n");
 		buchiComplement.toATS(System.out, parser.getAlphabet());
 		System.out.println("\n\nNCSB" + (!Options.optBeqC ? "+dc": "") + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
