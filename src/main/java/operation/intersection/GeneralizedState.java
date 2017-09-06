@@ -1,19 +1,18 @@
 package operation.intersection;
 
-
 import automata.IBuchiWa;
 import automata.StateWa;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class StateIntersection extends StateWa {
+public class GeneralizedState extends StateWa {
 
-	private final BuchiIntersection mBuchiIntersection;
+	private final GeneralizedBuchiIntersection mBuchi;
 	
-	public StateIntersection(int id, BuchiIntersection buchi) {
+	public GeneralizedState(GeneralizedBuchiIntersection buchi, int id) {
 		super(id);
-		this.mBuchiIntersection = buchi;
+		this.mBuchi = buchi;
 	}
 	
 	private int mLeft;
@@ -25,10 +24,11 @@ public class StateIntersection extends StateWa {
 	}
 	
 	public boolean equals(Object obj) {
-		if(!(obj instanceof StateIntersection)) {
+		if(this == obj) return true;
+		if(!(obj instanceof GeneralizedState)) {
 			return false;
 		}
-		StateIntersection other = (StateIntersection)obj;
+		GeneralizedState other = (GeneralizedState)obj;
 		return mLeft == other.mLeft && mRight == other.mRight;
 	}
 	
@@ -43,7 +43,7 @@ public class StateIntersection extends StateWa {
 		if(hasCode) return hashCode;
 		else {
 			hasCode = true;
-			hashCode = mLeft * mBuchiIntersection.getStateSize() + mRight;
+			hashCode = mLeft * mBuchi.getStateSize() + mRight;
 		}
 		return hashCode;
 	}
@@ -66,8 +66,8 @@ public class StateIntersection extends StateWa {
 		
 		visitedLetters.set(letter);
 		// compute successors
-		IBuchiWa fstOp = mBuchiIntersection.getFstBuchi();
-		IBuchiWa sndOp = mBuchiIntersection.getSndBuchi();
+		IBuchiWa fstOp = mBuchi.getFstOperand();
+		IBuchiWa sndOp = mBuchi.getSndOperand();
 		IntSet fstSuccs = fstOp.getState(mLeft).getSuccessors(letter);
 		IntSet sndSuccs = sndOp.getState(mRight).getSuccessors(letter);
 		
@@ -78,7 +78,7 @@ public class StateIntersection extends StateWa {
 			while(sndIter.hasNext()) {
 				int sndSucc = sndIter.next();
 				// pair (X, Y)
-                StateIntersection succ = mBuchiIntersection.addState(fstSucc, sndSucc);                
+				GeneralizedState succ = mBuchi.addState(fstSucc, sndSucc);                
 				this.addSuccessor(letter, succ.getId());
 			}
 	    }

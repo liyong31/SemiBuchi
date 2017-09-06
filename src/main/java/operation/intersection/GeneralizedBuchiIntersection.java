@@ -14,14 +14,17 @@ import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class BuchiIntersection extends BuchiWa implements IBuchiIntersection {
+/**
+ * Compute Intersection of two Buchi automta and the result is generalized Buchi automaton
+ * */
+public class GeneralizedBuchiIntersection extends BuchiWa implements IBuchiWaIntersection {
 
 	private final IBuchiWa mFstOperand;
 	private final IBuchiWa mSndOperand;
 	
-	private final TObjectIntMap<StateIntersection> mState2Int = new TObjectIntHashMap<>();
+	private final TObjectIntMap<GeneralizedState> mState2Int = new TObjectIntHashMap<>();
 		
-	public BuchiIntersection(IBuchiWa fstOp, IBuchiWa sndOp) {
+	public GeneralizedBuchiIntersection(IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(fstOp.getAlphabetSize());
 		this.mFstOperand = fstOp;
 		this.mSndOperand = sndOp;
@@ -29,28 +32,28 @@ public class BuchiIntersection extends BuchiWa implements IBuchiIntersection {
 	}
 	
 	@Override
-	public IBuchiWa getFstBuchi() {
+	public IBuchiWa getFstOperand() {
 		return mFstOperand;
 	}
 
 	@Override
-	public IBuchiWa getSndBuchi() {
+	public IBuchiWa getSndOperand() {
 		return mSndOperand;
 	}
 
 	@Override
-	public IBuchiWa getIntersection() {
+	public IBuchiWa getResult() {
 		return this;
 	}
 	
 	// take care of the acceptance
-	protected StateIntersection addState(int left, int right) {
-		StateIntersection state = new StateIntersection(0, this);
+	protected GeneralizedState addState(int left, int right) {
+		GeneralizedState state = new GeneralizedState(this, 0);
 		state.setPairs(left, right);		
 		if(mState2Int.containsKey(state)) {
-			return (StateIntersection) getState(mState2Int.get(state));
+			return (GeneralizedState) getState(mState2Int.get(state));
 		}else {
-			StateIntersection newState = new StateIntersection(getStateSize(), this);
+			GeneralizedState newState = new GeneralizedState(this, getStateSize());
 			newState.setPairs(left, right);
 			int id = this.addState(newState);
 			mState2Int.put(newState, id);
@@ -70,9 +73,8 @@ public class BuchiIntersection extends BuchiWa implements IBuchiIntersection {
 			IntIterator sndIter = sndInits.iterator();
 			while(sndIter.hasNext()) {
 				int snd = sndIter.next();
-				StateIntersection state = addState(fst, snd);				
+				GeneralizedState state = addState(fst, snd);				
 				this.setInitial(state);
-				getAcceptance().setAcc(state);
 			}
 		}
 	}
@@ -99,7 +101,7 @@ public class BuchiIntersection extends BuchiWa implements IBuchiIntersection {
 			}
 		}
 		
-		protected void setAcc(StateIntersection state) {
+		protected void setAcc(GeneralizedState state) {
 			int i = 0;
 			for(IntSet set : mFstOperand.getAcceptance().getAccs()) {
 				if(set.get(state.getLeft())) {
