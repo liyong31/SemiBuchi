@@ -5,6 +5,7 @@ import automata.IBuchiWa;
 import automata.StateWa;
 import util.IntIterator;
 import util.IntSet;
+import util.UtilIntSet;
 
 class StateWaIntersection extends StateWa {
 
@@ -60,11 +61,14 @@ class StateWaIntersection extends StateWa {
 		return mSndState;
 	}
 		
+	private IntSet visitedLetters = UtilIntSet.newIntSet();
+
 	@Override
 	public IntSet getSuccessors(int letter) {
-		if(super.getEnabledLetters().contains(letter)) {
+		if(visitedLetters.get(letter)) {
 			return super.getSuccessors(letter);
 		}
+		visitedLetters.set(letter);
 		
 		// compute successors
 		IBuchiWa fstOp = mBuchi.getFstOperand();
