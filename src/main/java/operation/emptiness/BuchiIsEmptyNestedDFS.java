@@ -12,7 +12,7 @@ import util.IntSet;
 import util.IntStack;
 import util.Timer;
 
-public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
+public class BuchiIsEmptyNestedDFS implements IBuchiWaIsEmpty {
 
 	private final IBuchiWa mBuchi;
 	private final IntStack mFstStack;
@@ -123,12 +123,6 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 	}
 
 	@Override
-	public Boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return mIsEmpty;
-	}
-
-	@Override
 	public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
 		// TODO Auto-generated method stub
 		return null;
@@ -159,6 +153,17 @@ public class BuchiIsEmptyNestedDFS implements BuchiIsEmpty {
 		System.out.println(buchi.toDot());
 		
 		BuchiIsEmptyNestedDFS dfs = new BuchiIsEmptyNestedDFS(buchi, 10*1000);
-		System.out.println(dfs.isEmpty());
+		System.out.println(dfs.getResult());
+	}
+
+	@Override
+	public IBuchiWa getOperand() {
+		// TODO Auto-generated method stub
+		return mBuchi;
+	}
+
+	@Override
+	public Boolean getResult() {
+		return mIsEmpty;
 	}
 }

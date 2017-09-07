@@ -7,6 +7,7 @@ import automata.IBuchi;
 import automata.IBuchiWa;
 import automata.IState;
 import automata.IStateWa;
+import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;
 import util.IntArray;
 import util.IntIterator;
@@ -18,25 +19,11 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 
 	public BuchiUniversalityTarjanAntichain(IBuchiWa buchi) {
 		super(buchi);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public Boolean isUniversal() {
-		// TODO Auto-generated method stub
-		Tarjan tarjan = new Tarjan(10 * 1000);
-		return tarjan.mIsEmpty;
-	}
-
-	@Override
-	public IPair<List<Integer>, List<Integer>> getCounterexampleWord() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	// ------------- detection
 	
-	private class Tarjan {
+	private class Tarjan implements IBuchiWaIsEmpty{
 		private int mDepth;
 		private final IntArray mStateStack;
 		private final IntStack mFinalStack;
@@ -111,8 +98,29 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 				mFinalStack.pop();
 			}
 		}
+
+		@Override
+		public IBuchiWa getOperand() {
+			return mBuchiComplement;
+		}
+
+		@Override
+		public Boolean getResult() {
+			return mIsEmpty;
+		}
+
+		@Override
+		public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 				
 		
+	}
+
+	@Override
+	protected void initializeEmptinessChecker() {
+		this.mEmptinessChecker = new Tarjan(10 * 1000);
 	}
 
 }

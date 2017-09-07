@@ -1,29 +1,43 @@
 package operation.universality;
 
 
+import java.util.List;
+
 import automata.IBuchiWa;
 import complement.BuchiWaComplement;
+import operation.emptiness.BuchiIsEmptyASCC;
+import operation.emptiness.IBuchiWaIsEmpty;
+import util.IPair;
 
-public abstract class BuchiUniversality implements IBuchiUniversality {
+public abstract class BuchiUniversality implements IBuchiWaUniversality {
 	
-	protected IBuchiWa mBuchi;
-	protected BuchiWaComplement mBuchiComplement;
+	protected final IBuchiWa mBuchi;
+	protected final BuchiWaComplement mBuchiComplement;
+	protected IBuchiWaIsEmpty mEmptinessChecker;
 	
 	public BuchiUniversality(IBuchiWa buchi) {
 		this.mBuchi = buchi;
 		this.mBuchiComplement = new BuchiWaComplement(buchi);
+		initializeEmptinessChecker();
 	}
 
 	@Override
-	public IBuchiWa getBuchi() {
-		// TODO Auto-generated method stub
+	public IBuchiWa getOperand() {
 		return mBuchi;
 	}
+	
+	protected abstract void initializeEmptinessChecker();
+	
+	@Override
+	public Boolean getResult() {
+		assert mEmptinessChecker != null;
+		return mEmptinessChecker.getResult();
+	}
 
 	@Override
-	public IBuchiWa getBuchiComplement() {
+	public IPair<List<Integer>, List<Integer>> getCounterexampleWord() {
 		// TODO Auto-generated method stub
-		return mBuchiComplement;
+		return null;
 	}
 
 }

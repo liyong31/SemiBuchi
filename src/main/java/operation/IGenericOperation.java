@@ -1,7 +1,10 @@
 package operation;
-
-public interface IGenericOperation<T> {
+/**
+ * @param I the input
+ * @param O the output
+ * */
+public interface IGenericOperation<I, O> {
 	
-	T getResult();
+	O getResult();
 
 }

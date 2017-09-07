@@ -6,6 +6,7 @@ import java.util.List;
 import automata.IBuchiWa;
 import automata.IStateWa;
 import complement.StateWaNCSB;
+import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
@@ -20,22 +21,8 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public Boolean isUniversal() {
-		// TODO Auto-generated method stub
-		NestedDFS dfs = new NestedDFS(10 * 1000);
-		return dfs.mIsEmpty;
-	}
-
-	@Override
-	public IPair<List<Integer>, List<Integer>> getCounterexampleWord() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	// search for accepting SCC in the complement
-	
-	private class NestedDFS {
+	private class NestedDFS implements IBuchiWaIsEmpty {
 		private final IntStack mFstStack;
 		private final IntStack mSndStack;
 		private final BitSet mFstTable;
@@ -152,6 +139,27 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			}
 			return false;
 		}
+
+		@Override
+		public IBuchiWa getOperand() {
+			return mBuchiComplement;
+		}
+
+		@Override
+		public Boolean getResult() {
+			return mIsEmpty;
+		}
+
+		@Override
+		public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	}
+
+	@Override
+	protected void initializeEmptinessChecker() {
+		this.mEmptinessChecker = new NestedDFS(10 * 1000);
 	}
 		
 

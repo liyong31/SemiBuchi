@@ -2,18 +2,11 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchiWa;
+import operation.IBuchiWaUnaryOperation;
 import util.IPair;
 
 // check whether given Buchi accepts \sigma^\omega
 
-public interface IBuchiUniversality {
-	
-	IBuchiWa getBuchi();
-	IBuchiWa getBuchiComplement();
-	
-	Boolean isUniversal();
-	
+public interface IBuchiWaUniversality extends IBuchiWaUnaryOperation<Boolean>{
 	IPair<List<Integer>, List<Integer>> getCounterexampleWord();
-
 }

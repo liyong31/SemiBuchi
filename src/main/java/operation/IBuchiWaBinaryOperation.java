@@ -2,6 +2,6 @@ package operation;
 
 import automata.IBuchiWa;
 
-public interface IBuchiWaBinaryOperation extends IBinaryOperation<IBuchiWa> {
+public interface IBuchiWaBinaryOperation<O> extends IBinaryOperation<IBuchiWa, O> {
 
 }

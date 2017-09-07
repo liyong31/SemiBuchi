@@ -14,14 +14,14 @@ public class TestBuchiUniversalityTarjanOriginal {
 	public void testAIsUniversal() {
 		IBuchiWa A = BAStore.getA();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityTarjanOriginal(A).isUniversal());
+		assertEquals(false, new BuchiUniversalityTarjanOriginal(A).getResult());
 	} 
 	
 	@Test
 	public void testBIsUniversal() {
 		IBuchiWa B = BAStore.getB();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityTarjanOriginal(B).isUniversal());
+		assertEquals(false, new BuchiUniversalityTarjanOriginal(B).getResult());
 	} 
 	
 	
@@ -30,21 +30,21 @@ public class TestBuchiUniversalityTarjanOriginal {
 	public void testCIsUniversal() {
 		IBuchiWa C = BAStore.getC();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityTarjanOriginal(C).isUniversal());
+		assertEquals(false, new BuchiUniversalityTarjanOriginal(C).getResult());
 	} 
 
 	@Test
 	public void testDIsUniversal() {
 		IBuchiWa D = BAStore.getD();
 //		System.out.println(B.toDot());
-		assertEquals(true, new BuchiUniversalityTarjanOriginal(D).isUniversal());
+		assertEquals(true, new BuchiUniversalityTarjanOriginal(D).getResult());
 	} 
 
 	@Test
 	public void testEIsUniversal() {
 		IBuchiWa E = BAStore.getE();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityTarjanOriginal(E).isUniversal());
+		assertEquals(false, new BuchiUniversalityTarjanOriginal(E).getResult());
 	} 
 
 

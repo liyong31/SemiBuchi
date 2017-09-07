@@ -17,7 +17,7 @@ import util.Timer;
 
 // from paper Comparison of Algorithms for Checking Emptiness on B¨uchi Automata
 // by Andreas Gaiser and Stefan Schwoon
-public class BuchiIsEmptyASCC implements BuchiIsEmpty {
+public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 	
 	private final IBuchiWa mBuchi;
 	private int mDepth;
@@ -118,7 +118,7 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 			
 
 	@Override
-	public Boolean isEmpty() {
+	public Boolean getResult() {
 		// TODO Auto-generated method stub
 		return mIsEmpty;
 	}
@@ -127,6 +127,11 @@ public class BuchiIsEmptyASCC implements BuchiIsEmpty {
 	public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IBuchiWa getOperand() {
+		return mBuchi;
 	}
 			
 

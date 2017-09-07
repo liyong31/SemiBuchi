@@ -14,14 +14,14 @@ public class TestBuchiUniversalityNestedDFS {
 	public void testAIsUniversal() {
 		IBuchiWa A = BAStore.getA();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityNestedDFS(A).isUniversal());
+		assertEquals(false, new BuchiUniversalityNestedDFS(A).getResult());
 	} 
 	
 	@Test
 	public void testBIsUniversal() {
 		IBuchiWa B = BAStore.getB();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityNestedDFS(B).isUniversal());
+		assertEquals(false, new BuchiUniversalityNestedDFS(B).getResult());
 	} 
 	
 	
@@ -30,21 +30,21 @@ public class TestBuchiUniversalityNestedDFS {
 	public void testCIsUniversal() {
 		IBuchiWa C = BAStore.getC();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityNestedDFS(C).isUniversal());
+		assertEquals(false, new BuchiUniversalityNestedDFS(C).getResult());
 	} 
 
 	@Test
 	public void testDIsUniversal() {
 		IBuchiWa D = BAStore.getD();
 //		System.out.println(B.toDot());
-		assertEquals(true, new BuchiUniversalityNestedDFS(D).isUniversal());
+		assertEquals(true, new BuchiUniversalityNestedDFS(D).getResult());
 	} 
 
 	@Test
 	public void testEIsUniversal() {
 		IBuchiWa E = BAStore.getE();
 //		System.out.println(B.toDot());
-		assertEquals(false, new BuchiUniversalityNestedDFS(E).isUniversal());
+		assertEquals(false, new BuchiUniversalityNestedDFS(E).getResult());
 	} 
 
 

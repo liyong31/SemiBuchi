@@ -1,8 +1,8 @@
 package operation;
 
-public interface IBinaryOperation<T> extends IGenericOperation<T> {
+public interface IBinaryOperation<I, O> extends IGenericOperation<I, O> {
 
-	T getFirstOperand();
+	I getFirstOperand();
 	
-	T getSecondOperand();
+	I getSecondOperand();
 }
