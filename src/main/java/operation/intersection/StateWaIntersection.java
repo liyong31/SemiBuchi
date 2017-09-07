@@ -71,8 +71,8 @@ class StateWaIntersection extends StateWa {
 		visitedLetters.set(letter);
 		
 		// compute successors
-		IBuchiWa fstOp = mBuchi.getFstOperand();
-		IBuchiWa sndOp = mBuchi.getSndOperand();
+		IBuchiWa fstOp = mBuchi.getFirstOperand();
+		IBuchiWa sndOp = mBuchi.getSecondOperand();
 		IntSet fstSuccs = fstOp.getState(mFstState).getSuccessors(letter);
 		IntSet sndSuccs = sndOp.getState(mSndState).getSuccessors(letter);
 		
@@ -101,8 +101,8 @@ class StateWaIntersection extends StateWa {
 	     * if snd is not final, then we stay in TRACK_TWO
 	 *    */
 	private TrackNumber getSuccStateTrack() {
-		IBuchiWa fstOp = mBuchi.getFstOperand();
-		IBuchiWa sndOp = mBuchi.getSndOperand();
+		IBuchiWa fstOp = mBuchi.getFirstOperand();
+		IBuchiWa sndOp = mBuchi.getSecondOperand();
 		
 		TrackNumber succTrack;
 		if (mTrack == TrackNumber.TRACK_ONE) {

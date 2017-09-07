@@ -57,12 +57,12 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 	}
 
 	@Override
-	public IBuchiWa getSndOperand() {
+	public IBuchiWa getFirstOperand() {
 		return mFstOperand;
 	}
 
 	@Override
-	public IBuchiWa getFstOperand() {
+	public IBuchiWa getSecondOperand() {
 		return mSndOperand;
 	}
 

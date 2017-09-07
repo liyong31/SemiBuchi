@@ -32,12 +32,12 @@ public class GeneralizedBuchiIntersection extends BuchiWa implements IBuchiWaInt
 	}
 	
 	@Override
-	public IBuchiWa getFstOperand() {
+	public IBuchiWa getFirstOperand() {
 		return mFstOperand;
 	}
 
 	@Override
-	public IBuchiWa getSndOperand() {
+	public IBuchiWa getSecondOperand() {
 		return mSndOperand;
 	}
 

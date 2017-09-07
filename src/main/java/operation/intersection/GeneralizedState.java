@@ -66,8 +66,8 @@ public class GeneralizedState extends StateWa {
 		
 		visitedLetters.set(letter);
 		// compute successors
-		IBuchiWa fstOp = mBuchi.getFstOperand();
-		IBuchiWa sndOp = mBuchi.getSndOperand();
+		IBuchiWa fstOp = mBuchi.getFirstOperand();
+		IBuchiWa sndOp = mBuchi.getSecondOperand();
 		IntSet fstSuccs = fstOp.getState(mLeft).getSuccessors(letter);
 		IntSet sndSuccs = sndOp.getState(mRight).getSuccessors(letter);
 		
