@@ -11,7 +11,9 @@ import java.util.Set;
 import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
-
+/**
+ * Buchi word automata
+ * */
 public interface IBuchiWa extends IBuchi<IStateWa> {
 	
 	default public IntSet getSuccessors(IntSet states, int letter) {

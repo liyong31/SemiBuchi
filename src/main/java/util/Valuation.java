@@ -6,9 +6,12 @@ import java.util.Iterator;
 public class Valuation extends BitSet implements Comparable<Valuation>, Iterable<Integer> {
 
 	/**
-	 * should keep the size
+	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * should keep the size
+	 */
 	private int size ;
 	
 	public Valuation(int size) {
@@ -34,6 +37,7 @@ public class Valuation extends BitSet implements Comparable<Valuation>, Iterable
 	
 	@Override
 	public boolean equals(Object obj) {
+		if(this == obj) return true;
 		if(obj instanceof BitSet) {
 			return this.compareTo((Valuation)obj) == 0;
 		}
@@ -113,13 +117,13 @@ public class Valuation extends BitSet implements Comparable<Valuation>, Iterable
 		}
 		
 		public Integer next() {
-			Integer rv = new Integer(index);
+			Integer val = new Integer(index);
 			index = valuation.nextSetBit(index + 1);
-			return rv;
+			return val;
 		}
 		
 		public void remove() {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Valuation doesnot support remove operation");
 		}
 	}
 }

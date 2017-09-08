@@ -1,7 +1,6 @@
 package automata;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,6 +9,9 @@ import java.util.List;
 import util.IntIterator;
 import util.IntSet;
 
+/**
+ * (generalized) Buchi automata
+ * */
 public interface IBuchi<S extends IState> {
 	
 	Acc getAcceptance();

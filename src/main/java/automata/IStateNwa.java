@@ -1,10 +1,6 @@
 package automata;
 
-import java.io.PrintStream;
-import java.util.List;
 import java.util.Set;
-
-import util.IntIterator;
 import util.IntSet;
 
 /**
