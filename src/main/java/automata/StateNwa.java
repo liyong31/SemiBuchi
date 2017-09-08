@@ -1,10 +1,13 @@
 package automata;
 
+import java.io.PrintStream;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -144,6 +147,39 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	@Override
 	public String toString() {
 		return "s" + mId;
+	}
+	
+
+	@Override
+	public void toDot(PrintStream printer, List<String> alphabet) {
+		Set<Integer> callLetters = this.getEnabledLettersCall();
+		for(Integer letter : callLetters) {
+        	IntSet succs = this.getSuccessorsCall(letter);
+    		transToDot(printer, alphabet, succs, "<" + alphabet.get(letter));
+        }
+		
+		Set<Integer> internalLetters = this.getEnabledLettersInternal();
+		for(Integer letter : internalLetters) {
+        	IntSet succs = this.getSuccessorsInternal(letter);
+    		transToDot(printer, alphabet, succs, alphabet.get(letter));
+        }
+		
+		Set<Integer> returnLetters = this.getEnabledLettersInternal();
+		for(Integer letter : returnLetters) {
+			Set<Integer> predHiers = this.getEnabledHiersReturn(letter);
+			for(Integer predHier : predHiers) {
+	        	IntSet succs = this.getSuccessorsReturn(predHier, letter);
+	    		transToDot(printer, alphabet, succs, predHier + "," + alphabet.get(letter) + ">");
+			}
+        }
+	}
+	
+	private void transToDot(PrintStream printer, List<String> alphabet, IntSet succs, String letter) {
+		IntIterator iter = succs.iterator();
+		while(iter.hasNext()) {
+			int succ = iter.next();
+			printer.print("  " + this.getId() + " -> " + succ + " [label=\"" + letter + "\"];\n");
+		}
 	}
 
 }

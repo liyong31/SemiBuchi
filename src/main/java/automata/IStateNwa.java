@@ -1,7 +1,10 @@
 package automata;
 
+import java.io.PrintStream;
+import java.util.List;
 import java.util.Set;
 
+import util.IntIterator;
 import util.IntSet;
 
 /**
@@ -30,4 +33,5 @@ public interface IStateNwa extends IState {
 	Set<Integer> getEnabledLettersReturn();
 	
 	Set<Integer> getEnabledHiersReturn(int letter);
+
 }

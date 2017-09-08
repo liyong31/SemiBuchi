@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import automata.IBuchi;
+import automata.IBuchiWa;
 import util.Timer;
 
 public class RunRabit {
@@ -91,8 +92,8 @@ public class RunRabit {
 	 * Execute RABIT in command line 
 	 * */
 	public static Boolean executeRabit(
-			final IBuchi fstOp
-		  , final IBuchi sndOp, long timeLimit) throws Exception {
+			final IBuchiWa fstOp
+		  , final IBuchiWa sndOp, long timeLimit) throws Exception {
 		
 		File inFile = new File(A_FILE);
 		FileWriter writer = new FileWriter(inFile);

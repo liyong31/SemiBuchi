@@ -21,7 +21,7 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	IntSet getAlphabetReturn();
 	
 	// get nested alphabet size
-	default public int getNwaAlphabetSize() {
+	default public int getAlphabetSize() {
 		return getAlphabetInternal().cardinality() + getAlphabetCall().cardinality() + getAlphabetReturn().cardinality();
 	}
 	
@@ -210,18 +210,6 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	@Override
 	default public void makeComplete() {
 		assert false : "unsupported function in nested word automata" ;
-	}
-
-	@Override
-	default public String toDot() {
-		assert false : "unsupported function in nested word automata" ;
-		return null;
-	}
-	
-	@Override
-	default public String toBA() {
-		assert false : "unsupported function in nested word automata" ;
-		return null;
 	}
 
 	@Override

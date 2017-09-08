@@ -1,9 +1,13 @@
 package automata;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import util.IntIterator;
 import util.IntSet;
 
 public interface IBuchi<S extends IState> {
@@ -52,13 +56,49 @@ public interface IBuchi<S extends IState> {
 	Collection<S> getStates();
 	
 	void makeComplete();
+	
+	int getAlphabetSize();
 		
 	int getNumTransition();
 	// printer
 	
-	String toDot();
+	default public String toDot() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+        	List<String> alphabet = new ArrayList<>();
+        	for(int i = 0; i < getAlphabetSize(); i ++) {
+        		alphabet.add(i + "");
+        	}
+            toDot(new PrintStream(out), alphabet);
+            return out.toString();
+        } catch (Exception e) {
+            return "ERROR";
+        }
+	}
 	
-	String toBA();
+	default void toDot(PrintStream out, List<String> alphabet) {
+		
+		// output automata in dot
+		out.print("digraph {\n");
+		Collection<S> states = getStates();
+		for(S state : states) {
+			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
+            if(isFinal(state.getId())) out.print(", shape = doublecircle");
+            else out.print(", shape = circle");
+            out.print("];\n");
+            state.toDot(out, alphabet);
+        }	
+		out.print("  " + states.size() + " [label=\"\", shape = plaintext];\n");
+        IntSet initialStates = getInitialStates();
+        IntIterator iter = initialStates.iterator();
+        while(iter.hasNext()) {
+        	int init = iter.next();
+        	out.print("  " + states.size() + " -> " + init + " [label=\"\"];\n");
+        }
+        
+        out.print("}\n\n");
+
+	}
 	
 	void toATS(PrintStream out, List<String> alphabet);
 	

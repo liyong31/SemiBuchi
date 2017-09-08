@@ -43,7 +43,7 @@ public class TestBuchiIsEmptyASCC {
 	@Test
 	public void testEIsEmpty() {
 		IBuchiWa E = BAStore.getE();
-		System.out.println(E.toDot());
+//		System.out.println(E.toDot());
 		assertEquals(true, new BuchiIsEmptyASCC(E, 10000).getResult());
 	} 
 }

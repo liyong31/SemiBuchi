@@ -1,6 +1,8 @@
 package automata;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +13,6 @@ import util.IntSet;
 import util.UtilIntSet;
 
 public interface IBuchiWa extends IBuchi<IStateWa> {
-	
-	int getAlphabetSize();
 	
 	default public IntSet getSuccessors(IntSet states, int letter) {
 		IntSet result = UtilIntSet.newIntSet();
@@ -28,95 +28,6 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
 		
 	void makeComplete();
 	
-	default public String toDot() {
-		
-		StringBuilder sb = new StringBuilder();
-		
-		// output automata in dot
-		sb.append("digraph {\n");
-		Collection<IStateWa> states = getStates();
-		for(IStateWa state : states) {
-			sb.append("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
-            if(isFinal(state.getId())) sb.append(", shape = doublecircle");
-            else sb.append(", shape = circle");
-            sb.append("];\n");
-            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	IntSet succs = state.getSuccessors(letter);
-        		IntIterator iter = succs.iterator();
-        		while(iter.hasNext()) {
-        			int succ = iter.next();
-        			sb.append("  " + state.getId() + " -> " + succ + " [label=\"" + letter + "\"];\n");
-        		}
-            }
-        }	
-        sb.append("  " + states.size() + " [label=\"\", shape = plaintext];\n");
-        IntSet initialStates = getInitialStates();
-        IntIterator iter = initialStates.iterator();
-        while(iter.hasNext()) {
-        	int init = iter.next();
-        	sb.append("  " + states.size() + " -> " + init + " [label=\"\"];\n");
-        }
-        
-        sb.append("}\n\n");
-		return sb.toString();
-	}
-	
-	// RABIT format
-	default public String toBA() {
-		
-		StringBuilder sb = new StringBuilder();
-        IntSet initialStates = getInitialStates();
-        if(initialStates.cardinality() > 1) 
-        	throw new RuntimeException("BA format does not allow multiple initial states...");
-        IntIterator iter = initialStates.iterator();
-        sb.append("[" + iter.next() + "]\n");
-		// output automata in BA (RABIT format)
-		Collection<IStateWa> states = getStates();
-		for(IStateWa state : states) {
-            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	IntSet succs = state.getSuccessors(letter);
-            	iter = succs.iterator();
-            	while(iter.hasNext()) {
-            		int succ = iter.next();
-            		sb.append("a" + letter + ",[" + state.getId() + "]->[" + succ + "]\n");
-            	}
-            }
-        }	
-        IntSet finStates = getFinalStates();
-        iter = finStates.iterator();
-        while(iter.hasNext()) {
-        	sb.append("[" + iter.next() + "]\n");
-        }
-        
-		return sb.toString();
-	}
-	
-	// use this function if automtaton is too large 
-	default public void toBA(PrintStream out) {
-        IntSet initialStates = getInitialStates();
-        if(initialStates.cardinality() > 1) 
-        	throw new RuntimeException("BA format does not allow multiple initial states...");
-        IntIterator iter = initialStates.iterator();
-        out.print("[" + iter.next() + "]\n");
-		// output automata in BA (RABIT format)
-		Collection<IStateWa> states = getStates();
-		for(IStateWa state : states) {
-            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	IntSet succs = state.getSuccessors(letter);
-            	iter = succs.iterator();
-            	while(iter.hasNext()) {
-            		int succ = iter.next();
-            		out.print("a" + letter + ",[" + state.getId() + "]->[" + succ + "]\n");
-            	}
-            }
-        }	
-        IntSet finStates = getFinalStates();
-        iter = finStates.iterator();
-        while(iter.hasNext()) {
-        	out.print("[" + iter.next() + "]\n");
-        }
-	}
-	
 	// use this function if automtaton is too large 
 	default public void toBA(PrintStream out, List<String> alphabet) {
         IntSet initialStates = getInitialStates();
@@ -127,19 +38,26 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
 		// output automata in BA (RABIT format)
 		Collection<IStateWa> states = getStates();
 		for(IStateWa state : states) {
-            for (int letter = 0; letter < getAlphabetSize(); letter ++) {
-            	IntSet succs = state.getSuccessors(letter);
-            	iter = succs.iterator();
-            	while(iter.hasNext()) {
-            		int succ = iter.next();
-            		out.print(alphabet.get(letter) + ",[" + state.getId() + "]->[" + succ + "]\n");
-            	}
-            }
+            state.toBA(out, alphabet);
         }	
         IntSet finStates = getFinalStates();
         iter = finStates.iterator();
         while(iter.hasNext()) {
         	out.print("[" + iter.next() + "]\n");
+        }
+	}
+	
+	default public String toBA() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+        	List<String> alphabet = new ArrayList<>();
+        	for(int i = 0; i < getAlphabetSize(); i ++) {
+        		alphabet.add(i + "");
+        	}
+            toBA(new PrintStream(out), alphabet);
+            return out.toString();
+        } catch (Exception e) {
+            return "ERROR";
         }
 	}
 	
