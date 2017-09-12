@@ -42,5 +42,7 @@ public class DoubleDecker {
 	public String toString() {
 		return "<down:" + this.mDownState + ", up:" +this.mUpState + ">"; 
 	}
+	
+	public static final int EMPTY_DOWN_STATE = -1;
 
 }

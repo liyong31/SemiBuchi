@@ -30,7 +30,6 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 	
 	private final TObjectIntMap<StateNwaNCSB> mState2Int = new TObjectIntHashMap<>();
 	private final IntSet mFinalDeckers;
-	private final int EMPTY_DOWN = -1;
 	
 	public BuchiNwaComplement(IBuchiNwa buchi) {
 		super(buchi.getAlphabetCall(), buchi.getAlphabetInternal(), buchi.getAlphabetReturn());
@@ -47,8 +46,8 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 		upC.and(mOperand.getFinalStates()); // goto C
 		IntSet upN = mOperand.getInitialStates().clone();
 		upN.andNot(upC);
-		IntSet N = generateDeckers(EMPTY_DOWN, upN);
-		IntSet C = generateDeckers(EMPTY_DOWN, upC);
+		IntSet N = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upN);
+		IntSet C = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upC);
 		state.setNCSB(new NCSB(N, C, UtilIntSet.newIntSet(), C));
 		if(C.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
@@ -98,10 +97,6 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 			mFinalDeckers.set(id);
 		}
 		return id;
-	}
-	
-	protected int getEmptyDownState() {
-		return EMPTY_DOWN;
 	}
 	
 	protected IntSet getFinalDeckers() {

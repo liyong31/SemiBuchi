@@ -129,18 +129,19 @@ public class ATSFileParser4Nwa {
 //		map.put(new DoubleDecker(-1, 2), 0);
 //		System.out.println(map.containsKey(new DoubleDecker(-1, 2)));
 		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
-		parser.parse("/home/liyong/workspace-neon/SemiBuchi/test7.ats");
+		parser.parse("/home/liyong/workspace-neon/SemiBuchi/test4.ats");
 		IBuchiNwa buchi = parser.getBuchi(0);
 		buchi.toATS(System.out, parser.getAlphabet());
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
-		Options.verbose = false;
-		Options.optNCSB = true;
-		Options.optBeqC = false;
+		Options.verbose = true;
+		Options.optNCSB = false;
+		Options.optBeqC = true;
 		
 		complement.explore();
 		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
 		complement.toATS(System.out, parser.getAlphabet());
+		complement.toDot(System.out, parser.getAlphabet());
 	}
 	
 	

@@ -155,21 +155,21 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 		Set<Integer> callLetters = this.getEnabledLettersCall();
 		for(Integer letter : callLetters) {
         	IntSet succs = this.getSuccessorsCall(letter);
-    		transToDot(printer, alphabet, succs, "<" + alphabet.get(letter));
+    		transToDot(printer, alphabet, succs, "<" + alphabet.get(letter).toString());
         }
 		
 		Set<Integer> internalLetters = this.getEnabledLettersInternal();
 		for(Integer letter : internalLetters) {
         	IntSet succs = this.getSuccessorsInternal(letter);
-    		transToDot(printer, alphabet, succs, alphabet.get(letter));
+    		transToDot(printer, alphabet, succs, alphabet.get(letter).toString());
         }
 		
-		Set<Integer> returnLetters = this.getEnabledLettersInternal();
+		Set<Integer> returnLetters = this.getEnabledLettersReturn();
 		for(Integer letter : returnLetters) {
 			Set<Integer> predHiers = this.getEnabledHiersReturn(letter);
 			for(Integer predHier : predHiers) {
 	        	IntSet succs = this.getSuccessorsReturn(predHier, letter);
-	    		transToDot(printer, alphabet, succs, predHier + "," + alphabet.get(letter) + ">");
+	    		transToDot(printer, alphabet, succs, predHier + "," + alphabet.get(letter).toString() + ">");
 			}
         }
 	}
@@ -178,7 +178,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 		IntIterator iter = succs.iterator();
 		while(iter.hasNext()) {
 			int succ = iter.next();
-			printer.print("  " + this.getId() + " -> " + succ + " [label=\"" + letter + "\"];\n");
+			printer.print("  " + this.getId() + " -> " + succ + " [label=\"" + letter.replaceAll("\"", "") + "\"];\n");
 		}
 	}
 
