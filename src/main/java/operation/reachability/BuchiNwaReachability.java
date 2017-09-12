@@ -18,18 +18,16 @@ import util.parser.nwa.ats.ATSFileParser4Nwa;
 /**
  * explore the state space of the input Buchi nested word automaton
  * */
-public class BuchiNwaReachability implements IBuchiNwaReachability {
-	
-	private final IBuchiNwa mOperand;
-	private boolean mExplored = false;
+public class BuchiNwaReachability extends BuchiReachability<IBuchiNwa> {
+
 	private final Set<ExploreTask> mExploreTasks;
 	private final LinkedList<ExploreTask> mWorkList;
 	public final DoubleDecker EMPTY_DOUBLEDECKER = new DoubleDecker(-1, -1);
 	
 	
 	public BuchiNwaReachability(IBuchiNwa operand) {
-		mOperand = operand;
-		mExploreTasks = new HashSet<>();
+		super(operand);
+ 		mExploreTasks = new HashSet<>();
 		mWorkList =  new LinkedList<>(); 
 	}
 	
@@ -54,7 +52,7 @@ public class BuchiNwaReachability implements IBuchiNwaReachability {
 	}
 	
 	@Override
-	public void explore() {
+	protected void explore() {
 		
 		if(mExplored) return ;
 		
@@ -123,21 +121,11 @@ public class BuchiNwaReachability implements IBuchiNwaReachability {
     		}
     	}
 	}
-
-	@Override
-	public IBuchiNwa getOperand() {
-		return mOperand;
-	}
-
-	@Override
-	public IBuchiNwa getResult() {
-		if(! mExplored) explore();
-		return mOperand;
-	}
-	
 	
 	/**
-	 * Unique explore task 
+	 * Unique explore task [(d, d'), (d', q)]
+	 *   a run from d to d' over a nested word which has only one pending call
+	 *   a run from d' to q over a nested word which has only one pending call
 	 * */
 	private class ExploreTask {
 		private final DoubleDecker mPredDoubleDecker;
@@ -184,12 +172,12 @@ public class BuchiNwaReachability implements IBuchiNwaReachability {
 	}
 	
 	public static void main(String[] args) {
-		String file = "/home/liyong/workspace-neon/SemiBuchi/test4.ats";
+		String file = "/home/liyong/workspace-neon/SemiBuchi/test8.ats";
 
 		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
 		parser.parse(file);
 		IBuchiNwa buchi = parser.getBuchi(0);
-//		buchi.toATS(System.out, parser.getAlphabet());
+		buchi.toATS(System.out, parser.getAlphabet());
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
 		Options.verbose = false;
