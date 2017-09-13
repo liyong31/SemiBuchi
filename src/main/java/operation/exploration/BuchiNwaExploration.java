@@ -55,7 +55,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		do{
 			
 			while(! mWorkList.isEmpty()) {
-				
+				/** self loop new down states will be handled separately */
 				StateInfo currInfo = mWorkList.removeFirst();
 				currInfo.clearUnpropagateDownStates();
 				TIntSet newDownStatesLoops = 
@@ -254,6 +254,10 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		}
 	}
 	
+	/** 
+	 * If a state has not been traversed, then no need to be added
+	 * into mPropagationList
+	 * */
 	private void addStateInfoInPropagationList(StateInfo stateInfo) {
 		if(! mWorkList.hasStateInfo(stateInfo)) {
 			mPropagationList.add(stateInfo);
@@ -336,7 +340,6 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 
 			@Override
 			public Integer next() {
-				// TODO Auto-generated method stub
 				return iter.next();
 			}
 			
@@ -444,8 +447,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
 		Options.verbose = false;
-		Options.optNCSB = false;
-		Options.optBeqC = true;
+		Options.optNCSB = true;
+		Options.optBeqC = false;
 		
 		BuchiNwaExploration reach = new BuchiNwaExploration(complement);
 		reach.explore();
@@ -456,15 +459,15 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		
 //		System.out.println("normal exploration ----------------");
 //		
-//		parser = new ATSFileParser4Nwa();
-//		parser.parse(file);
-//		buchi = parser.getBuchi(0);
-////		buchi.toATS(System.out, parser.getAlphabet());
-//		complement = new BuchiNwaComplement(buchi);
-//
-//		complement.explore();
-//		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
-//		complement.toATS(System.out, parser.getAlphabet());
+		parser = new ATSFileParser4Nwa();
+		parser.parse(file);
+		buchi = parser.getBuchi(0);
+//		buchi.toATS(System.out, parser.getAlphabet());
+		complement = new BuchiNwaComplement(buchi);
+
+		complement.explore();
+		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
+		complement.toATS(System.out, parser.getAlphabet());
 	}
 
 }
