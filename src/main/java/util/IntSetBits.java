@@ -1,6 +1,7 @@
 package util;
 
 import java.util.BitSet;
+import java.util.Iterator;
 
 public class IntSetBits implements IntSet {
 	
@@ -153,6 +154,23 @@ public class IntSetBits implements IntSet {
 			index = bits.nextSetBit(index + 1);
 			return rv;
 		}
+	}
+	
+	@Override
+	public Iterable<Integer> iterable() {
+		return () -> new Iterator<Integer>() {
+			IntIterator iter = iterator();
+			@Override
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
+
+			@Override
+			public Integer next() {
+				return iter.next();
+			}
+			
+		};
 	}
 
 }

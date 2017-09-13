@@ -155,7 +155,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 		Set<Integer> callLetters = this.getEnabledLettersCall();
 		for(Integer letter : callLetters) {
         	IntSet succs = this.getSuccessorsCall(letter);
-    		transToDot(printer, alphabet, succs, "<" + alphabet.get(letter).toString());
+    		transToDot(printer, alphabet, succs, alphabet.get(letter) + "<");
         }
 		
 		Set<Integer> internalLetters = this.getEnabledLettersInternal();
@@ -169,7 +169,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 			Set<Integer> predHiers = this.getEnabledHiersReturn(letter);
 			for(Integer predHier : predHiers) {
 	        	IntSet succs = this.getSuccessorsReturn(predHier, letter);
-	    		transToDot(printer, alphabet, succs, predHier + "," + alphabet.get(letter).toString() + ">");
+	    		transToDot(printer, alphabet, succs, predHier + ",>" + alphabet.get(letter));
 			}
         }
 	}

@@ -141,5 +141,10 @@ public class IntSetTreeSet implements IntSet {
 		
 	}
 	
+	@Override
+	public Iterable<Integer> iterable() {
+		return set;
+	}
+	
 
 }

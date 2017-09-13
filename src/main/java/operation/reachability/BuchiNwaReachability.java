@@ -172,7 +172,7 @@ public class BuchiNwaReachability extends BuchiReachability<IBuchiNwa> {
 	}
 	
 	public static void main(String[] args) {
-		String file = "/home/liyong/workspace-neon/SemiBuchi/test8.ats";
+		String file = "/home/liyong/workspace-neon/SemiBuchi/test4.ats";
 
 		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
 		parser.parse(file);
@@ -188,18 +188,19 @@ public class BuchiNwaReachability extends BuchiReachability<IBuchiNwa> {
 		reach.explore();
 		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
 		complement.toATS(System.out, parser.getAlphabet());
+		complement.toDot(System.out, parser.getAlphabet());
 		
-		System.out.println("normal exploration ----------------");
-//		complement.toDot(System.out, parser.getAlphabet());
-		parser = new ATSFileParser4Nwa();
-		parser.parse(file);
-		buchi = parser.getBuchi(0);
-//		buchi.toATS(System.out, parser.getAlphabet());
-		complement = new BuchiNwaComplement(buchi);
-
-		complement.explore();
-		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
-		complement.toATS(System.out, parser.getAlphabet());
+//		System.out.println("normal exploration ----------------");
+//		
+//		parser = new ATSFileParser4Nwa();
+//		parser.parse(file);
+//		buchi = parser.getBuchi(0);
+////		buchi.toATS(System.out, parser.getAlphabet());
+//		complement = new BuchiNwaComplement(buchi);
+//
+//		complement.explore();
+//		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
+//		complement.toATS(System.out, parser.getAlphabet());
 	}
 
 }

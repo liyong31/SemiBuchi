@@ -55,5 +55,7 @@ public interface IntSet {
 	Object get();
 	
 	IntIterator iterator();
+	
+	Iterable<Integer> iterable();
 		
 }

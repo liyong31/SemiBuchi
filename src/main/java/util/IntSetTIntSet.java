@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Iterator;
+
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
@@ -139,6 +141,23 @@ public class IntSetTIntSet implements IntSet {
 			return setIter.next();
 		}
 		
+	}
+	
+	@Override
+	public Iterable<Integer> iterable() {
+		return () -> new Iterator<Integer>() {
+			TIntIterator iter = set.iterator();
+			@Override
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
+
+			@Override
+			public Integer next() {
+				return iter.next();
+			}
+			
+		};
 	}
 
 }

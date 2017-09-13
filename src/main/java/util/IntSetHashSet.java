@@ -140,5 +140,10 @@ public class IntSetHashSet implements IntSet {
 		}
 		
 	}
+	
+	@Override
+	public Iterable<Integer> iterable() {
+		return set;
+	}
 
 }

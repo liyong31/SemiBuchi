@@ -1,5 +1,7 @@
 package util;
 
+import java.util.Iterator;
+
 import com.zaxxer.sparsebits.SparseBitSet;
 
 public class IntSetSparseBits implements IntSet {
@@ -153,6 +155,23 @@ public class IntSetSparseBits implements IntSet {
 			return rv;
 		}
 		
+	}
+	
+	@Override
+	public Iterable<Integer> iterable() {
+		return () -> new Iterator<Integer>() {
+			IntIterator iter = iterator();
+			@Override
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
+
+			@Override
+			public Integer next() {
+				return iter.next();
+			}
+			
+		};
 	}
 
 }
