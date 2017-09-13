@@ -24,7 +24,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	// store those state to be explored, every state will be only added once
 	private final StateInfoQueue mWorkList;
 	// store those state whose down states have been updated
-	private final StateInfoQueue mDownPropagationList;
+	private final StateInfoQueue mPropagationList;
 	private final TIntObjectMap<StateInfo> mStateInfoMap;
 	private final TIntObjectMap<TIntSet> mHiersSuccMap;
 	
@@ -33,11 +33,16 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	public BuchiNwaExploration(IBuchiNwa operand) {
 		super(operand);
 		mWorkList = new StateInfoQueue();
-		mDownPropagationList = new StateInfoQueue();
+		mPropagationList = new StateInfoQueue();
 		mStateInfoMap = new TIntObjectHashMap<>();
 		mHiersSuccMap = new TIntObjectHashMap<>();
 	}
-
+	
+	/**
+	 * When a new state was created, it will be added into mWorkList only once.
+	 * when the down states of a state which has been traversed has changed, that state
+	 * should be added into mPropagationList 
+	 *  */
 	@Override
 	protected void explore() {
 		
@@ -68,11 +73,11 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			 * if mWorkList is empty and propagation list is not empty, then
 			 * we should propagate current new down states to successors
 			 *  */
-			while(mWorkList.isEmpty() && ! mDownPropagationList.isEmpty()) {
-				propagateNewDownStates(mDownPropagationList.removeFirst());
+			while(mWorkList.isEmpty() && ! mPropagationList.isEmpty()) {
+				propagateNewDownStates(mPropagationList.removeFirst());
 			}
 			
-		}while(! mWorkList.isEmpty() || ! mDownPropagationList.isEmpty());
+		}while(! mWorkList.isEmpty() || ! mPropagationList.isEmpty());
 	}
 	
 	private TIntSet traverseReturnTransitionsWithHier(StateInfo currInfo, TIntSet downStates) {
@@ -251,7 +256,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	
 	private void addStateInfoInPropagationList(StateInfo stateInfo) {
 		if(! mWorkList.hasStateInfo(stateInfo)) {
-			mDownPropagationList.add(stateInfo);
+			mPropagationList.add(stateInfo);
 		}
 	}
 
@@ -267,6 +272,15 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		return state != DoubleDecker.EMPTY_DOWN_STATE;
 	}
 	
+	/**
+	 * If a state has been added new down states, then those down states should be propagated to
+	 * 
+	 *   * its internal successors, since they share the same down states
+	 *   
+	 *   * its return successors when it is hierarchy predecessors, since they share the same down states
+	 *   
+	 *   Also we should add new return transitions with its new down states
+	 *   */
 	private void propagateNewDownStates(StateInfo currInfo) {
 		final TIntSet unpropagateDownStates = currInfo.getUnpropagateDownStates();
 		if(unpropagateDownStates == null) return ;
@@ -285,6 +299,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			TIntSet newDownStatesLoops = traverseReturnTransitionsWithHier(currInfo
 					                                       , unpropagateDownStates);
 			currInfo.clearUnpropagateDownStates();
+			// must first clear its used down states
 			addPropagateNewDownStates(currInfo, newDownStatesLoops);
 		}else {
 			currInfo.clearUnpropagateDownStates();
