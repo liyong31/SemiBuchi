@@ -21,10 +21,10 @@ import util.parser.nwa.ats.ATSFileParser4Nwa;
  * */
 public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 
-	// store those state to be explored
-	private final LinkedList<StateInfo> mWorkList;
+	// store those state to be explored, every state will be only added once
+	private final StateInfoQueue mWorkList;
 	// store those state whose down states have been updated
-	private final PropagationList mDownPropagationList;
+	private final StateInfoQueue mDownPropagationList;
 	private final TIntObjectMap<StateInfo> mStateInfoMap;
 	private final TIntObjectMap<TIntSet> mHiersSuccMap;
 	
@@ -32,8 +32,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	
 	public BuchiNwaExploration(IBuchiNwa operand) {
 		super(operand);
-		mWorkList = new LinkedList<>();
-		mDownPropagationList = new PropagationList();
+		mWorkList = new StateInfoQueue();
+		mDownPropagationList = new StateInfoQueue();
 		mStateInfoMap = new TIntObjectHashMap<>();
 		mHiersSuccMap = new TIntObjectHashMap<>();
 	}
@@ -65,7 +65,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			}
 			
 			/**
-			 * if mWorkList is empty and propagaton list is not empty, then
+			 * if mWorkList is empty and propagation list is not empty, then
 			 * we should propagate current new down states to successors
 			 *  */
 			while(mWorkList.isEmpty() && ! mDownPropagationList.isEmpty()) {
@@ -98,7 +98,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			for(final Integer downState : iterable(newDownStates)) {
 				currInfo.addDownState(downState);
 			}
-			mDownPropagationList.add(currInfo);
+			addStateInfoInPropagationList(currInfo);
 		}
 	}
 	
@@ -230,7 +230,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	private void addNewDownStates(StateInfo currStateInfo, StateInfo succStateInfo
 			, TIntSet downStates) {
 		
-		// will be handled elsewhere, avoid multiple calls for itself
+		// will be handled at other place, avoid multiple calls for itself
 		if(stateInfoIsEqual(currStateInfo, succStateInfo)) return ;
 		
 		boolean needPropagation = false;
@@ -245,7 +245,13 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		 * succStateInfo should be propagated 
 		 * */
 		if (needPropagation) {
-			mDownPropagationList.add(succStateInfo);
+			addStateInfoInPropagationList(succStateInfo);
+		}
+	}
+	
+	private void addStateInfoInPropagationList(StateInfo stateInfo) {
+		if(! mWorkList.hasStateInfo(stateInfo)) {
+			mDownPropagationList.add(stateInfo);
 		}
 	}
 
@@ -380,11 +386,11 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 	
 	//----------------------------------------------------------------
-	private class PropagationList extends LinkedList<StateInfo> {
+	private class StateInfoQueue extends LinkedList<StateInfo> {
 		private static final long serialVersionUID = 1L;
 		private final TIntSet mInList;
 		
-		public PropagationList() {
+		public StateInfoQueue() {
 			super();
 			mInList = new TIntHashSet();
 		}
@@ -394,6 +400,10 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			StateInfo result = super.removeFirst();
 			mInList.remove(result.getState());
 			return result;
+		}
+		
+		public boolean hasStateInfo(StateInfo state) {
+			return mInList.contains(state.getState());
 		}
 		
 		@Override

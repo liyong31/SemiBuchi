@@ -175,9 +175,7 @@ public class StateNwa implements IStateNwa, Comparable<StateNwa> {
 	}
 	
 	private void transToDot(PrintStream printer, List<String> alphabet, IntSet succs, String letter) {
-		IntIterator iter = succs.iterator();
-		while(iter.hasNext()) {
-			int succ = iter.next();
+		for(final Integer succ : succs.iterable()) {
 			printer.print("  " + this.getId() + " -> " + succ + " [label=\"" + letter.replaceAll("\"", "") + "\"];\n");
 		}
 	}
