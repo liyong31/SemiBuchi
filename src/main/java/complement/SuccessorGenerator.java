@@ -57,7 +57,7 @@ class SuccessorGenerator {
 		// compute must in (C/B) states
 		// in order not to mess up the code with the description 
 		// some lines may repeat in different situation
-		if(Options.optNCSB) {
+		if(Options.lazyS) {
 			// lazy NCSB initialization
 			if(mIsCurrBEmpty) {
 				mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
@@ -101,13 +101,13 @@ class SuccessorGenerator {
 		IntSet SP =  mSPrime.clone();
 		IntSet BP = null;
 		
-		if(Options.optNCSB) {
+		if(Options.lazyS) {
 			SP.or(toS); // S'=d(S)\/M'
 			if(mIsCurrBEmpty) {
 				// as usual S and C
 				CP = mMustIn.clone();
 				CP.or(left); // C' get extra
-				if(Options.optBeqC) {
+				if(Options.lazyB) {
 					BP = CP;
 				}else {
 					// following is d(C) /\ C'
@@ -130,7 +130,7 @@ class SuccessorGenerator {
 			CP.or(left);
 			SP.or(toS);
 			if(mIsCurrBEmpty) {
-				if(Options.optBeqC) {
+				if(Options.lazyB) {
 					BP = CP;
 				}else {
 					BP = mSuccNCSB.copyCSet();

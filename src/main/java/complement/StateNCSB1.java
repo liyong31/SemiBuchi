@@ -73,7 +73,7 @@ public class StateNCSB1 extends StateWa implements IStateWaComplement {
 		if(visitedLetters.get(letter)) {
 			return super.getSuccessors(letter);
 		}
-		if(Options.optNCSB) {
+		if(Options.lazyS) {
 			return computeSuccessorsOptimized(letter);
 		}else {
 			return computeSuccessors(letter);
@@ -239,7 +239,7 @@ public class StateNCSB1 extends StateWa implements IStateWaComplement {
 			SPrime.or(Sextra);
 			IntSet BPrime = null;
 			if(currBSet.isEmpty()) {
-				if(Options.optBeqC) {
+				if(Options.lazyB) {
 					BPrime = CPrime.clone();
 				}else {
 					BPrime = CSuccs.clone();
@@ -356,7 +356,7 @@ public class StateNCSB1 extends StateWa implements IStateWaComplement {
 				// as usual S and C
 				CPrime = nInterF.clone();
 				CPrime.or(extra); // C' get extra
-				if(Options.optBeqC) {
+				if(Options.lazyB) {
 					BPrime = CPrime;
 				}else {
 					BPrime = CSuccs.clone(); 

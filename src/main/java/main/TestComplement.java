@@ -30,7 +30,7 @@ public class TestComplement {
 				if(n >= 0 && n <= 4) Options.setChoice = n;
 				++ i;
 			}else if(args[i].equals("-opt")) {
-				Options.optNCSB = true;
+				Options.lazyS = true;
 			}else if(args[i].contains(".ats")) {
 				fileIn = new File(args[i]);
 				parser = UtilParser.getSinleParser(ParserType.ATS);
@@ -38,7 +38,7 @@ public class TestComplement {
 				fileIn = new File(args[i]);
 				parser = UtilParser.getSinleParser(ParserType.BA);
 			}else if(args[i].equals("-beqc")) {
-				Options.optBeqC = true;
+				Options.lazyB = true;
 			}
 		}
 		
@@ -54,7 +54,7 @@ public class TestComplement {
 //		System.out.println("complement BA: \n" + buchiComplement.toBA());
 		System.out.println("complement ATS: \n");
 		buchiComplement.toATS(System.out, parser.getAlphabet());
-		System.out.println("\n\nNCSB" + (!Options.optBeqC ? "+dc": "") + (Options.optNCSB? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
+		System.out.println("\n\nNCSB" + (!Options.lazyB ? "+dc": "") + (Options.lazyS? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
 		
 	}
 

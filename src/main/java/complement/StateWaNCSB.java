@@ -57,7 +57,7 @@ public class StateWaNCSB extends StateWa implements IStateWaComplement {
 		// C\B
 		IntSet cMinusB = mNCSB.copyCSet();
 		cMinusB.andNot(mNCSB.getBSet());
-		succResult = collectSuccessors(cMinusB, letter, !Options.optNCSB);
+		succResult = collectSuccessors(cMinusB, letter, !Options.lazyS);
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
 		IntSet CSuccs = succResult.mSuccs;
 		CSuccs.or(BSuccs);

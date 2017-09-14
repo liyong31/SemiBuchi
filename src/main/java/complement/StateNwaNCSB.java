@@ -143,7 +143,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 		// First compute the successors of C
         IntSet CMinusB = mNCSB.copyCSet();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
-        succResult = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.optNCSB);
+        succResult = computeSuccDoubleDeckers_CallOrInternal(CMinusB, letter, !Options.lazyS);
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
 		IntSet CSuccs = succResult.mSuccs;
 		CSuccs.or(BSuccs);
@@ -205,7 +205,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
         IntSet CMinusB = mNCSB.getCSet().clone();
         CMinusB.andNot(mNCSB.getBSet()); // C\B
         
-		succResult = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, !Options.optNCSB);
+		succResult = computeSuccDoubleDeckers_Return(CMinusB, hierDoubleDeckers, letter, !Options.lazyS);
         if(! succResult.hasSuccessor) return UtilIntSet.newIntSet();
         IntSet CSuccs = succResult.mSuccs;
 		CSuccs.or(BSuccs);                 // add successors of B

@@ -447,8 +447,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
 		Options.verbose = false;
-		Options.optNCSB = true;
-		Options.optBeqC = false;
+		Options.lazyS = false;
+		Options.lazyB = true;
 		
 		BuchiNwaExploration reach = new BuchiNwaExploration(complement);
 		reach.explore();

@@ -60,13 +60,13 @@ public class Main {
 				if(n >= 0 && n <= 4) Options.setChoice = n;
 				++ i;
 			}else if(args[i].equals("-opt")) {
-				Options.optNCSB = true;
+				Options.lazyS = true;
 			}else if(args[i].equals("-complement")) {
 				complement = true;
 				fileOut = args[i + 1];
 				++ i;	
 			}else if(args[i].equals("-beqc")) {
-				Options.optBeqC = true;
+				Options.lazyB = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -195,7 +195,7 @@ public class Main {
 		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
 		                                    + "," + buchi.getNumTransition()
 		                                    + "," + buchi.getAlphabetSize() 
-		                                    + "," + "NCSB" +(Options.optNCSB ? "+opt": "") + (!Options.optBeqC ? "+dc": "") + "+" + UtilIntSet.getSetType()
+		                                    + "," + "NCSB" +(Options.lazyS ? "+opt": "") + (!Options.lazyB ? "+dc": "") + "+" + UtilIntSet.getSetType()
 		                                    + "," + buchiComplement.getStateSize()
 		                                    + "," + buchiComplement.getNumTransition()
 		                                    + "," + time);

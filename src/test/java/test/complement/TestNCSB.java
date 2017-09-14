@@ -72,7 +72,7 @@ public class TestNCSB {
 		c.explore();
 		System.out.println("complement:\n" + c.toDot());
 		
-		Options.optNCSB = true;
+		Options.lazyS = true;
 		c = new BuchiWaComplement(buchi);
 		c.explore();
 		System.out.println("complement opt:\n" + c.toDot());

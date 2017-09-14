@@ -135,8 +135,8 @@ public class ATSFileParser4Nwa {
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
 		Options.verbose = true;
-		Options.optNCSB = false;
-		Options.optBeqC = true;
+		Options.lazyS = false;
+		Options.lazyB = true;
 		
 		complement.explore();
 		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());

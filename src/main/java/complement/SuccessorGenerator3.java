@@ -55,7 +55,7 @@ class SuccessorGenerator3 {
 		// B successors
 		mBPrime =  mSuccNCSB.copyBSet();
 		
-		if(Options.optNCSB && mIsCurrBEmpty) {
+		if(Options.lazyS && mIsCurrBEmpty) {
 			mInterFSuccs = mSuccNCSB.copyCSet(); // set to d(C)
 		}
 		
@@ -83,12 +83,12 @@ class SuccessorGenerator3 {
 		IntSet SP =  mSPrime.clone();
 		IntSet BP = null;
 		
-		if(Options.optNCSB) {
+		if(Options.lazyS) {
 			if(mIsCurrBEmpty) {
 				// as usual S and C
 				CP = mVPrime.clone();
 				CP.andNot(Sextra); // C' get extra
-				if(Options.optBeqC) {
+				if(Options.lazyB) {
 					BP = CP;
 				}else {
 					// following is d(C) /\ C'

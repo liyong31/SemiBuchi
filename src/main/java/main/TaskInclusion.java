@@ -158,7 +158,7 @@ public class TaskInclusion implements ITask {
 		this.mChecker = checker;
 		this.mOperation = checker.getName();
 		if(!(checker instanceof BuchiInclusionRABIT)) {
-			this.mOperation += "+" + UtilIntSet.getSetType() + (Options.optNCSB ? "+opt" : "");
+			this.mOperation += "+" + UtilIntSet.getSetType() + (Options.lazyS ? "+opt" : "");
 		}
 	}
 	
