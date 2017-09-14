@@ -28,14 +28,14 @@ public interface IProductState {
 	default TrackNumber getSuccStateTrack(boolean fstAcc, boolean sndAcc) {
 		
 		TrackNumber succTrack;
-		if (getTrackNumber() == TrackNumber.TRACK_ONE) {
+		if (getTrackNumber().isOne()) {
 			if (fstAcc && !sndAcc) {
 				succTrack = TrackNumber.TRACK_TWO;
 			} else {
 				succTrack = TrackNumber.TRACK_ONE;
 			}
 		} else {
-			assert getTrackNumber() == TrackNumber.TRACK_TWO;
+			assert getTrackNumber().isTwo();
 			if (sndAcc) {
 				succTrack = TrackNumber.TRACK_ONE;
 			} else {

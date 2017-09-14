@@ -27,7 +27,7 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 	}
 	
 	
-	protected ProductState addState(int fst, int snd, TrackNumber track) {
+	protected ProductState getOrAddState(int fst, int snd, TrackNumber track) {
 		ProductState state = new ProductState(this, 0, fst, snd, track);
 		if(mState2Int.containsKey(state)) {
 			return (ProductState) getState(mState2Int.get(state));
@@ -37,7 +37,7 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 		int id = this.addState(newState);
 		mState2Int.put(newState, id);
 		// whether it is accepting state
-		final boolean isFinal = mFstOperand.isFinal(fst) && (track == TrackNumber.TRACK_ONE);
+		final boolean isFinal = mFstOperand.isFinal(fst) && track.isOne();
 		if(isFinal) setFinal(id);
 		return newState;
 	}
@@ -52,7 +52,7 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 			IntIterator sndIter = sndInits.iterator();
 			while(sndIter.hasNext()) {
 				int snd = sndIter.next();
-				ProductState state = addState(fst, snd, TrackNumber.TRACK_ONE);		
+				ProductState state = getOrAddState(fst, snd, TrackNumber.TRACK_ONE);		
 				this.setInitial(state);
 			}
 		}
@@ -142,7 +142,7 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 				for(final Integer sndSucc : sndSuccs.iterable()) {
 					TrackNumber succTrack = getSuccStateTrack();
 					// pair (X, Y)
-					ProductState succ = addState(fstSucc, sndSucc, succTrack);                
+					ProductState succ = getOrAddState(fstSucc, sndSucc, succTrack);                
 					this.addSuccessor(letter, succ.getId());
 					succs.set(succ.getId());
 				}

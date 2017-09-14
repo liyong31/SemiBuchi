@@ -42,7 +42,7 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 	}
 
 
-	protected ProductState addState(int fst, int snd, TrackNumber track) {
+	protected ProductState getOrAddState(int fst, int snd, TrackNumber track) {
 		ProductState state = new ProductState(this, 0, fst, snd, track);
 		if(mStateMap.containsKey(state)) {
 			return (ProductState) getState(mStateMap.get(state));
@@ -52,7 +52,7 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 		int id = this.addState(newState);
 		mStateMap.put(newState, id);
 		// whether it is accepting state
-		final boolean isFinal = mFstOperand.isFinal(fst) && (track == TrackNumber.TRACK_ONE);
+		final boolean isFinal = mFstOperand.isFinal(fst) && track.isOne();
 		if(isFinal) setFinal(id);
 		return newState;
 	}
@@ -60,7 +60,7 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 	private void computeInitialStates() {
 		for(final Integer fst : mFstOperand.getInitialStates().iterable()) {
 			for(final Integer snd : mSndOperand.getInitialStates().iterable()) {
-				ProductState state = addState(fst, snd, TrackNumber.TRACK_ONE);		
+				ProductState state = getOrAddState(fst, snd, TrackNumber.TRACK_ONE);		
 				this.setInitial(state);
 			}
 		}
@@ -150,8 +150,8 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 			if(hasCode) return hashCode;
 			else {
 				hasCode = true;
-				hashCode = mFstState * getFirstOperand().getStateSize() + mSndState;
-				hashCode += mTrack == TrackNumber.TRACK_ONE ? 1 : 2;
+				hashCode = mFstState * mFstOperand.getStateSize() + mSndState;
+				hashCode += mTrack.isOne() ? 1 : 2;
 			}
 			return hashCode;
 		}
@@ -170,7 +170,7 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 			}
 			for(final Integer fstSucc : fstSuccs.iterable()) {
 				for(final Integer sndSucc : sndSuccs.iterable()) {
-					ProductState succ = addState(fstSucc, sndSucc, getSuccStateTrack());
+					ProductState succ = getOrAddState(fstSucc, sndSucc, getSuccStateTrack());
 					succs.set(succ.getId());
 					if(isCall) {
 						super.addSuccessorCall(letter, succ.getId());
@@ -212,7 +212,7 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 			IntSet sndSuccs = mSndOperand.getState(mSndState).getSuccessorsReturn(sndHier, letter);
 			for(final Integer fstSucc : fstSuccs.iterable()) {
 				for(final Integer sndSucc : sndSuccs.iterable()) {
-					ProductState succ = addState(fstSucc, sndSucc, getSuccStateTrack());
+					ProductState succ = getOrAddState(fstSucc, sndSucc, getSuccStateTrack());
 					succs.set(succ.getId());
 					super.addSuccessorReturn(hier, letter, succ.getId());
 				}
