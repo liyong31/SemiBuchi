@@ -59,9 +59,9 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			
 			while(! mWorkList.isEmpty()) {
 				/** self loop new down states will be handled separately */
-				StateInfo currInfo = mWorkList.removeFirst();
+				final StateInfo currInfo = mWorkList.removeFirst();
 				currInfo.clearUnpropagateDownStates();
-				TIntSet newDownStatesLoops = 
+				final TIntSet newDownStatesLoops = 
 						traverseReturnTransitionsWithHier(currInfo, currInfo.getDownStates());
 				traverseInternalTransitions(currInfo);
 				final TIntSet newDownStates = traverseCallTransitions(currInfo);
@@ -83,7 +83,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		}while(! mWorkList.isEmpty() || ! mPropagationList.isEmpty());
 	}
 	
-	private TIntSet traverseReturnTransitionsWithHier(StateInfo currInfo, TIntSet downStates) {
+	private TIntSet traverseReturnTransitionsWithHier(final StateInfo currInfo
+			, final TIntSet downStates) {
 		TIntSet newDownStatesLoops = new TIntHashSet();
 		if(allowReturnTransitions()) {
 			for(final Integer downState : iterable(downStates)){
@@ -100,7 +101,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 	
 	
-	private void addPropagateNewDownStates(StateInfo currInfo, TIntSet newDownStates) {
+	private void addPropagateNewDownStates(final StateInfo currInfo
+			, final TIntSet newDownStates) {
 		assert newDownStates != null;
 		if(!newDownStates.isEmpty()) {
 			for(final Integer downState : iterable(newDownStates)) {
@@ -111,7 +113,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 	
 
-	private TIntSet traverseCallTransitions(StateInfo currInfo) {
+	private TIntSet traverseCallTransitions(final StateInfo currInfo) {
 		boolean hasSelfLoops = false;
 		final IStateNwa state = mOperand.getState(currInfo.getState());
 		assert state != null;
@@ -142,7 +144,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		return null;
 	}
 
-	private void traverseInternalTransitions(StateInfo currInfo) {
+	private void traverseInternalTransitions(final StateInfo currInfo) {
 		final IStateNwa state = mOperand.getState(currInfo.getState());
 		for(final Integer letter : mOperand.getAlphabetInternal().iterable()) {
 			for(final Integer succ : state.getSuccessorsInternal(letter).iterable()) {
@@ -195,7 +197,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		return null;		
 	}
 	
-	private void addSummary(int hier, int succ) {
+	private void addSummary(final int hier, final int succ) {
 		TIntSet succs = mSummaryMap.get(hier);
 		if(succs == null) {
 			succs = new TIntHashSet();
@@ -204,8 +206,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		mSummaryMap.put(hier, succs);
 	}
 	
-	private TIntSet getSummarySuccessors(int hier) {
-		TIntSet result = mSummaryMap.get(hier);
+	private TIntSet getSummarySuccessors(final int hier) {
+		final TIntSet result = mSummaryMap.get(hier);
 		if(result == null) return new TIntHashSet();
 		return result;
 	}
@@ -227,7 +229,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		return newDownStates;
 	}
 	
-	private boolean stateInfoEqual(StateInfo stateInfo1, StateInfo stateInfo2) {
+	private boolean stateInfoEqual(final StateInfo stateInfo1
+			         , final StateInfo stateInfo2) {
 		return stateInfo1 == stateInfo2;
 	}
 	
@@ -235,8 +238,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	/**
 	 * add new down states to succStateInfo with the states in downStates
 	 * */
-	private void addNewDownStates(StateInfo currStateInfo, StateInfo succStateInfo
-			, TIntSet downStates) {
+	private void addNewDownStates(final StateInfo currStateInfo, final StateInfo succStateInfo
+			, final TIntSet downStates) {
 		
 		// will be handled at other place, avoid multiple calls for itself
 		if(stateInfoEqual(currStateInfo, succStateInfo)) return ;
@@ -261,7 +264,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	 * If a state has not been traversed, then no need to be added
 	 * into mPropagationList
 	 * */
-	private void addStateInfoInPropagationList(StateInfo stateInfo) {
+	private void addStateInfoInPropagationList(final StateInfo stateInfo) {
 		if(! mWorkList.hasStateInfo(stateInfo)) {
 			mPropagationList.add(stateInfo);
 		}
@@ -283,12 +286,11 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	 * If a state has been added new down states, then those down states should be propagated to
 	 * 
 	 *   * its internal successors, since they share the same down states
-	 *   
 	 *   * its return successors when it is hierarchy predecessors, since they share the same down states
 	 *   
 	 *   Also we should add new return transitions with its new down states
 	 *   */
-	private void propagateNewDownStates(StateInfo currInfo) {
+	private void propagateNewDownStates(final StateInfo currInfo) {
 		final TIntSet unpropagateDownStates = currInfo.getUnpropagateDownStates();
 		if(unpropagateDownStates == null) return ;
 		
@@ -315,12 +317,12 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 
 	private void addInitialStates() {
 		for(final Integer state : mOperand.getInitialStates().iterable()) {
-			TIntSet downStates = new TIntHashSet();
+			final TIntSet downStates = new TIntHashSet();
 			addState(state, downStates);
 		}
 	}
 
-	private StateInfo addState(int state, TIntSet downStates) {
+	private StateInfo addState(final int state, final TIntSet downStates) {
 		assert ! mStateInfoMap.containsKey(state);
 		final StateInfo stateInfo = new StateInfo(state, downStates);
 		mStateInfoMap.put(state, stateInfo);
@@ -332,7 +334,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		return numTrans;
 	}
 	
-	private Iterable<Integer> iterable(TIntSet set) {
+	private Iterable<Integer> iterable(final TIntSet set) {
 		return () -> new Iterator<Integer>() {
 
 			TIntIterator iter = set.iterator();
@@ -359,7 +361,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		private TIntSet mUnPropagateDownStates;
 		private final TIntSet mInternalSuccs; // cache the internal successors
 		
-		public StateInfo(int state, TIntSet downStates) {
+		public StateInfo(final int state, final TIntSet downStates) {
 			mState = state;
 			mDownStates = downStates;
 			mInternalSuccs = new TIntHashSet();
@@ -381,7 +383,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			return mUnPropagateDownStates;
 		}
 		
-		boolean addDownState(int down) {
+		boolean addDownState(final int down) {
 			if(mDownStates.contains(down)) return false;
 			mDownStates.add(down);
 			if (mUnPropagateDownStates == null) {
@@ -391,7 +393,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			return true;
 		}
 		
-		void addInternalSuccessors(int succ) {
+		void addInternalSuccessors(final int succ) {
 			mInternalSuccs.add(succ);
 		}
 		
