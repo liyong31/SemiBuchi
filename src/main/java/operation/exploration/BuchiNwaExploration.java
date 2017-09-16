@@ -8,7 +8,9 @@ import automata.IStateNwa;
 import complement.BuchiNwaComplement;
 import complement.DoubleDecker;
 import gnu.trove.iterator.TIntIterator;
+import gnu.trove.map.TIntByteMap;
 import gnu.trove.map.TIntObjectMap;
+import gnu.trove.map.hash.TIntByteHashMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
@@ -18,6 +20,7 @@ import util.parser.nwa.ats.ATSFileParser4Nwa;
 
 /**
  * Explore state space of Buchi Nested Word Automata
+ * This implementation structure is from Ultimate 
  * */
 public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 
@@ -60,6 +63,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			while(! mWorkList.isEmpty()) {
 				/** self loop new down states will be handled separately */
 				final StateInfo currInfo = mWorkList.removeFirst();
+				// unpropagateDownStates only for propagation purpose
+				// in the main loop, we should clear this set
 				currInfo.clearUnpropagateDownStates();
 				final TIntSet newDownStatesLoops = 
 						traverseReturnTransitionsWithHier(currInfo, currInfo.getDownStates());
@@ -122,12 +127,13 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 			for(final Integer succ : state.getSuccessorsCall(letter).iterable()) {
 				// state * letter -> succ (downs of succ = state)
 				StateInfo succInfo = getStateInfo(succ);
-				final TIntSet succDownStates = new TIntHashSet();
-				succDownStates.add(state.getId());
+				final TIntByteMap succDownStates = new TIntByteHashMap();
+				// put state in succ's down state set
+				succDownStates.put(state.getId(), REACH_NORMAL);
 				if (succInfo == null) {
 					succInfo = addState(succ, succDownStates);
 				} else {
-					addNewDownStates(currInfo, succInfo, succDownStates);
+					addNewDownStates(currInfo, succInfo, succDownStates.keySet());
 					if (stateInfoEqual(currInfo, succInfo)) {
 						hasSelfLoops = true;
 					}
@@ -151,7 +157,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 				// state * letter -> succ (downs of succ = downs of state)
 				StateInfo succInfo = getStateInfo(succ);
 				if(succInfo == null) {
-					succInfo = addState(succ, new TIntHashSet(currInfo.getDownStates()));
+					succInfo = addState(succ, new TIntByteHashMap(currInfo.getDownStatesMap()));
 				}else {
 					addNewDownStates(currInfo, succInfo, currInfo.getDownStates());
 				}
@@ -175,7 +181,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 				// (downs of succState = downs of downState)
 				StateInfo succInfo = getStateInfo(succState.getId());
 				if(succInfo == null) {
-					succInfo = addState(succ, new TIntHashSet(downInfo.getDownStates()));
+					succInfo = addState(succ, new TIntByteHashMap(downInfo.getDownStatesMap()));
 				}else {
 					addNewDownStates(currInfo, succInfo, downInfo.getDownStates());
 					if(stateInfoEqual(currInfo, succInfo)) {
@@ -198,18 +204,28 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 	
 	private void addSummary(final int hier, final int succ) {
-		TIntSet succs = mReturnSummaryMap.get(hier);
+		addSummaryWithMap(mReturnSummaryMap, hier, succ);
+	}
+	
+	private void addSummaryWithMap(final TIntObjectMap<TIntSet> summaryMap,
+			final int hier, final int succ) {
+		TIntSet succs = summaryMap.get(hier);
 		if(succs == null) {
 			succs = new TIntHashSet();
 		}
 		succs.add(succ);
-		mReturnSummaryMap.put(hier, succs);
+		summaryMap.put(hier, succs);
+	}
+	
+	private TIntSet getSummarySuccessorsWithMap(final TIntObjectMap<TIntSet> summaryMap,
+			final int hier) {
+		final TIntSet result = summaryMap.get(hier);
+		if(result == null) return new TIntHashSet();
+		return result;
 	}
 	
 	private TIntSet getSummarySuccessors(final int hier) {
-		final TIntSet result = mReturnSummaryMap.get(hier);
-		if(result == null) return new TIntHashSet();
-		return result;
+		return getSummarySuccessorsWithMap(mReturnSummaryMap, hier);
 	}
 	
 	public TIntObjectMap<TIntSet> getReturnSummaries() {
@@ -242,15 +258,15 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	/**
 	 * add new down states to succStateInfo with the states in downStates
 	 * */
-	private void addNewDownStates(final StateInfo currStateInfo, final StateInfo succStateInfo
+	private void addNewDownStates(final StateInfo currInfo, final StateInfo succInfo
 			, final TIntSet downStates) {
 		
 		// will be handled at other place, avoid multiple calls for itself
-		if(stateInfoEqual(currStateInfo, succStateInfo)) return ;
+		if(stateInfoEqual(currInfo, succInfo)) return ;
 		
 		boolean needPropagation = false;
 		for(final Integer down : iterable(downStates)) {
-			final boolean newlyAdded = succStateInfo.addDownState(down);
+			final boolean newlyAdded = succInfo.addDownState(down);
 			if (newlyAdded) {
 				needPropagation = true;
 			}
@@ -260,7 +276,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		 * succStateInfo should be propagated 
 		 * */
 		if (needPropagation) {
-			addStateInfoInPropagationList(succStateInfo);
+			addStateInfoInPropagationList(succInfo);
 		}
 	}
 	
@@ -313,6 +329,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 					                                       , unpropagateDownStates);
 			currInfo.clearUnpropagateDownStates();
 			// must first clear its used down states
+			// in order to add new propagate down states
 			addPropagateNewDownStates(currInfo, newDownStatesLoops);
 		}else {
 			currInfo.clearUnpropagateDownStates();
@@ -321,12 +338,12 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 
 	private void addInitialStates() {
 		for(final Integer state : mOperand.getInitialStates().iterable()) {
-			final TIntSet downStates = new TIntHashSet();
+			final TIntByteMap downStates = new TIntByteHashMap();
 			addState(state, downStates);
 		}
 	}
 
-	private StateInfo addState(final int state, final TIntSet downStates) {
+	private StateInfo addState(final int state, final TIntByteMap downStates) {
 		assert ! mStateInfoMap.containsKey(state);
 		final StateInfo stateInfo = new StateInfo(state, downStates);
 		mStateInfoMap.put(state, stateInfo);
@@ -355,17 +372,20 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		};
 	}
 
-
-
+	//----------------------------------------------------------------
+	private static final byte REACH_NORMAL = 0;
+	private static final byte REACH_FINAL  = 1;
 	//----------------------------------------------------------------
 	private class StateInfo {
 		
 		private final int mState;
-		private final TIntSet mDownStates;
+		// downStates with its reach property
+		private final TIntByteMap mDownStates;
 		private TIntSet mUnPropagateDownStates;
 		private final TIntSet mInternalSuccs; // cache the internal successors
 		
-		public StateInfo(final int state, final TIntSet downStates) {
+		
+		public StateInfo(final int state, final TIntByteMap downStates) {
 			mState = state;
 			mDownStates = downStates;
 			mInternalSuccs = new TIntHashSet();
@@ -376,6 +396,10 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		}
 		
 		TIntSet getDownStates() {
+			return mDownStates.keySet();
+		}
+		
+		TIntByteMap getDownStatesMap() {
 			return mDownStates;
 		}
 		
@@ -388,9 +412,25 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		}
 		
 		boolean addDownState(final int down) {
-			if(mDownStates.contains(down)) return false;
-			mDownStates.add(down);
-			if (mUnPropagateDownStates == null) {
+			return addDownProp(down, REACH_NORMAL);
+		}
+		
+		boolean addReachFinalDownState(final int down) {
+			return addDownProp(down, REACH_FINAL);
+		}
+		
+		boolean hasDownProp(final int down, byte prop) {
+			if(! mDownStates.containsKey(down)) return false;
+			final byte val = mDownStates.get(down);
+			return (val & prop) != 0;
+		}
+		
+		boolean addDownProp(final int down, byte prop) {
+			// already in the down state property
+			if(hasDownProp(down, prop)) return false;
+			// there is no such property
+			mDownStates.put(down, prop);
+			if(mUnPropagateDownStates == null) {
 				mUnPropagateDownStates = new TIntHashSet();
 			}
 			mUnPropagateDownStates.add(down);
@@ -444,6 +484,121 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		
 	}
 	
+	private AccetpingSummariesComputation mAcceptingSummariesComputation;
+	
+	public TIntObjectMap<TIntSet> getAcceptingSummaries() {
+		assert mExplored == true;
+		if(mAcceptingSummariesComputation == null) {
+			mAcceptingSummariesComputation = new AccetpingSummariesComputation();
+		}
+	
+		return mAcceptingSummariesComputation.mAcceptingSummaryMap;
+	}
+	
+	//----------------------------------------------------------------
+	// computing accepting summaries
+	class AccetpingSummariesComputation {
+		
+		private final StateInfoQueue mAccWorkList;
+		private final TIntObjectMap<TIntSet> mAcceptingSummaryMap;
+		
+		AccetpingSummariesComputation() {
+			mAccWorkList = new StateInfoQueue();
+			mAcceptingSummaryMap = new TIntObjectHashMap<>();
+			initWorkList();
+			while(! mAccWorkList.isEmpty()) {
+				final StateInfo currInfo = mAccWorkList.removeFirst();
+				propagateReachFinalDownStates(currInfo);
+			}
+		}
+
+		private void propagateReachFinalDownStates(StateInfo currInfo) {
+			final TIntSet unpropagateDownStates = currInfo.getUnpropagateDownStates();
+			if(unpropagateDownStates == null) return ;
+			
+			// if (q, q') contains an accepting state, and we have q'* a -> q'' 
+			// then (q, q'') also contains an accepting state
+			for(final Integer succ : iterable(currInfo.getInternalSuccessors())) {
+				final StateInfo succInfo = getStateInfo(succ);
+				addReachFinalDownStates(currInfo, succInfo, unpropagateDownStates);
+			}
+			
+			// if (q, q') contains an accepting state, and we have p * q' * r- > q'' 
+		    // then (q, q'') also contains an accepting state since there is well-matched
+			// nested word from q' to q''
+			for(final Integer succ : iterable(getSummarySuccessors(currInfo.getState()))) {
+				final StateInfo succInfo = getStateInfo(succ);
+				addReachFinalDownStates(currInfo, succInfo, unpropagateDownStates);
+			}
+
+			if(allowReturnTransitions()) {
+				currInfo.clearUnpropagateDownStates();
+				findAcceptingSummaries(currInfo);
+			}
+			
+		}
+		
+		private void findAcceptingSummaries(StateInfo currInfo) {
+	
+			final IStateNwa state = mOperand.getState(currInfo.getState());
+			for (final Integer letter : state.getEnabledLettersReturn()) {
+				for(final Integer hier : state.getEnabledHiersReturn(letter)) {
+					for(final Integer succ : state.getSuccessorsReturn(hier, letter).iterable()) {
+						final StateInfo hierInfo = getStateInfo(hier);
+						final StateInfo succInfo = getStateInfo(succ);
+						// if (q, q') contains an accepting state, then q' * q * r- > q''
+						// (q, q'') is an accepting summary and we also need to add (p, q'')
+						// in propagation list where p is down state of q
+						if (currInfo.hasDownProp(hier, REACH_FINAL)) {
+							addReachFinalDownStates(null, succInfo, hierInfo.getDownStates());
+							addAcceptingSummary(hier, succ);
+						}	
+					}
+				}
+			}
+			
+		}
+
+		private void addAcceptingSummary(int hier, int succ) {
+			addSummaryWithMap(mAcceptingSummaryMap, hier, succ);
+		}
+
+		private void initWorkList() {
+			// collect all DoubleDecker (q, q') with q' being accepting state
+			for(final Integer fin : mOperand.getFinalStates().iterable()) {
+				StateInfo succInfo = getStateInfo(fin);
+				addReachFinalDownStates(null, succInfo, succInfo.getDownStates());
+			}
+		}
+		
+		//
+		private void addReachFinalDownStates(final StateInfo currInfo, final StateInfo succInfo
+				, final TIntSet downStates) {
+			
+			// will be handled at other place, avoid multiple calls for itself
+			if(stateInfoEqual(currInfo, succInfo)) return ;
+			
+			boolean needPropagation = false;
+			for(final Integer down : iterable(downStates)) {
+				// add down state which can reach final states
+				final boolean newlyAdded = succInfo.addReachFinalDownState(down);
+				if (newlyAdded) {
+					needPropagation = true;
+				}
+			}
+
+			if (needPropagation) {
+				mAccWorkList.add(succInfo);
+			}
+		}
+		
+		@Override
+		public String toString() {
+			return mAcceptingSummaryMap.toString();
+		}
+		
+	}
+	
 	//----------------------------------------------------------------
 	
 	public static void main(String[] args) {
@@ -465,6 +620,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		System.out.println(reach.getNumTrans());
 		complement.toATS(System.out, parser.getAlphabet());
 		complement.toDot(System.out, parser.getAlphabet());
+		System.out.println(reach.getAcceptingSummaries());
 		
 //		System.out.println("normal exploration ----------------");
 //		
