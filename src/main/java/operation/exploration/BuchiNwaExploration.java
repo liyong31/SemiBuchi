@@ -29,7 +29,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	// (q, {q'}) for every pair q and q', there exists a run from q to q'
 	// over some well-matched nested word, actually they are from return transition
 	// p * q * >r -> q' during the exploration
-	private final TIntObjectMap<TIntSet> mSummaryMap;
+	private final TIntObjectMap<TIntSet> mReturnSummaryMap;
 	
 	private int numTrans = 0;
 	
@@ -38,7 +38,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		mWorkList = new StateInfoQueue();
 		mPropagationList = new StateInfoQueue();
 		mStateInfoMap = new TIntObjectHashMap<>();
-		mSummaryMap = new TIntObjectHashMap<>();
+		mReturnSummaryMap = new TIntObjectHashMap<>();
 	}
 	
 	/**
@@ -198,18 +198,22 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 	
 	private void addSummary(final int hier, final int succ) {
-		TIntSet succs = mSummaryMap.get(hier);
+		TIntSet succs = mReturnSummaryMap.get(hier);
 		if(succs == null) {
 			succs = new TIntHashSet();
 		}
 		succs.add(succ);
-		mSummaryMap.put(hier, succs);
+		mReturnSummaryMap.put(hier, succs);
 	}
 	
 	private TIntSet getSummarySuccessors(final int hier) {
-		final TIntSet result = mSummaryMap.get(hier);
+		final TIntSet result = mReturnSummaryMap.get(hier);
 		if(result == null) return new TIntHashSet();
 		return result;
+	}
+	
+	public TIntObjectMap<TIntSet> getReturnSummaries() {
+		return mReturnSummaryMap;
 	}
 
 	/**
