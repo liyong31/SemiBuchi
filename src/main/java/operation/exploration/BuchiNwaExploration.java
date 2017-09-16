@@ -373,8 +373,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	}
 
 	//----------------------------------------------------------------
-	private static final byte REACH_NORMAL = 0;
-	private static final byte REACH_FINAL  = 1;
+	private static final byte REACH_NORMAL = 0; //normal reachability 
+	private static final byte REACH_FINAL  = 1; //reachability to final
 	//----------------------------------------------------------------
 	private class StateInfo {
 		
@@ -497,7 +497,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	
 	//----------------------------------------------------------------
 	// computing accepting summaries
-	class AccetpingSummariesComputation {
+	protected class AccetpingSummariesComputation {
 		
 		private final StateInfoQueue mAccWorkList;
 		private final TIntObjectMap<TIntSet> mAcceptingSummaryMap;
