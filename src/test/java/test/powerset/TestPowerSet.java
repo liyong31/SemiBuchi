@@ -25,20 +25,16 @@ public class TestPowerSet {
 	
 	@Test
 	public void testInElements() {
-		boolean result = true;
 		for(int i : mArray1) {
-			result = result && mElems.get(i);
+			assertEquals(mElems.get(i), true);
 		}
-		assertEquals(result, true);
 	}
 	
 	@Test
 	public void testNotInElements() {
-		boolean result = false;
 		for(int i : mArray2) {
-			result = result || mElems.get(i);
+			assertEquals(mElems.get(i), false);
 		}
-		assertEquals(result, false);
 	}
 	
 	@Test
@@ -60,7 +56,7 @@ public class TestPowerSet {
 		while(ps.hasNext()) {
 			IntSet set = ps.next();
 			allSets.or(set);
-			assertEquals(notIn(set, arr), true);
+			notIn(set, arr);
 			assertEquals(set.subsetOf(mElems), true);
 			arr.add(set);
 		}
@@ -68,12 +64,10 @@ public class TestPowerSet {
 		assertEquals(allSets.contentEq(mElems), true);
 	}
 	
-	private boolean notIn(IntSet set, List<IntSet> list) {
-		boolean in = false;
+	private void notIn(IntSet set, List<IntSet> list) {
 		for(IntSet elem: list) {
-			in = in || (elem.contentEq(set));
+			assertEquals(elem.contentEq(set), false);
 		}
-		return !in;
 	}
 
 }
