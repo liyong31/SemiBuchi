@@ -5,7 +5,7 @@ import java.util.BitSet;
 /**
  * This is a helper class for enumerate all possible subsets in a given full BitSet
  * */
-public class EnumeratorBitSet extends BitSet implements Comparable<EnumeratorBitSet>{
+class EnumeratorBitSet extends BitSet implements Comparable<EnumeratorBitSet>{
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -68,12 +68,12 @@ public class EnumeratorBitSet extends BitSet implements Comparable<EnumeratorBit
 		this.set(i);
 	}
 	
-	@Override
-	public int hashCode() {
-		int hashCode = 0;
-		for(int i = 0; i < size(); i ++) {
-			hashCode |= (get(i) ? (1 << i) : 0);
-		}
-		return hashCode;
-	}
+//	@Override
+//	public int hashCode() {
+//		int hashCode = 0;
+//		for(int i = 0; i < size(); i ++) {
+//			hashCode |= (get(i) ? (1 << i) : 0);
+//		}
+//		return hashCode;
+//	}
 }
