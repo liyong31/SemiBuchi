@@ -15,7 +15,7 @@ import main.TaskInclusion;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.PairXY;
 import util.Timer;
 
@@ -61,7 +61,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 		private int mIndex=0;
 		private final Stack<PairXY<Integer, BitSet>> mRootsStack ;
 		private final Map<Integer, Integer> mDfsNum;
-		private final IntStack mActiveStack ;
+		private final MarkedIntStack mActiveStack ;
 		private final BitSet mCurrent;
 		
 		private Boolean mIsEmpty = true;
@@ -73,7 +73,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 		public ASCCAntichain() {
 			
 			this.mRootsStack = new Stack<>();
-			this.mActiveStack = new IntStack();
+			this.mActiveStack = new MarkedIntStack();
 			this.mDfsNum = new HashMap<>();
 			this.mCurrent = new BitSet();
 			this.mTimer = new Timer();
@@ -177,7 +177,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 				mRootsStack.pop();
 				int u;
 				do {
-					if(mActiveStack.isEmpty()) break;
+					if(mActiveStack.empty()) break;
 					u = mActiveStack.pop();
 					mCurrent.clear(u);
 					//cache all nodes which has empty language
@@ -191,7 +191,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 					if(t != s && p.coveredBy(pair)) {
 						int e;
 						do {
-							if(mActiveStack.isEmpty()) break;
+							if(mActiveStack.empty()) break;
 							e = mActiveStack.pop();
 							mCurrent.clear(e);
 							//cache all nodes which has empty language

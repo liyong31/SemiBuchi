@@ -9,7 +9,7 @@ import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.Timer;
 import util.UtilIntSet;
 
@@ -17,7 +17,7 @@ public class BuchiIsEmptyTarjanOriginal implements IBuchiWaIsEmpty {
 	
 	private final IBuchiWa mBuchi;
 	private int mIndex;
-	private final IntStack mStateStack;
+	private final MarkedIntStack mStateStack;
 	private final Map<Integer,Integer> mIndexMap ;
 	private final Map<Integer,Integer> mLowlinkMap;
 
@@ -29,7 +29,7 @@ public class BuchiIsEmptyTarjanOriginal implements IBuchiWaIsEmpty {
 		
 		this.mBuchi = buchi;
 		this.TIME_LIMIT  = timeLimit;
-		this.mStateStack = new IntStack();
+		this.mStateStack = new MarkedIntStack();
 		this.mLowlinkMap = new HashMap<Integer,Integer>();
 		this.mIndexMap   = new HashMap<Integer,Integer>();
 
@@ -88,7 +88,7 @@ public class BuchiIsEmptyTarjanOriginal implements IBuchiWaIsEmpty {
 		
 		if(mLowlinkMap.get(v).intValue() == mIndexMap.get(v).intValue()){
 			IntSet scc = UtilIntSet.newIntSet();
-			while(! mStateStack.isEmpty()){
+			while(! mStateStack.empty()){
 				int t = mStateStack.pop();
 				scc.set(t);
 				if(t == v)

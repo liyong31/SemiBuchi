@@ -1,113 +1,144 @@
 package util;
 
-import java.util.BitSet;
 import java.util.EmptyStackException;
 
-// modified from https://www.cs.colorado.edu/~main/edu/colorado/collections/IntStack.java
-public class IntStack implements Cloneable {
+import gnu.trove.map.TIntIntMap;
+import gnu.trove.map.hash.TIntIntHashMap;
 
-	private int[] data;
-	private int top;
-	private IntSet bits; // no duplicate elements
+/**
+ * In this stack, we mark the number of appearances for each element
+ * in the stack
+ * */
+public class MarkedIntStack {
 
-	public IntStack() {
-		final int INITIAL_CAPACITY = 30;
-		top = 0;
-		data = new int[INITIAL_CAPACITY];
-		bits = UtilIntSet.newIntSet();
+	private int[] mData;
+	private int mTopIndex;
+	private TIntIntMap mInStackCounter; // no duplicate elements
+
+	public MarkedIntStack() {
+		final int INIT_CAPACITY = 30;
+		mTopIndex = 0;
+		mData = new int[INIT_CAPACITY];
+		mInStackCounter = new TIntIntHashMap();
 	}
 
-	public IntStack(int initialCapacity) {
-		if (initialCapacity < 0)
-			throw new IllegalArgumentException("Negative initialCapacity " + initialCapacity);
-		top = 0;
-		data = new int[initialCapacity];
-		bits = UtilIntSet.newIntSet();
+	public MarkedIntStack(int initCapacity) {
+		if (initCapacity < 0)
+			throw new IllegalArgumentException("Negative number " + initCapacity);
+		mTopIndex = 0;
+		mData = new int[initCapacity];
+		mInStackCounter = new TIntIntHashMap();
 	}
-	
 
-	public Object clone() {
-		IntStack result;
-
-		try {
-			result = (IntStack) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new RuntimeException("This class does not implement Cloneable");
+	public MarkedIntStack clone() {
+		MarkedIntStack result = new MarkedIntStack(mData.length);
+		for(int i = 0; i < mData.length; i ++) {
+			result.mData[i] = mData[i];
 		}
-
-		result.data = (int[]) data.clone();
-		result.bits = bits.clone();
+		result.mInStackCounter.putAll(mInStackCounter);
+		result.mTopIndex = mTopIndex;
 		return result;
 	}
 
-	public void ensureCapacity(int minimumCapacity) {
-		int biggerArray[];
-
-		if (data.length < minimumCapacity) {
-			biggerArray = new int[minimumCapacity];
-			System.arraycopy(data, 0, biggerArray, 0, top);
-			data = biggerArray;
+	public void ensureCapacity(int minCapacity) {
+		if (mData.length < minCapacity) {
+			int[] copy = new int[minCapacity];
+			System.arraycopy(mData, 0, copy, 0, mTopIndex);
+			mData = copy;
 		}
 	}
+	
+	// --------------- stack interface ------------
 
-	public int getCapacity() {
-		return data.length;
-	}
-
-	public boolean isEmpty() {
-		return (top == 0);
+	public boolean empty() {
+		return (size() == 0);
 	}
 
 	public int peek() {
-		if (top == 0)
+		if (mTopIndex == 0)
 			throw new EmptyStackException();
-		return data[top - 1];
+		return mData[mTopIndex - 1];
+	}
+	
+	private void decreaseCounter(int item) {
+		assert mInStackCounter.containsKey(item);
+		int value = mInStackCounter.get(item);
+		-- value;
+		if(value == 0) {
+			mInStackCounter.remove(item);
+		}else {
+			mInStackCounter.adjustValue(item, -1);
+		}
+	}
+	
+	private boolean increaseCounter(int item) {
+		if(! mInStackCounter.containsKey(item)) {
+			mInStackCounter.put(item, 0);
+		}
+		return mInStackCounter.increment(item);
 	}
 
 	public int pop() {
-		if (top == 0)
+		if (mTopIndex == 0)
 			throw new EmptyStackException();
-		bits.clear(data[top-1]);
-		return data[--top];
+		int item = mData[mTopIndex - 1];
+		decreaseCounter(item);
+		--mTopIndex;
+		return item;
 	}
 
 	public void push(int item) {
-		if (top == data.length) {
-			// may overflow
-			ensureCapacity(top * 2 + 1);
+		if (mTopIndex == mData.length) {
+			ensureCapacity((int)(mTopIndex * 1.2) + 1);
 		}
-		data[top] = item;
-		bits.set(item);
-		++ top;
+		mData[mTopIndex] = item;
+		increaseCounter(item);
+		++ mTopIndex;
 	}
 	
+	// -------------------------------------------
+    // there may be multiple appearances for each item	
 	public boolean contains(int item) {
-		return bits.get(item);
+		return mInStackCounter.containsKey(item);
+	}
+	
+	public IntSet getItems() {
+		// make sure keySet is not modified
+		IntSet set = new IntSetTIntSet(mInStackCounter.keySet());
+		return set.clone();
+	}
+	
+	// we also can treat it as an array
+	public int get(int index) {
+		if(index < 0 || index >= mTopIndex)
+			throw new RuntimeException("Index out of boundary");
+		return mData[index];
+	}
+
+
+	public int capacity() {
+		return mData.length;
+	}
+
+	public int size() {
+		return mTopIndex;
 	}
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		if(isEmpty()) return "[]";
-		sb.append("[" + data[0]);
-		for(int i = 1; i < top; i ++) {
-			sb.append("," + data[i]);
+		if(empty()) return "[]";
+		sb.append("[" + mData[0]);
+		for(int i = 1; i < mTopIndex; i ++) {
+			sb.append("," + mData[i]);
 		}
 		sb.append("]");
 		return sb.toString();
 	}
 	
-	public IntSet getItems() {
-		return bits.clone();
-	}
 	
-	public int get(int index) {
-		if(index < 0 || index >= top) throw new RuntimeException("Index out of boundary");
-		return data[index];
-	}
-
-
-	public int size() {
-		return top;
+	public void clear() {
+		mTopIndex = 0;
+		mInStackCounter.clear();
 	}
 
 }

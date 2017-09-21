@@ -4,24 +4,24 @@ import java.util.Iterator;
 
 public class PowerSet implements Iterator<IntSet> {
 	
-	private Iterator<IntSet> iterator;
+	private Iterator<IntSet> mIterator;
 	public PowerSet(IntSet set) {
 		if(set.isEmpty()) {
-			iterator = new PowerSetEmpty();
+			mIterator = new PowerSetEmpty();
 		}else {
-			iterator = new PowerSetPositive(set);
+			mIterator = new PowerSetPositive(set);
 		}
 	}
 
 	@Override
 	public boolean hasNext() {
-		return iterator.hasNext();
+		return mIterator.hasNext();
 	}
 
 	@Override
 	public IntSet next() {
 		assert hasNext();
-		return iterator.next();
+		return mIterator.next();
 	}
 	
 	

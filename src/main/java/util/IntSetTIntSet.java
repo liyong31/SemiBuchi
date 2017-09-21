@@ -8,10 +8,14 @@ import gnu.trove.set.hash.TIntHashSet;
 
 public class IntSetTIntSet implements IntSet {
 	
-	private final TIntSet set;
+	private final TIntSet mSet;
 	
 	public IntSetTIntSet() {
-		set = new TIntHashSet();
+		mSet = new TIntHashSet();
+	}
+	
+	public IntSetTIntSet(TIntSet set) {
+		mSet = set;
 	}
 
 	@Override
@@ -22,7 +26,7 @@ public class IntSetTIntSet implements IntSet {
 	@Override
 	public IntSet clone() {
 		IntSetTIntSet copy = new IntSetTIntSet();
-		copy.set.addAll(set);
+		copy.mSet.addAll(mSet);
 		return copy;
 	}
 
@@ -33,7 +37,7 @@ public class IntSetTIntSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetTIntSet temp = (IntSetTIntSet)set;
-		this.set.removeAll(temp.set);
+		this.mSet.removeAll(temp.mSet);
 	}
 
 	@Override
@@ -43,7 +47,7 @@ public class IntSetTIntSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetTIntSet temp = (IntSetTIntSet)set;
-		this.set.retainAll(temp.set);
+		this.mSet.retainAll(temp.mSet);
 	}
 
 	@Override
@@ -53,42 +57,42 @@ public class IntSetTIntSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetTIntSet temp = (IntSetTIntSet)set;
-		this.set.addAll(temp.set);
+		this.mSet.addAll(temp.mSet);
 	}
 
 	@Override
 	public boolean get(int value) {
-		return set.contains(value);
+		return mSet.contains(value);
 	}
 	
 	@Override
 	public void set(int value) {
-		set.add(value);
+		mSet.add(value);
 	}
 
 	@Override
 	public void clear(int value) {
-		set.remove(value);
+		mSet.remove(value);
 	}
 	
 	@Override
 	public void clear() {
-		set.clear();
+		mSet.clear();
 	}
 	
 	@Override
 	public String toString() {
-		return set.toString();
+		return mSet.toString();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return set.isEmpty();
+		return mSet.isEmpty();
 	}
 
 	@Override
 	public int cardinality() {
-		return set.size();
+		return mSet.size();
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class IntSetTIntSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetTIntSet temp = (IntSetTIntSet)set;
-		return temp.set.containsAll(this.set);
+		return temp.mSet.containsAll(this.mSet);
 	}
 
 	@Override
@@ -108,12 +112,12 @@ public class IntSetTIntSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetTIntSet temp = (IntSetTIntSet)set;
-		return this.set.equals(temp.set);
+		return this.mSet.equals(temp.mSet);
 	}
 
 	@Override
 	public Object get() {
-		return set;
+		return mSet;
 	}
 	
 	public boolean equals(Object obj) {
@@ -127,18 +131,18 @@ public class IntSetTIntSet implements IntSet {
 	
 	public static class TIntSetIterator implements IntIterator {
 
-		private TIntIterator setIter;
+		private TIntIterator mSetIter;
 		
 		public TIntSetIterator(IntSetTIntSet set) {
-			setIter = set.set.iterator();
+			mSetIter = set.mSet.iterator();
 		}
 		
 		public boolean hasNext() {
-			return setIter.hasNext();
+			return mSetIter.hasNext();
 		}
 		
 		public int next() {
-			return setIter.next();
+			return mSetIter.next();
 		}
 		
 	}
@@ -146,7 +150,7 @@ public class IntSetTIntSet implements IntSet {
 	@Override
 	public Iterable<Integer> iterable() {
 		return () -> new Iterator<Integer>() {
-			TIntIterator iter = set.iterator();
+			TIntIterator iter = mSet.iterator();
 			@Override
 			public boolean hasNext() {
 				return iter.hasNext();

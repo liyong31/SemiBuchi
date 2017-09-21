@@ -15,7 +15,7 @@ import main.TaskInclusion;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.PairXY;
 import util.Timer;
 
@@ -62,7 +62,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 		private int mIndex=0;
 		private final Stack<PairXY<Integer, BitSet>> mRootsStack ;
 		private final Map<Integer, Integer> mDfsNum;
-		private final IntStack mActiveStack ;
+		private final MarkedIntStack mActiveStack ;
 		private final BitSet mCurrent;
 		
 		private Boolean mIsEmpty = true;
@@ -72,7 +72,7 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 		public ASCC() {
 			
 			this.mRootsStack = new Stack<>();
-			this.mActiveStack = new IntStack();
+			this.mActiveStack = new MarkedIntStack();
 			this.mDfsNum = new HashMap<>();
 			this.mCurrent = new BitSet();
 			this.mTimer = new Timer();

@@ -12,7 +12,7 @@ import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.Timer;
 
 // from paper Comparison of Algorithms for Checking Emptiness on B¨uchi Automata
@@ -21,8 +21,8 @@ public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 	
 	private final IBuchiWa mBuchi;
 	private int mDepth;
-	private final IntStack mRootsStack;             // C99 's root stack
-	private final IntStack mActiveStack;            // tarjan's stack
+	private final MarkedIntStack mRootsStack;             // C99 's root stack
+	private final MarkedIntStack mActiveStack;            // tarjan's stack
 	private final Map<Integer, Integer> mDfsNum;
 	private final BitSet mCurrent;
 	private final long TIME_LIMIT;
@@ -33,8 +33,8 @@ public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 		
 		this.mBuchi = buchi;
 		this.TIME_LIMIT = timeLimit;
-		this.mRootsStack = new IntStack();
-		this.mActiveStack = new IntStack();
+		this.mRootsStack = new MarkedIntStack();
+		this.mActiveStack = new MarkedIntStack();
 		this.mDfsNum = new HashMap<>();
 		this.mCurrent = new BitSet();
 		this.mTimer = new Timer();

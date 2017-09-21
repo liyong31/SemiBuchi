@@ -12,7 +12,7 @@ import util.IPair;
 import util.IntArray;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.Timer;
 
 public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
@@ -26,7 +26,7 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 	private class Tarjan implements IBuchiWaIsEmpty{
 		private int mDepth;
 		private final IntArray mStateStack;
-		private final IntStack mFinalStack;
+		private final MarkedIntStack mFinalStack;
 		private final IntArray mStateMap;
 		private final BitSet mTable;
 		private final long TIME_LIMIT;
@@ -35,7 +35,7 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 		
 		Tarjan(int timeLimit) {
 			this.TIME_LIMIT = timeLimit;
-			this.mFinalStack = new IntStack();
+			this.mFinalStack = new MarkedIntStack();
 			this.mStateStack = new IntArray();
 			this.mStateMap = new IntArray();
 			this.mTable = new BitSet();

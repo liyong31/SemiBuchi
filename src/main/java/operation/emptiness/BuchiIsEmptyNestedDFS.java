@@ -9,14 +9,14 @@ import automata.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.Timer;
 
 public class BuchiIsEmptyNestedDFS implements IBuchiWaIsEmpty {
 
 	private final IBuchiWa mBuchi;
-	private final IntStack mFstStack;
-	private final IntStack mSndStack;
+	private final MarkedIntStack mFstStack;
+	private final MarkedIntStack mSndStack;
 
 	private final BitSet mFstTable;
 	private final BitSet mSndTable;
@@ -27,8 +27,8 @@ public class BuchiIsEmptyNestedDFS implements IBuchiWaIsEmpty {
 	public BuchiIsEmptyNestedDFS(IBuchiWa buchi, long timeLimit) {
 		this.mBuchi = buchi;
 		this.TIME_LIMIT = timeLimit;
-		this.mFstStack = new IntStack();
-		this.mSndStack = new IntStack();
+		this.mFstStack = new MarkedIntStack();
+		this.mSndStack = new MarkedIntStack();
 		this.mFstTable = new BitSet();
 		this.mSndTable = new BitSet();
 		this.mTimer = new Timer();

@@ -6,10 +6,10 @@ import java.util.Iterator;
 
 public class IntSetHashSet implements IntSet {
 	
-	private final HashSet<Integer> set;
+	private final HashSet<Integer> mSet;
 	
 	public IntSetHashSet() {
-		set = new HashSet<>();
+		mSet = new HashSet<>();
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class IntSetHashSet implements IntSet {
 	@Override
 	public IntSet clone() {
 		IntSetHashSet copy = new IntSetHashSet();
-		copy.set.addAll(set);
+		copy.mSet.addAll(mSet);
 		return copy;
 	}
 
@@ -31,7 +31,7 @@ public class IntSetHashSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)set;
-		this.set.removeAll(temp.set);
+		this.mSet.removeAll(temp.mSet);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class IntSetHashSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)set;
-		this.set.retainAll(temp.set);
+		this.mSet.retainAll(temp.mSet);
 	}
 
 	@Override
@@ -51,42 +51,42 @@ public class IntSetHashSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)set;
-		this.set.addAll(temp.set);
+		this.mSet.addAll(temp.mSet);
 	}
 
 	@Override
 	public boolean get(int value) {
-		return set.contains(value);
+		return mSet.contains(value);
 	}
 	
 	@Override
 	public void set(int value) {
-		set.add(value);
+		mSet.add(value);
 	}
 
 	@Override
 	public void clear(int value) {
-		set.remove(value);
+		mSet.remove(value);
 	}
 	
 	@Override
 	public void clear() {
-		set.clear();
+		mSet.clear();
 	}
 	
 	@Override
 	public String toString() {
-		return set.toString();
+		return mSet.toString();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return set.isEmpty();
+		return mSet.isEmpty();
 	}
 
 	@Override
 	public int cardinality() {
-		return set.size();
+		return mSet.size();
 	}
 
 	@Override
@@ -96,7 +96,7 @@ public class IntSetHashSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)set;
-		return temp.set.containsAll(this.set);
+		return temp.mSet.containsAll(this.mSet);
 	}
 
 	@Override
@@ -106,12 +106,12 @@ public class IntSetHashSet implements IntSet {
 			System.exit(-1);
 		}
 		IntSetHashSet temp = (IntSetHashSet)set;
-		return this.set.equals(temp.set);
+		return this.mSet.equals(temp.mSet);
 	}
 
 	@Override
 	public Object get() {
-		return set;
+		return mSet;
 	}
 	
 	public boolean equals(Object obj) {
@@ -125,25 +125,25 @@ public class IntSetHashSet implements IntSet {
 	
 	public static class HashSetIterator implements IntIterator {
 
-		private Iterator<Integer> setIter;
+		private Iterator<Integer> mSetIter;
 		
 		public HashSetIterator(IntSetHashSet set) {
-			setIter = set.set.iterator();
+			mSetIter = set.mSet.iterator();
 		}
 		
 		public boolean hasNext() {
-			return setIter.hasNext();
+			return mSetIter.hasNext();
 		}
 		
 		public int next() {
-			return setIter.next();
+			return mSetIter.next();
 		}
 		
 	}
 	
 	@Override
 	public Iterable<Integer> iterable() {
-		return set;
+		return mSet;
 	}
 
 }

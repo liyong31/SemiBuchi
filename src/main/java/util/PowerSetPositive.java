@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 class PowerSetPositive implements Iterator<IntSet> {
 
-	private EnumeratorBitSet mValuation;
+	private EnumeratorBitSet mEnumerator;
 	
 	private final IntSet mSet;
 	private final int[] mIntArr;
@@ -18,20 +18,20 @@ class PowerSetPositive implements Iterator<IntSet> {
 		while(iter.hasNext()) {
 			mIntArr[index ++] = iter.next();
 		}
-		this.mValuation = new EnumeratorBitSet(mSet.cardinality());
+		this.mEnumerator = new EnumeratorBitSet(mSet.cardinality());
 	}
 
 	@Override
 	public boolean hasNext() {
-		int index = mValuation.nextSetBit(0); // whether we have got out of the array
-		return index < mValuation.size();
+		int index = mEnumerator.nextSetBit(0); // whether we have got out of the array
+		return index < mEnumerator.size();
 	}
 
 	@Override
 	public IntSet next() {
 		assert hasNext();
-		EnumeratorBitSet val = mValuation.clone();
-		mValuation.nextBitSet();
+		EnumeratorBitSet val = mEnumerator.clone();
+		mEnumerator.nextBitSet();
 		IntSet bits = UtilIntSet.newIntSet();
 		for(int n = val.nextSetBit(0); n >= 0 ; n = val.nextSetBit(n + 1)) {
 			bits.set(mIntArr[n]);

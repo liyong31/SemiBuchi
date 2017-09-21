@@ -6,11 +6,12 @@ import java.util.List;
 import automata.IBuchiWa;
 import automata.IStateWa;
 import complement.StateWaNCSB;
+import gnu.trove.set.TIntSet;
 import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;
-import util.IntStack;
+import util.MarkedIntStack;
 import util.Timer;
 
 // only plain nested DFS
@@ -23,8 +24,8 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 
 	// search for accepting SCC in the complement
 	private class NestedDFS implements IBuchiWaIsEmpty {
-		private final IntStack mFstStack;
-		private final IntStack mSndStack;
+		private final MarkedIntStack mFstStack;
+		private final MarkedIntStack mSndStack;
 		private final BitSet mFstTable;
 		private final BitSet mSndTable;
 		private Boolean mIsEmpty = true;
@@ -33,8 +34,8 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 		
 		NestedDFS(int timeLimit) {
 			this.TIME_LIMIT = timeLimit;
-			this.mFstStack = new IntStack();
-			this.mSndStack = new IntStack();
+			this.mFstStack = new MarkedIntStack();
+			this.mSndStack = new MarkedIntStack();
 			this.mFstTable = new BitSet();
 			this.mSndTable = new BitSet();
 			this.mTimer = new Timer();
