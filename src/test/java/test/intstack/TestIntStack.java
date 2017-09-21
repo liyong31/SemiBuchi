@@ -45,6 +45,8 @@ public class TestIntStack {
 			int top = mStack.pop();
 			assertEquals(peek, mRevArray1[i]);
 			assertEquals(top, mRevArray1[i]);
+			assertEquals(mStack.contains(top)
+					, (i == 0) ? true : false);
 		}
 		
 		assertEquals(mStack.empty(), true);
