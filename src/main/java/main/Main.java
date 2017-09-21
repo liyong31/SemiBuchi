@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import automata.IBuchi;
 import automata.IBuchiWa;
 import complement.BuchiWaComplement;
 import operation.inclusion.BuchiInclusionASCC;
@@ -59,13 +58,13 @@ public class Main {
 				int n = Integer.parseInt(args[i + 1]);
 				if(n >= 0 && n <= 4) Options.setChoice = n;
 				++ i;
-			}else if(args[i].equals("-opt")) {
+			}else if(args[i].equals("-lazys")) {
 				Options.lazyS = true;
 			}else if(args[i].equals("-complement")) {
 				complement = true;
 				fileOut = args[i + 1];
 				++ i;	
-			}else if(args[i].equals("-beqc")) {
+			}else if(args[i].equals("-lazyb")) {
 				Options.lazyB = true;
 			}
 		}
@@ -92,8 +91,8 @@ public class Main {
 		System.out.println("-set k: 0 for BitSet, 1 for SparseBitSet\n"
 				          + "       2 for TInSet, 3 for TreeSet and 4 for HashSet");
 		System.out.println("-test: Test all benchmarks");
-		System.out.println("-opt: Use Optimized NCSB complementation by word distribution on B");
-		System.out.println("-beqc: The way to set B primed states");
+		System.out.println("-lazys: Delay word distribution to S");
+		System.out.println("-lazyb: Delay word distribution to B");
 		System.out.println("-tarjan: Use Tarjan algorithm");
 		System.out.println("-rabit: Use RABIT tool");
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
