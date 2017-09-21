@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 class PowerSetPositive implements Iterator<IntSet> {
 
-	private Valuation mValuation;
+	private EnumeratorBitSet mValuation;
 	
 	private final IntSet mSet;
 	private final int[] mIntArr;
@@ -18,7 +18,7 @@ class PowerSetPositive implements Iterator<IntSet> {
 		while(iter.hasNext()) {
 			mIntArr[index ++] = iter.next();
 		}
-		this.mValuation = new Valuation(mSet.cardinality());
+		this.mValuation = new EnumeratorBitSet(mSet.cardinality());
 	}
 
 	@Override
@@ -30,8 +30,8 @@ class PowerSetPositive implements Iterator<IntSet> {
 	@Override
 	public IntSet next() {
 		assert hasNext();
-		Valuation val = mValuation.clone();
-		mValuation.increment();
+		EnumeratorBitSet val = mValuation.clone();
+		mValuation.nextBitSet();
 		IntSet bits = UtilIntSet.newIntSet();
 		for(int n = val.nextSetBit(0); n >= 0 ; n = val.nextSetBit(n + 1)) {
 			bits.set(mIntArr[n]);
