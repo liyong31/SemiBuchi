@@ -68,16 +68,12 @@ public class EnumeratorBitSet extends BitSet implements Comparable<EnumeratorBit
 		this.set(i);
 	}
 	
-	private boolean mHasCode = false;
-	private int mHashCode;
 	@Override
 	public int hashCode() {
-		if(mHasCode) return mHashCode;
-		mHasCode = true;
-		mHashCode = 0;
+		int hashCode = 0;
 		for(int i = 0; i < size(); i ++) {
-			mHashCode += get(i) ? (1 << i) : 0;
+			hashCode |= (get(i) ? (1 << i) : 0);
 		}
-		return mHashCode;
+		return hashCode;
 	}
 }

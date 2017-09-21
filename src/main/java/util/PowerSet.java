@@ -38,7 +38,7 @@ public class PowerSet implements Iterator<IntSet> {
 		while(ps.hasNext()) {
 			IntSet subset = ps.next();
 			i ++;
-			System.out.println(" " + subset);
+			System.out.println(" " + subset + ", hashCode=" + subset.hashCode());
 		}
 		System.out.println("number "+ i);
 		
@@ -50,7 +50,7 @@ public class PowerSet implements Iterator<IntSet> {
 		while(ps.hasNext()) {
 			IntSet subset = ps.next();
 			i ++;
-			System.out.println(" " + subset);
+			System.out.println(" " + subset + ", hashCode=" + subset.hashCode());
 		}
 		System.out.println("number "+ i);
 	}
