@@ -71,6 +71,6 @@ class EnumeratorBitSet extends BitSet implements Comparable<EnumeratorBitSet>{
 	// since this is modifiable bitset, we donot supprt hashCode
 	@Override
 	public int hashCode() {
-		throw new UnsupportedOperationException();
+		throw new UnsupportedOperationException("EnumeratorBitSet doesnot support hashCode");
 	}
 }
