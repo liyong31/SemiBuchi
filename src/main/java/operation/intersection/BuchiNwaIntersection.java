@@ -222,4 +222,9 @@ public class BuchiNwaIntersection extends BuchiNwa implements IBinaryOperation<I
 		
 	}
 
+	@Override
+	public String getOperationName() {
+		return "NwaIntersection";
+	}
+
 }

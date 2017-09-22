@@ -50,5 +50,10 @@ public class BuchiWaExploration extends BuchiExploration<IBuchiWa>{
         }
 	}
 
+	@Override
+	public String getOperationName() {
+		return "WaExploration";
+	}
+
 }
 

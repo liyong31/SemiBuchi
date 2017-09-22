@@ -168,4 +168,9 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 
 	}
 
+	@Override
+	public String getOperationName() {
+		return "WaIntersection";
+	}
+
 }

@@ -6,5 +6,7 @@ package operation;
 public interface IGenericOperation<I, O> {
 	
 	O getResult();
+	
+	String getOperationName();
 
 }

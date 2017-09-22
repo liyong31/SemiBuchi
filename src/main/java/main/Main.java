@@ -13,6 +13,7 @@ import java.util.List;
 
 import automata.IBuchiWa;
 import complement.BuchiWaComplement;
+import operation.difference.BuchiWaDifference;
 import operation.inclusion.BuchiInclusionASCC;
 import operation.inclusion.BuchiInclusionASCCAntichain;
 import operation.inclusion.BuchiInclusionComplement;
@@ -42,6 +43,8 @@ public class Main {
 		long time = TIME_LIMIT;
 		boolean test = false;
 		boolean complement = false;
+		boolean inclusion = false;
+		boolean difference = false;
 		String fileOut = null;
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].equals("-test")) {
@@ -66,6 +69,10 @@ public class Main {
 				++ i;	
 			}else if(args[i].equals("-lazyb")) {
 				Options.lazyB = true;
+			}else if(args[i].equals("-diff")) {
+				difference = true;
+			}else if(args[i].equals("-incl")) {
+				inclusion = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -73,8 +80,10 @@ public class Main {
 			testBenchmarks(time);
 		}else if(complement){
 			complementBuchi(args, fileOut);
-		}else {
+		}else if(inclusion){
 			checkInclusion(args, time);
+		}else if(difference) {
+			computeDifference(args);
 		}
 		
 	}
@@ -98,8 +107,68 @@ public class Main {
 		System.out.println("-ascc: Use ASCC algorithm (Default)");
 		System.out.println("-ac: Use Antichain optimization");
 		System.out.println("-dfs: Use Double DFS algorithm");
+		System.out.println("-diff: Compute Difference of two automata");
+		System.out.println("-incl: Check inclusion of two automata");
 		System.out.println("-to k: Check inclusion in k seconds (20 secs by default)");
 		System.out.println("-complement <file-out>: Output complement of the last automaton");
+		
+	}
+	
+	private static void computeDifference(String[] args) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(Options.verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
+		
+		File file = null;
+		TaskDifference task = null;
+		
+		boolean tarjan = false, antichain = false, dfs = false, rabit = false;
+		for(int i = 0; i < args.length; i ++) {
+			
+			if(args[i].endsWith(FILE_EXT)) {
+				file = new File(args[i]);
+			}if(args[i].equals("-tarjan")) {
+				tarjan = true;
+			}else if(args[i].equals("-ac")) {
+				antichain = true;
+			}else if(args[i].equals("-dfs")) {
+				dfs = true;
+			}else if(args[i].equals("-rabit")) {
+				rabit = true;
+			}
+		}
+		
+		assert file != null;
+		
+		if(Options.verbose) System.out.println("Parsing file " + file.getName() + " ....");
+		ATSFileParser atsParser =  new ATSFileParser();
+		atsParser.parse(file.getAbsolutePath());
+		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
+				
+		for(PairXX<IBuchiWa> pair : pairs) {
+			task = new TaskDifference(file.getName());
+			if(tarjan) {
+				task.setOperation(new BuchiWaDifference(pair.getFstElement(), pair.getSndElement()));
+			}else {
+				System.err.println("Other algorithms not support yet");
+				System.exit(-1);
+			}
+			
+			if(Options.verbose)  System.out.println("Computing Difference by ALGORITHM " + task.getOperation().getOperationName() + " ...");
+			Timer timer = new Timer();
+			timer.start();
+			task.runTask();
+			timer.stop();
+			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getOperationName() + " ...");
+			if(Options.verbose)  {
+				System.out.println("\n" + task.toStringVerbose());
+				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
+//				System.out.println("Difference = \n" + task.getOperation().getResult());
+			}else {
+				System.out.println(task.toString());
+			}
+
+		}
 		
 	}
 	

@@ -156,11 +156,22 @@ public class BuchiUniversalityNestedDFSAntichain extends BuchiUniversality {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+		@Override
+		public String getOperationName() {
+			return "EmptyNestedDFSAntichain";
+		}
 	}
 
 	@Override
 	protected void initializeEmptinessChecker() {
 		this.mEmptinessChecker = new NestedDFS(10 * 1000);
+	}
+	
+
+	@Override
+	public String getOperationName() {
+		return "UniversalityNestedDFSAntichain";
 	}
 		
 

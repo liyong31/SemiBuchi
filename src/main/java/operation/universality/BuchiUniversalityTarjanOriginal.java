@@ -15,5 +15,10 @@ public class BuchiUniversalityTarjanOriginal extends BuchiUniversality {
 		// TODO Auto-generated method stub
 		this.mEmptinessChecker = new BuchiIsEmptyTarjanOriginal(mBuchiComplement, 10 * 1000);
 	}
+	
+	@Override
+	public String getOperationName() {
+		return "UniversalityTarjan";
+	}
 
 }

@@ -133,6 +133,11 @@ public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 	public IBuchiWa getOperand() {
 		return mBuchi;
 	}
+
+	@Override
+	public String getOperationName() {
+		return "EmptyASCC";
+	}
 			
 
 }

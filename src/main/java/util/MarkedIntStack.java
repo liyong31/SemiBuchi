@@ -14,24 +14,35 @@ public class MarkedIntStack {
 	private int[] mData;
 	private int mTopIndex;
 	private TIntIntMap mInStackCounter; // no duplicate elements
+	private final boolean mMarked;
 
-	public MarkedIntStack() {
+	public MarkedIntStack(boolean marked) {
 		final int INIT_CAPACITY = 30;
 		mTopIndex = 0;
 		mData = new int[INIT_CAPACITY];
 		mInStackCounter = new TIntIntHashMap();
+		mMarked = marked;
+	}
+	
+	public MarkedIntStack() {
+		this(true);
 	}
 
-	public MarkedIntStack(int initCapacity) {
+	public MarkedIntStack(int initCapacity, boolean marked) {
 		if (initCapacity < 0)
 			throw new IllegalArgumentException("Negative number " + initCapacity);
 		mTopIndex = 0;
 		mData = new int[initCapacity];
 		mInStackCounter = new TIntIntHashMap();
+		mMarked = marked;
+	}
+	
+	public MarkedIntStack(int initCapacity) {
+		this(initCapacity, true);
 	}
 
 	public MarkedIntStack clone() {
-		MarkedIntStack result = new MarkedIntStack(mData.length);
+		MarkedIntStack result = new MarkedIntStack(mData.length, mMarked);
 		for(int i = 0; i < mData.length; i ++) {
 			result.mData[i] = mData[i];
 		}
@@ -61,6 +72,7 @@ public class MarkedIntStack {
 	}
 	
 	private void decreaseCounter(int item) {
+		if(! mMarked) return ;
 		assert mInStackCounter.containsKey(item);
 		int value = mInStackCounter.get(item);
 		-- value;
@@ -72,6 +84,7 @@ public class MarkedIntStack {
 	}
 	
 	private boolean increaseCounter(int item) {
+		if(! mMarked) return false;
 		if(! mInStackCounter.containsKey(item)) {
 			mInStackCounter.put(item, 0);
 		}
@@ -99,10 +112,15 @@ public class MarkedIntStack {
 	// -------------------------------------------
     // there may be multiple appearances for each item	
 	public boolean contains(int item) {
-		return mInStackCounter.containsKey(item);
+		if(mMarked) {
+			return mInStackCounter.containsKey(item);
+		}else {
+			return search(item) >= 0;
+		}
 	}
 	
 	public IntSet getItems() {
+		assert mMarked : "Not marked stack";
 		// make sure keySet is not modified
 		IntSet set = new IntSetTIntSet(mInStackCounter.keySet());
 		return set.clone();
@@ -110,6 +128,7 @@ public class MarkedIntStack {
 	
 	// we also can treat it as an array
 	public int get(int index) {
+		assert mMarked : "Not marked stack";
 		if(index < 0 || index >= mTopIndex)
 			throw new RuntimeException("Index out of boundary");
 		return mData[index];
@@ -135,6 +154,12 @@ public class MarkedIntStack {
 		return sb.toString();
 	}
 	
+	public int search(int item) {
+		for(int i = 0; i < mTopIndex; i ++) {
+			if(mData[i] == item) return i;
+		}
+		return -1;
+	}
 	
 	public void clear() {
 		mTopIndex = 0;

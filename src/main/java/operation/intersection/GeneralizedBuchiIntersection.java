@@ -10,7 +10,7 @@ import automata.IBuchiWa;
 
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
-import util.IntIterator;
+
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -66,13 +66,8 @@ public class GeneralizedBuchiIntersection extends BuchiWa implements IBuchiWaInt
 		// first compute initial states
 		IntSet fstInits = mFstOperand.getInitialStates();
 		IntSet sndInits = mSndOperand.getInitialStates();
-		
-		IntIterator fstIter = fstInits.iterator();
-		while(fstIter.hasNext()) {
-			int fst = fstIter.next();
-			IntIterator sndIter = sndInits.iterator();
-			while(sndIter.hasNext()) {
-				int snd = sndIter.next();
+		for(final Integer fst : fstInits.iterable()) {
+			for(final Integer snd : sndInits.iterable()) {
 				GeneralizedState state = addState(fst, snd);				
 				this.setInitial(state);
 			}
@@ -130,6 +125,11 @@ public class GeneralizedBuchiIntersection extends BuchiWa implements IBuchiWaInt
 		public List<IntSet> getAccs() {
 			return Collections.unmodifiableList(accs);
 		}
+	}
+
+	@Override
+	public String getOperationName() {
+		return "GenWaIntersection";
 	}
 
 }

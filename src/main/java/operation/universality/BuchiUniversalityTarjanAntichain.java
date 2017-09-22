@@ -114,6 +114,11 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+		@Override
+		public String getOperationName() {
+			return "EmptyTarjanAntichain";
+		}
 				
 		
 	}
@@ -123,4 +128,8 @@ public class BuchiUniversalityTarjanAntichain extends BuchiUniversality {
 		this.mEmptinessChecker = new Tarjan(10 * 1000);
 	}
 
+	@Override
+	public String getOperationName() {
+		return "UniversalityTarjanAntichain";
+	}
 }

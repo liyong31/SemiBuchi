@@ -2,7 +2,7 @@ package operation.intersection;
 
 import automata.IBuchiWa;
 import automata.StateWa;
-import util.IntIterator;
+
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -36,16 +36,9 @@ public class GeneralizedState extends StateWa {
 		return "(" + mLeft + "," + mRight + ")";
 	}
 	
-	int hashCode;
-	boolean hasCode = false;
 	@Override
 	public int hashCode() {
-		if(hasCode) return hashCode;
-		else {
-			hasCode = true;
-			hashCode = mLeft * mBuchi.getStateSize() + mRight;
-		}
-		return hashCode;
+		return mLeft * mBuchi.getFirstOperand().getStateSize() + mRight;
 	}
 	
 	public int getLeft() {
@@ -71,19 +64,17 @@ public class GeneralizedState extends StateWa {
 		IntSet fstSuccs = fstOp.getState(mLeft).getSuccessors(letter);
 		IntSet sndSuccs = sndOp.getState(mRight).getSuccessors(letter);
 		
-		IntIterator fstIter = fstSuccs.iterator();
-		while(fstIter.hasNext()) {
-			int fstSucc = fstIter.next();
-			IntIterator sndIter = sndSuccs.iterator();
-			while(sndIter.hasNext()) {
-				int sndSucc = sndIter.next();
+		IntSet succs = UtilIntSet.newIntSet();
+		for(final Integer fstSucc : fstSuccs.iterable()) {
+			for(final Integer sndSucc : sndSuccs.iterable()) {
 				// pair (X, Y)
 				GeneralizedState succ = mBuchi.addState(fstSucc, sndSucc);                
 				this.addSuccessor(letter, succ.getId());
+				succs.set(succ.getId());
 			}
-	    }
+		}
 
-		return super.getSuccessors(letter);
+		return succs;
 	}
 
 }

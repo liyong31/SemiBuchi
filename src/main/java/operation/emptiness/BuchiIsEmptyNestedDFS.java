@@ -166,4 +166,9 @@ public class BuchiIsEmptyNestedDFS implements IBuchiWaIsEmpty {
 	public Boolean getResult() {
 		return mIsEmpty;
 	}
+
+	@Override
+	public String getOperationName() {
+		return "EmptyNestedDFS";
+	}
 }

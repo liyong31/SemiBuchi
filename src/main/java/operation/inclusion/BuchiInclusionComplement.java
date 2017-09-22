@@ -10,6 +10,7 @@ import java.util.Stack;
 import automata.BuchiWa;
 import automata.IStateWa;
 import complement.StateWaNCSB;
+import main.Options;
 import main.TaskInclusion;
 import automata.IBuchi;
 import automata.IBuchiWa;
@@ -156,7 +157,7 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 					if(t.intValue() == v)
 						break;
 				}
-
+				if(Options.verbose) System.out.println("hasAcc: " + (hasFstAcc && hasSndAcc) + "," + scc);
 				mIsEmpty = ! (hasFstAcc && hasSndAcc);
 				if(scc.cardinality() == 1 // only has a single state
 						&& ! mIsEmpty     // it is an accepting states

@@ -16,5 +16,10 @@ public class BuchiUniversalityNestedDFS extends BuchiUniversality {
 	protected void initializeEmptinessChecker() {
 		this.mEmptinessChecker = new BuchiIsEmptyNestedDFS(mBuchiComplement, 10 * 1000);
 	}
+	
+	@Override
+	public String getOperationName() {
+		return "UniversalityNestedDFS";
+	}
 
 }

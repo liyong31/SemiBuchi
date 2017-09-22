@@ -635,4 +635,9 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		complement.toATS(System.out, parser.getAlphabet());
 	}
 
+	@Override
+	public String getOperationName() {
+		return "NwaExploration";
+	}
+
 }

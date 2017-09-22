@@ -14,4 +14,9 @@ public class BuchiUniversalityASCC extends BuchiUniversality {
 		this.mEmptinessChecker = new BuchiIsEmptyASCC(mBuchiComplement, 10 * 1000);
 	}
 
+	@Override
+	public String getOperationName() {
+		return "UniversalityASCC";
+	}
+
 }

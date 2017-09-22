@@ -128,8 +128,12 @@ public class BuchiIsEmptyTarjanOriginal implements IBuchiWaIsEmpty {
 
 	@Override
 	public Boolean getResult() {
-		// TODO Auto-generated method stub
 		return mIsEmpty;
+	}
+
+	@Override
+	public String getOperationName() {
+		return "EmptyTarjan";
 	}
 			
 
