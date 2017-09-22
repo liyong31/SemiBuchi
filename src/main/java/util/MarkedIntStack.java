@@ -14,7 +14,7 @@ public class MarkedIntStack {
 	private int[] mData;
 	private int mTopIndex;
 	private TIntIntMap mInStackCounter; // no duplicate elements
-	private final boolean mMarked;
+	private final boolean mMarked; // set true will be fast but more memory usage
 
 	public MarkedIntStack(boolean marked) {
 		final int INIT_CAPACITY = 30;
@@ -120,15 +120,24 @@ public class MarkedIntStack {
 	}
 	
 	public IntSet getItems() {
-		assert mMarked : "Not marked stack";
 		// make sure keySet is not modified
-		IntSet set = new IntSetTIntSet(mInStackCounter.keySet());
-		return set.clone();
+		IntSet result = UtilIntSet.newIntSet();
+		if(mMarked) {
+			IntSet temp = new IntSetTIntSet(mInStackCounter.keySet());
+			for(final int item : temp.iterable()) {
+				result.set(item);
+			}
+		}
+		else {
+			for(int i = mTopIndex - 1; i >= 0; i --) {
+				result.set(mData[i]);
+			}
+		}
+		return result;
 	}
 	
 	// we also can treat it as an array
 	public int get(int index) {
-		assert mMarked : "Not marked stack";
 		if(index < 0 || index >= mTopIndex)
 			throw new RuntimeException("Index out of boundary");
 		return mData[index];
@@ -155,7 +164,7 @@ public class MarkedIntStack {
 	}
 	
 	public int search(int item) {
-		for(int i = 0; i < mTopIndex; i ++) {
+		for(int i = mTopIndex - 1; i >= 0; i --) {
 			if(mData[i] == item) return i;
 		}
 		return -1;
