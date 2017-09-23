@@ -24,7 +24,7 @@ public class BuchiWaDifference implements IBuchiWaDifference {
 	private final IBuchiWa mSndOperand;
 	private final BuchiWaComplement mSndComplement;
 	private final IBuchiWa mDifference;
-	private final TarjanExploration mTarjan; 
+	private TarjanExploration mTarjan; 
 	
 	public BuchiWaDifference(IBuchiWa fstOp, IBuchiWa sndOp) {
 		mFstOperand = fstOp;
@@ -32,21 +32,28 @@ public class BuchiWaDifference implements IBuchiWaDifference {
 		assert fstOp.getAlphabetSize() == sndOp.getAlphabetSize();
 		mSndComplement = new BuchiWaComplement(sndOp);
 		mDifference = new GeneralizedBuchiIntersection(fstOp, mSndComplement);
-		mTarjan = new TarjanExploration();
 	}
 
 	@Override
 	public IBuchiWaComplement getSecondBuchiComplement() {
 		return mSndComplement;
 	}
+	
+	private void initializeTarjan() {
+		mTarjan = new TarjanExploration();
+	}
 
 	@Override
 	public IBuchiWa getResult() {
+		if(mTarjan == null) 
+			initializeTarjan();
 		return mDifference;
 	}
 
 	@Override
 	public Boolean isIncluded() {
+		if(mTarjan == null) 
+			initializeTarjan();
 		return mTarjan.mIsEmpty;
 	}
 
