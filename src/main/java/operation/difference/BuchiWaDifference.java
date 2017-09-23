@@ -164,7 +164,7 @@ public class BuchiWaDifference implements IBuchiWaDifference {
 						mSCC = sccList;
 					}
 					if(Options.verbose) {
-						System.out.println("Loop: " + mSCC.toString());
+						System.out.println("Loop: " + mSCC);
 					}
 				}
 			}
