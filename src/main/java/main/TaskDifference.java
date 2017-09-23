@@ -159,7 +159,8 @@ public class TaskDifference implements ITask {
 		this.mChecker = checker;
 		this.mOperation = checker.getOperationName();
 		this.mOperation += "+" + UtilIntSet.getSetType() + (Options.lazyS ? "+lazyS" : "")
-				                                         + (Options.lazyB ? "+lazyB" : "");
+				                                         + (Options.lazyB ? "+lazyB" : "")
+				                                         + (Options.useGBA ? "+GBA" : "+BA");
 	}
 	
 	public IBuchiWaDifference getOperation() {

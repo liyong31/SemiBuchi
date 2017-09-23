@@ -14,5 +14,7 @@ public class Options {
 	
 	// delay the word from C (newly incomers from N) to B 
 	public static boolean lazyB = false;
+	
+	public static boolean useGBA = false;
 
 }

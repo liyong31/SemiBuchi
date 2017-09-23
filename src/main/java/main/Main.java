@@ -73,6 +73,8 @@ public class Main {
 				difference = true;
 			}else if(args[i].equals("-incl")) {
 				inclusion = true;
+			}else if(args[i].equals("-gba")) {
+				Options.useGBA = true;
 			}
 		}
 		time = time * 1_000; // miliseconds
@@ -109,6 +111,7 @@ public class Main {
 		System.out.println("-dfs: Use Double DFS algorithm");
 		System.out.println("-diff: Compute Difference of two automata");
 		System.out.println("-incl: Check inclusion of two automata");
+		System.out.println("-gba: Use generalized Buchi automata");
 		System.out.println("-to k: Check inclusion in k seconds (20 secs by default)");
 		System.out.println("-complement <file-out>: Output complement of the last automaton");
 		
