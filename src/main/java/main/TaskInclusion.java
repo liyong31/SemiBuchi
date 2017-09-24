@@ -51,6 +51,8 @@ public class TaskInclusion extends GenericTask {
 		mRHSStateNum = mInclusionChecker.getSndBuchi().getStateSize();
 		mLHSTransNum = mInclusionChecker.getFstBuchi().getNumTransition();
 		mRHSTransNum = mInclusionChecker.getSndBuchi().getNumTransition();
+		mAlphabetSize = mInclusionChecker.getFstBuchi().getAlphabetSize();
+		mResultStateSize = mInclusionChecker.getBuchiDifference().getStateSize();
 //		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
 //		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
 	}

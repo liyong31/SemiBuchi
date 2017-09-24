@@ -33,6 +33,8 @@ public class TaskDifference extends GenericTask {
 		mRHSStateNum = mDifferenceOprator.getSecondOperand().getStateSize();
 		mLHSTransNum = mDifferenceOprator.getFirstOperand().getNumTransition();
 		mRHSTransNum = mDifferenceOprator.getSecondOperand().getNumTransition();
+		mAlphabetSize = mDifferenceOprator.getFirstOperand().getAlphabetSize();
+		mResultStateSize = mDifferenceOprator.getResult().getStateSize();
 //		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
 //		mIsRHSSemiDet = mChecker.getSndBuchi().isSemiDeterministic();
 	}
