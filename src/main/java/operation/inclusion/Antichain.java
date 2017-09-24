@@ -18,10 +18,10 @@ public class Antichain {
 	
 //	private Map<Integer, List<StateNCSB>> mPairMap;
 	private TIntObjectMap<List<StateWaNCSB>> mPairMap;
-	private final ITask mTask;
+//	private final ITask mTask;
 	
-	public Antichain(ITask task) {
-		mTask = task;
+	public Antichain() {
+//		mTask = task;
 		mPairMap = new TIntObjectHashMap<>();
 //		mPairMap = new HashMap<>();
 	}
@@ -47,11 +47,11 @@ public class Antichain {
 			//pairs covered by the new pair
 			//will not be kept in copy
 			if(s.getNCSB().coveredBy(snd.getNCSB())) {
-				mTask.increaseDelPairInAntichain();
+//				mTask.increaseDelPairInAntichain();
 				continue;
 			}else if(snd.getNCSB().coveredBy(s.getNCSB())) {
 				// no need to add it
-				mTask.increaseRejPairByAntichain();
+//				mTask.increaseRejPairByAntichain();
 				return false;
 			}
 			copy.add(s);

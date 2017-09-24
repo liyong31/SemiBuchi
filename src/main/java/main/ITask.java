@@ -1,5 +1,8 @@
 package main;
 
+/**
+ * General Task Interface
+ * */
 public interface ITask {
 	
 	
@@ -12,15 +15,6 @@ public interface ITask {
 	ResultValue getResultValue();
 	
 	void setResultValue(ResultValue resultValue);
-	
-	// for Antichain
-	void increaseRejPairByAntichain();
-	
-	void increaseDelPairInAntichain();
-	
-	void increaseIngPairByAntichain();
-	
-	void setNumPairInAntichain(int num);
 	
 	String toString();
 	String toStringVerbose();

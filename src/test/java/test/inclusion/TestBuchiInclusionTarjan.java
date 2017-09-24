@@ -20,8 +20,7 @@ public class TestBuchiInclusionTarjan {
 		ATSFileParser atsParser =  new ATSFileParser();
 		atsParser.parse(dir);
 		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
-		TaskInclusion task = new TaskInclusion("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats",
-				20 * 1000);
+		TaskInclusion task = new TaskInclusion("bist_cell_true-unreach-call_false-termination.cil.c_Iteration17.ats");
 		for(PairXX<IBuchiWa> pair : pairs) {
 			Options.verbose = true;
 			BuchiInclusionComplement complement = new BuchiInclusionComplement(task, pair.getFstElement(), pair.getSndElement());

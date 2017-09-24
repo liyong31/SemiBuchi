@@ -200,7 +200,7 @@ public class Main {
 		List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
 				
 		for(PairXX<IBuchiWa> pair : pairs) {
-			task = new TaskInclusion(file.getName(), time);
+			task = new TaskInclusion(file.getName());
 			if(tarjan) {
 				task.setOperation(new BuchiInclusionComplement(task, pair.getFstElement(), pair.getSndElement()));
 			}else if(dfs) {
@@ -310,20 +310,20 @@ public class Main {
 					for(PairXX<IBuchiWa> pair : pairs) {
 						List<TaskInclusion> tasks = new ArrayList<TaskInclusion>();
 
-						TaskInclusion taskNscb = new TaskInclusion(f.getName(), time);
+						TaskInclusion taskNscb = new TaskInclusion(f.getName());
 						taskNscb.setOperation(new BuchiInclusionComplement(taskNscb, pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskNscb);
 						
-						TaskInclusion taskAsccAnti = new TaskInclusion(f.getName(), time);
+						TaskInclusion taskAsccAnti = new TaskInclusion(f.getName());
 						taskAsccAnti.setOperation(new BuchiInclusionASCCAntichain(taskAsccAnti, pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskAsccAnti);
 						
 						
-						TaskInclusion taskAscc = new TaskInclusion(f.getName(), time);
+						TaskInclusion taskAscc = new TaskInclusion(f.getName());
 						taskAscc.setOperation(new BuchiInclusionASCC(taskAscc, pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskAscc);
 
-						TaskInclusion taskRabit = new TaskInclusion(f.getName(), time);
+						TaskInclusion taskRabit = new TaskInclusion(f.getName());
 						taskRabit.setOperation(new BuchiInclusionRABIT(taskRabit, pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskRabit);
 						

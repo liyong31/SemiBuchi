@@ -77,7 +77,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 			this.mDfsNum = new HashMap<>();
 			this.mCurrent = new BitSet();
 			this.mTimer = new Timer();
-			this.mAntichain = new Antichain(mTask);
+			this.mAntichain = new Antichain();
 			
 			mTimer.start();
 			IntIterator iter = mResult.getInitialStates().iterator();
@@ -87,7 +87,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 					dfs(n);
 				}
 			}
-			mTask.setNumPairInAntichain(mAntichain.size());
+//			mTask.setNumPairInAntichain(mAntichain.size());
 		}
 		
 		
@@ -132,7 +132,7 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 						mPairStateMap.get(pair).addSuccessor(letter, stateSucc.getId());
 						//OPT1
 						if(mAntichain.covers(pairSucc)) {
-							mTask.increaseIngPairByAntichain();
+//							mTask.increaseIngPairByAntichain();
 							continue;
 						}
 						
