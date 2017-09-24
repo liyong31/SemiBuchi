@@ -1,8 +1,6 @@
 package main;
 
 import operation.difference.IBuchiWaDifference;
-import operation.inclusion.BuchiInclusionRABIT;
-import operation.inclusion.IBuchiInclusion;
 import util.Timer;
 import util.UtilIntSet;
 
@@ -49,8 +47,8 @@ public class TaskDifference implements ITask {
 	private String mOperation;
 	
 	private long mRunTime;
-	
-	private Boolean mResult;
+		
+	private ResultValue mResultValue;
 	
 	private IBuchiWaDifference mChecker;
 	
@@ -108,7 +106,7 @@ public class TaskDifference implements ITask {
 		+ COLUMN_NAMES[13] + " = "	+ mChecker.getResult().getStateSize() + "\n"
 		+ COLUMN_NAMES[14] + " = "	+ mOperation + "\n"
 		+ COLUMN_NAMES[15] + " = "	+ mRunTime + "\n"
-		+ COLUMN_NAMES[16] + " = "	+ mResult  + "\n";
+		+ COLUMN_NAMES[16] + " = "	+ mResultValue  + "\n";
 		
 	}
 	@Override
@@ -132,17 +130,25 @@ public class TaskDifference implements ITask {
 		+ "," + mChecker.getResult().getStateSize()
 		+ "," + mOperation
 		+ "," + mRunTime
-		+ "," + mResult;
+		+ "," + mResultValue;
 		
 	}
 	
 	@Override
 	public void runTask() {
+		Boolean result = null;
 		Timer timer = new Timer();
 		timer.start();
-		mResult = mChecker.isIncluded();
+		result = mChecker.isIncluded();
 		timer.stop();
 		mRunTime = timer.getTimeElapsed();
+		if(result == null) {
+			mResultValue = ResultValue.NULL;
+		}else if(result.booleanValue()) {
+			mResultValue = ResultValue.TRUE;
+		}else {
+			mResultValue = ResultValue.FALSE;
+		}
 		// first get the used transition in mSndOperation
 		if(mChecker.getSecondBuchiComplement() != null)
 			mNumTransUsedInSndBuchi = mChecker.getSecondBuchiComplement().getNumUsedOpTransition();
@@ -173,13 +179,8 @@ public class TaskDifference implements ITask {
 	}
 	
 	@Override
-	public long getTimeBound() {
-		return 0;
-	}
-	
-	@Override
-	public Boolean getResult() {
-		return mResult;
+	public ResultValue getResultValue() {
+		return mResultValue;
 	}
 	
 	@Override
@@ -200,6 +201,18 @@ public class TaskDifference implements ITask {
 	@Override
 	public void setNumPairInAntichain(int num) {
 		mNumPairsInAntichain = num;
+	}
+
+
+	@Override
+	public void setResultValue(ResultValue resultValue) {
+		mResultValue = resultValue;
+	}
+
+
+	@Override
+	public String getOperationName() {
+		return mOperation;
 	}
 	
 //	public void useTransition() {

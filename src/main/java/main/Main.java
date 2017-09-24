@@ -85,7 +85,7 @@ public class Main {
 		}else if(inclusion){
 			checkInclusion(args, time);
 		}else if(difference) {
-			computeDifference(args);
+			computeDifference(args, time);
 		}
 		
 	}
@@ -117,7 +117,7 @@ public class Main {
 		
 	}
 	
-	private static void computeDifference(String[] args) {
+	private static void computeDifference(String[] args, long time) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		if(Options.verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
@@ -125,19 +125,13 @@ public class Main {
 		File file = null;
 		TaskDifference task = null;
 		
-		boolean tarjan = false, antichain = false, dfs = false, rabit = false;
+		boolean tarjan = false;
 		for(int i = 0; i < args.length; i ++) {
 			
 			if(args[i].endsWith(FILE_EXT)) {
 				file = new File(args[i]);
 			}if(args[i].equals("-tarjan")) {
 				tarjan = true;
-			}else if(args[i].equals("-ac")) {
-				antichain = true;
-			}else if(args[i].equals("-dfs")) {
-				dfs = true;
-			}else if(args[i].equals("-rabit")) {
-				rabit = true;
 			}
 		}
 		
@@ -157,20 +151,19 @@ public class Main {
 				System.exit(-1);
 			}
 			
-			if(Options.verbose)  System.out.println("Computing Difference by ALGORITHM " + task.getOperation().getOperationName() + " ...");
+			if(Options.verbose)  System.out.println("Computing Difference by ALGORITHM " + task.getOperationName() + " ...");
 			Timer timer = new Timer();
+			RunTask runTask = new RunTask(task, time);
 			timer.start();
-			task.runTask();
+			runTask.execute();
 			timer.stop();
-			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getOperationName() + " ...");
+			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperationName() + " ...");
 			if(Options.verbose)  {
 				System.out.println("\n" + task.toStringVerbose());
 				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
-//				System.out.println("Difference = \n" + task.getOperation().getResult());
 			}else {
 				System.out.println(task.toString());
 			}
-
 		}
 		
 	}
@@ -347,7 +340,7 @@ public class Main {
 							}finally {
 //								generator.end();
 							}
-							System.out.println("result: " + task.getResult() + ", " + task.getRuntime());
+							System.out.println("result: " + task.getResultValue() + ", " + task.getRuntime());
 							generator.addRows(task);
 						}
 						

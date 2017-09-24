@@ -49,7 +49,7 @@ public class BuchiInclusionRABIT implements IBuchiInclusion {
 	public Boolean isIncluded() {
 		// TODO Auto-generated method stub
 		try {
-			return RunRabit.executeRabit(mFstOperand, mSndOperand, mTask.getTimeBound());
+			return RunRabit.executeRabit(mFstOperand, mSndOperand, 10);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

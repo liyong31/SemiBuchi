@@ -80,19 +80,9 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 				int n = iter.next();
 				if(! mIndexMap.containsKey(n)){
 					tarjan(n);
-					if(mIsEmpty == null || !mIsEmpty.booleanValue()) 
-						break;
 				}
 			}
 		}
-
-		
-		private boolean terminate() {
-			if(mTimer.tick() > mTask.getTimeBound()) 
-				return true;
-			return false;
-		}
-
 
 		
 		private final LinkedList<Integer> mPrefix = new LinkedList<>();
@@ -101,11 +91,6 @@ public class BuchiInclusionComplement extends BuchiInclusion {
 		
 		// make use of tarjan algorithm
 		void tarjan(int v) {
-			
-			if(terminate()) {
-				mIsEmpty = null;
-				return ;
-			}
 			
 			mIndexMap.put(v, mIndex);
 			mLowlinkMap.put(v, mIndex);

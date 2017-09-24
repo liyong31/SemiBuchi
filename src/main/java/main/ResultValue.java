@@ -1,13 +1,40 @@
 package main;
 
-public class ResultValue {
+public enum ResultValue {
 	
-	public long mTimeElapsed; // milliseconds
-	public Boolean mResult;    // null means time out or other things
 	
-	public ResultValue(long time, Boolean result) {
-		this.mTimeElapsed = time;
-		this.mResult = result;
+	OK,        // OK for non-return or object return
+	NULL,      // null for boolean or object return
+	FALSE,     // false for boolean return
+	TRUE,      // true for boolean return
+	
+	// runtime exceptions or errors
+	EXE_UNKNOWN,
+	EXE_TIMEOUT,
+	EXE_MEMOOUT;
+
+	
+	public String toString() {
+		
+		switch(this) {
+		case OK:
+			return "ok";
+		case NULL:
+			return "null";
+		case FALSE:
+			return "false";
+		case TRUE:
+			return "true";
+		case EXE_UNKNOWN:
+			return "unknown";
+		case EXE_TIMEOUT:
+			return "time-out";
+		case EXE_MEMOOUT:
+			return "memory-out";
+		default:
+			assert false : "Unknown value for ResultValue";
+		}
+		return null;
 	}
 
 }

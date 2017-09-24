@@ -83,30 +83,16 @@ public class BuchiInclusionASCCAntichain extends BuchiInclusion {
 			IntIterator iter = mResult.getInitialStates().iterator();
 			while(iter.hasNext()) {
 				int n = iter.next();
-
 				if(! mDfsNum.containsKey(n)){
 					dfs(n);
-					if(mIsEmpty == null ||  ! mIsEmpty.booleanValue())
-						break ;
 				}
 			}
 			mTask.setNumPairInAntichain(mAntichain.size());
 		}
 		
-		private boolean terminate() {
-			if(mTimer.tick() > mTask.getTimeBound()) 
-				return true;
-			return false;
-		}
-		
 		
 		// make use of tarjan algorithm
 		void dfs(int s) {
-			
-			if(terminate()) {
-				mIsEmpty = null;
-				return ;
-			}
 			
 			mIndex++;
 			mDfsNum.put(s, mIndex);

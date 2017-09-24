@@ -90,20 +90,9 @@ public class BuchiInclusionASCC extends BuchiInclusion {
 			}
 		}
 		
-		private boolean terminate() {
-			if(mTimer.tick() > mTask.getTimeBound()) 
-				return true;
-			return false;
-		}
-		
 		
 		// make use of tarjan algorithm
 		void dfs(int s) {
-			
-			if(terminate()) {
-				mIsEmpty = null;
-				return ;
-			}
 			
 			mIndex++;
 			mDfsNum.put(s, mIndex);

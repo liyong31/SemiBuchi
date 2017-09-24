@@ -2,14 +2,16 @@ package main;
 
 public interface ITask {
 	
-	long getTimeBound();
 	
+	String getOperationName();
+		
 	long getRuntime();
 	
 	void runTask();
 	
-	Boolean getResult();
+	ResultValue getResultValue();
 	
+	void setResultValue(ResultValue resultValue);
 	
 	// for Antichain
 	void increaseRejPairByAntichain();

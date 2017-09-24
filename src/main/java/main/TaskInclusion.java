@@ -51,6 +51,8 @@ public class TaskInclusion implements ITask {
 	
 	private Boolean mResult;
 	
+	private ResultValue mResultValue;
+	
 	private IBuchiInclusion mChecker;
 	
 	
@@ -137,11 +139,19 @@ public class TaskInclusion implements ITask {
 	
 	@Override
 	public void runTask() {
+		Boolean result = null;
 		Timer timer = new Timer();
 		timer.start();
-		mResult = mChecker.isIncluded();
+		result = mChecker.isIncluded();
 		timer.stop();
 		mRunTime = timer.getTimeElapsed();
+		if(result == null) {
+			mResultValue = ResultValue.NULL;
+		}else if(result.booleanValue()) {
+			mResultValue = ResultValue.TRUE;
+		}else {
+			mResultValue = ResultValue.FALSE;
+		}
 		// first get the used transition in mSndOperation
 		if(mChecker.getSndBuchiComplement() != null)
 			mNumTransUsedInSndBuchi = mChecker.getSndBuchiComplement().getNumUsedOpTransition();
@@ -158,7 +168,10 @@ public class TaskInclusion implements ITask {
 		this.mChecker = checker;
 		this.mOperation = checker.getName();
 		if(!(checker instanceof BuchiInclusionRABIT)) {
-			this.mOperation += "+" + UtilIntSet.getSetType() + (Options.lazyS ? "+opt" : "");
+			this.mOperation += 
+				"+" + UtilIntSet.getSetType() + (Options.lazyS ? "+lazyS" : "")
+                    + (Options.lazyB ? "+lazyB" : "")
+                    + (Options.useGBA ? "+GBA" : "+BA");
 		}
 	}
 	
@@ -172,13 +185,8 @@ public class TaskInclusion implements ITask {
 	}
 	
 	@Override
-	public long getTimeBound() {
-		return mTimeLimit;
-	}
-	
-	@Override
-	public Boolean getResult() {
-		return mResult;
+	public ResultValue getResultValue() {
+		return mResultValue;
 	}
 	
 	@Override
@@ -199,6 +207,18 @@ public class TaskInclusion implements ITask {
 	@Override
 	public void setNumPairInAntichain(int num) {
 		mNumPairsInAntichain = num;
+	}
+
+
+	@Override
+	public void setResultValue(ResultValue resultValue) {
+		mResultValue = resultValue;
+	}
+
+
+	@Override
+	public String getOperationName() {
+		return mOperation;
 	}
 	
 //	public void useTransition() {
