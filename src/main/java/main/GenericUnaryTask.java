@@ -1,15 +1,12 @@
 package main;
 
-public abstract class GenericTask implements ITask {
+public abstract class GenericUnaryTask implements ITask {
 	
 	protected static final String[] COLUMN_NAMES = {
 			"FILE"
-			, "LHS_SEMIDETERMINISTIC"
-			, "RHS_SEMIDETERMINISTIC"
-			, "LHS_STATES"
-			, "RHS_STATES"
-			, "LHS_TRANS"
-			, "RHS_TRANS"
+			, "OP_SEMIDETERMINISTIC"
+			, "OP_STATES"
+			, "OP_TRANS"
 			, "ALPHABET_SIZE" // shoud be the same as RHS_ALPHABET
 			, "RESULT_STATES"
 			, "ALGORITHM"
@@ -19,17 +16,11 @@ public abstract class GenericTask implements ITask {
 	
 	protected String mFileName;
 		
-	protected boolean mIsLHSSemiDet;
+	protected boolean mOpSemiDet;
+		
+	protected int mOpStateNum;
 	
-	protected boolean mIsRHSSemiDet;
-	
-	protected int mLHSStateNum;
-	
-	protected int mRHSStateNum;
-	
-	protected int mLHSTransNum;
-	
-	protected int mRHSTransNum;
+	protected int mOpTransNum;
 	
 	protected int mAlphabetSize;
 	
@@ -52,12 +43,6 @@ public abstract class GenericTask implements ITask {
 	}
 
 	@Override
-	public void runTask() {
-		
-		
-	}
-
-	@Override
 	public ResultValue getResultValue() {
 		return mResultValue;
 	}
@@ -71,28 +56,22 @@ public abstract class GenericTask implements ITask {
 	public String toStringVerbose() {
 		return 
 		COLUMN_NAMES[0] + " = "	+ mFileName + "\n"
-		+ COLUMN_NAMES[1] + " = "	+ mIsLHSSemiDet  + "\n"
-		+ COLUMN_NAMES[2] + " = "	+ mIsRHSSemiDet + "\n"
-		+ COLUMN_NAMES[3] + " = "	+ mLHSStateNum + "\n"
-		+ COLUMN_NAMES[4] + " = "	+ mRHSStateNum + "\n"
-		+ COLUMN_NAMES[5] + " = "	+ mLHSTransNum + "\n"
-		+ COLUMN_NAMES[6] + " = "	+ mRHSTransNum + "\n"
-		+ COLUMN_NAMES[7] + " = "	+ mAlphabetSize + "\n"
-		+ COLUMN_NAMES[8] + " = "	+ mResultStateSize + "\n"
-		+ COLUMN_NAMES[9] + " = "	+ mOperationName + "\n"
-		+ COLUMN_NAMES[10] + " = "	+ mRunTime + "\n"
-		+ COLUMN_NAMES[11] + " = "	+ mResultValue  + "\n";
+		+ COLUMN_NAMES[1] + " = "	+ mOpSemiDet  + "\n"
+		+ COLUMN_NAMES[2] + " = "	+ mOpStateNum + "\n"
+		+ COLUMN_NAMES[3] + " = "	+ mOpTransNum + "\n"
+		+ COLUMN_NAMES[4] + " = "	+ mAlphabetSize + "\n"
+		+ COLUMN_NAMES[5] + " = "	+ mResultStateSize + "\n"
+		+ COLUMN_NAMES[6] + " = "	+ mOperationName + "\n"
+		+ COLUMN_NAMES[7] + " = "	+ mRunTime + "\n"
+		+ COLUMN_NAMES[8] + " = "	+ mResultValue  + "\n";
 	}
 	
 	@Override
 	public String toString() {
 		return mFileName 
-		+ "," + mIsLHSSemiDet
-		+ "," + mIsRHSSemiDet
-		+ "," + mLHSStateNum
-		+ "," + mRHSStateNum
-		+ "," + mLHSTransNum
-		+ "," + mRHSTransNum
+		+ "," + mOpSemiDet
+		+ "," + mOpStateNum
+		+ "," + mOpTransNum
 		+ "," + mAlphabetSize
 		+ "," + mResultStateSize
 		+ "," + mOperationName

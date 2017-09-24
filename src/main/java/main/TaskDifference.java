@@ -4,7 +4,7 @@ import operation.difference.IBuchiWaDifference;
 import util.Timer;
 import util.UtilIntSet;
 
-public class TaskDifference extends GenericTask {
+public class TaskDifference extends GenericBinaryTask {
 	
 	private IBuchiWaDifference mDifferenceOprator;
 	

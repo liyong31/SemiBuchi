@@ -5,7 +5,7 @@ import operation.inclusion.IBuchiInclusion;
 import util.Timer;
 import util.UtilIntSet;
 
-public class TaskInclusion extends GenericTask {
+public class TaskInclusion extends GenericBinaryTask {
 	
 	
 //	/**
