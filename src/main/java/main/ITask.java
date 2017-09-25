@@ -12,6 +12,8 @@ public interface ITask {
 	
 	void runTask();
 	
+	void setRunningTime(long time);
+	
 	ResultValue getResultValue();
 	
 	void setResultValue(ResultValue resultValue);

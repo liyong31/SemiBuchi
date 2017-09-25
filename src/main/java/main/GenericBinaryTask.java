@@ -104,4 +104,8 @@ public abstract class GenericBinaryTask implements ITask {
 		return sb.toString();
 	}
 
+	@Override
+	public void setRunningTime(long time) {
+		mRunTime = time;
+	}
 }

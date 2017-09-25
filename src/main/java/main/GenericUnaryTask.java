@@ -88,5 +88,11 @@ public abstract class GenericUnaryTask implements ITask {
 		}
 		return sb.toString();
 	}
+	
+
+	@Override
+	public void setRunningTime(long time) {
+		mRunTime = time;
+	}
 
 }

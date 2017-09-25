@@ -8,6 +8,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import util.Timer;
+
 public class RunTask {
 	
 	private final long mTimeBound;
@@ -27,6 +29,7 @@ public class RunTask {
 		ResultValue resultValue = null;
         final ExecutorService service = Executors.newSingleThreadExecutor();
         Future<ResultValue> f = null;
+        long duration = System.currentTimeMillis();
         try {
             f = service.submit(new Task(mTask));
             resultValue = f.get(mTimeBound, TimeUnit.MILLISECONDS);
@@ -45,9 +48,10 @@ public class RunTask {
             service.shutdownNow();
             Thread.currentThread().interrupt();
         }
-        
+        duration = System.currentTimeMillis() - duration;
         // set result value
         mTask.setResultValue(resultValue);
+        mTask.setRunningTime(duration);
 	}
 	
 	private class Task implements Callable<ResultValue> {
