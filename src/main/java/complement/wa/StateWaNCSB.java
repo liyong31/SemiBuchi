@@ -43,12 +43,13 @@ public class StateWaNCSB extends StateWa implements IStateWaComplement {
 		return mComplement;
 	}	
 	
+	private IntSet mVisitedLetters = UtilIntSet.newIntSet();
 	@Override
 	public IntSet getSuccessors(int letter) {
-		if(super.getEnabledLetters().contains(letter)) {
+		if(mVisitedLetters.get(letter)) {
 			return super.getSuccessors(letter);
 		}
-
+		mVisitedLetters.set(letter);
 		// B
 		SuccessorResult succResult = collectSuccessors(mNCSB.getBSet(), letter, true);
 		if(!succResult.hasSuccessor) return UtilIntSet.newIntSet();
