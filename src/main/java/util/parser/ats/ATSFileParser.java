@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import util.PairXX;
 import util.parser.DoubleParser;
 import util.parser.SingleParser;

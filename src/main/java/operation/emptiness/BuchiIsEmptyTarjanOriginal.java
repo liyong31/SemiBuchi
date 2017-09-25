@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.IBuchiWa;
-import automata.IStateWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;

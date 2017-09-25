@@ -1,6 +1,6 @@
 package operation.universality;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import operation.emptiness.BuchiIsEmptyASCC;
 
 public class BuchiUniversalityASCC extends BuchiUniversality {

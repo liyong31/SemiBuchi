@@ -1,6 +1,6 @@
 package main;
 
-import operation.difference.IBuchiWaDifference;
+import operation.difference.wa.IBuchiWaDifference;
 import util.Timer;
 import util.UtilIntSet;
 

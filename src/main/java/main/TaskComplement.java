@@ -1,6 +1,6 @@
 package main;
 
-import complement.BuchiWaComplement;
+import complement.wa.BuchiWaComplement;
 import util.Timer;
 import util.UtilIntSet;
 

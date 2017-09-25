@@ -2,9 +2,9 @@ package util;
 
 import java.util.Random;
 
-import automata.BuchiWa;
-import automata.IBuchiWa;
-import automata.IStateWa;
+import automata.wa.BuchiWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
 
 public class BuchiGenerator {
 	

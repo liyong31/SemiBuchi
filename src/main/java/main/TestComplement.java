@@ -2,8 +2,8 @@ package main;
 
 import java.io.File;
 
-import automata.IBuchiWa;
-import complement.BuchiWaComplement;
+import automata.wa.IBuchiWa;
+import complement.wa.BuchiWaComplement;
 import util.parser.ParserType;
 import util.parser.SingleParser;
 import util.parser.UtilParser;

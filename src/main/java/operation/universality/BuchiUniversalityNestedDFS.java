@@ -2,7 +2,7 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import operation.emptiness.BuchiIsEmptyNestedDFS;
 import util.IPair;
 

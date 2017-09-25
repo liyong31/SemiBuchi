@@ -1,6 +1,6 @@
 package util.parser;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 
 public interface SingleParser extends Parser {
 	

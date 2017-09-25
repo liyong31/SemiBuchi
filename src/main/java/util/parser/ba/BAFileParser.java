@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
-import automata.BuchiWa;
-
-import automata.IBuchiWa;
+import automata.wa.BuchiWa;
+import automata.wa.IBuchiWa;
 import util.PairXX;
 import util.parser.ParserType;
 import util.parser.SingleParser;

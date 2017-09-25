@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import automata.IBuchi;
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import util.Timer;
 
 public class RunRabit {

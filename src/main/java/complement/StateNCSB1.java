@@ -1,8 +1,9 @@
 package complement;
 
-import automata.IBuchiWa;
-import automata.StateWa;
-
+import automata.wa.IBuchiWa;
+import automata.wa.StateWa;
+import complement.wa.BuchiWaComplement;
+import complement.wa.IStateWaComplement;
 import main.Options;
 import util.IntIterator;
 import util.IntSet;

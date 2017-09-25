@@ -11,17 +11,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import automata.IBuchiWa;
-import complement.BuchiWaComplement;
-import operation.difference.BuchiWaDifference;
-import operation.inclusion.BuchiInclusionASCC;
-import operation.inclusion.BuchiInclusionASCCAntichain;
-import operation.inclusion.BuchiInclusionComplement;
-import operation.inclusion.BuchiInclusionRABIT;
-
+import automata.wa.IBuchiWa;
+import complement.wa.BuchiWaComplement;
+import operation.difference.wa.BuchiWaDifference;
+import operation.inclusion.wa.BuchiInclusionASCC;
+import operation.inclusion.wa.BuchiInclusionASCCAntichain;
+import operation.inclusion.wa.BuchiInclusionComplement;
+import operation.inclusion.wa.BuchiInclusionRABIT;
 import util.PairXX;
 import util.Timer;
-import util.UtilIntSet;
+
 import util.parser.ParserType;
 import util.parser.SingleParser;
 import util.parser.UtilParser;
@@ -81,7 +80,7 @@ public class Main {
 		if(test) {
 			testBenchmarks(time);
 		}else if(complement){
-			complementBuchi(args, fileOut);
+			complementBuchi(args, fileOut, time);
 		}else if(inclusion){
 			checkInclusion(args, time);
 		}else if(difference) {
@@ -112,7 +111,7 @@ public class Main {
 		System.out.println("-diff: Compute Difference of two automata");
 		System.out.println("-incl: Check inclusion of two automata");
 		System.out.println("-gba: Use generalized Buchi automata");
-		System.out.println("-to k: Check inclusion in k seconds (20 secs by default)");
+		System.out.println("-to k: Limit execution in k seconds (20 secs by default)");
 		System.out.println("-complement <file-out>: Output complement of the last automaton");
 		
 	}
@@ -202,17 +201,17 @@ public class Main {
 		for(PairXX<IBuchiWa> pair : pairs) {
 			task = new TaskInclusion(file.getName());
 			if(tarjan) {
-				task.setOperation(new BuchiInclusionComplement(task, pair.getFstElement(), pair.getSndElement()));
+				task.setOperation(new BuchiInclusionComplement(pair.getFstElement(), pair.getSndElement()));
 			}else if(dfs) {
 				System.err.println("Not support yet");
 				System.exit(-1);
 			}else if(rabit){
-				task.setOperation(new BuchiInclusionRABIT(task, pair.getFstElement(), pair.getSndElement()));
+				task.setOperation(new BuchiInclusionRABIT(pair.getFstElement(), pair.getSndElement()));
 			}else {
 				if(antichain) {
-					task.setOperation(new BuchiInclusionASCCAntichain(task, pair.getFstElement(), pair.getSndElement()));
+					task.setOperation(new BuchiInclusionASCCAntichain(pair.getFstElement(), pair.getSndElement()));
 				}else {
-					task.setOperation(new BuchiInclusionASCC(task, pair.getFstElement(), pair.getSndElement()));
+					task.setOperation(new BuchiInclusionASCC(pair.getFstElement(), pair.getSndElement()));
 				}
 			}
 			if(Options.verbose)  System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
@@ -233,7 +232,7 @@ public class Main {
 	}
 	
 	
-	private static void complementBuchi(String[] args, String fileOut) {
+	private static void complementBuchi(String[] args, String fileOut, long time) {
 		// TODO Auto-generated method stub
 		File fileIn = null;
 		SingleParser parser = null;
@@ -252,17 +251,20 @@ public class Main {
 		parser.parse(fileIn.getAbsolutePath());
 		IBuchiWa buchi = parser.getBuchi();
 //		buchi.makeComplete();
-		long time = System.currentTimeMillis();
 		BuchiWaComplement buchiComplement = new BuchiWaComplement(buchi);
-		buchiComplement.explore();
-		time = System.currentTimeMillis() - time;
-		System.out.println(fileIn.getName() + "," + buchi.getStateSize()
-		                                    + "," + buchi.getNumTransition()
-		                                    + "," + buchi.getAlphabetSize() 
-		                                    + "," + "NCSB" +(Options.lazyS ? "+opt": "") + (!Options.lazyB ? "+dc": "") + "+" + UtilIntSet.getSetType()
-		                                    + "," + buchiComplement.getStateSize()
-		                                    + "," + buchiComplement.getNumTransition()
-		                                    + "," + time);
+
+		TaskComplement task = new TaskComplement(fileIn.getName());
+		task.setOperation(buchiComplement);
+		RunTask runTask = new RunTask(task, time);
+		if(Options.verbose)  System.out.println("Computing complement by ALGORITHM " + task.getOperationName() + " ...");
+		runTask.execute();
+		if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperationName() + " ...");
+
+		if(Options.verbose) {
+			System.out.print(task.toStringVerbose());
+		}else {
+			System.out.print(task.toString());
+		}
 		if(fileOut == null) return;
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
@@ -311,20 +313,20 @@ public class Main {
 						List<TaskInclusion> tasks = new ArrayList<TaskInclusion>();
 
 						TaskInclusion taskNscb = new TaskInclusion(f.getName());
-						taskNscb.setOperation(new BuchiInclusionComplement(taskNscb, pair.getFstElement(), pair.getSndElement()));
+						taskNscb.setOperation(new BuchiInclusionComplement(pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskNscb);
 						
 						TaskInclusion taskAsccAnti = new TaskInclusion(f.getName());
-						taskAsccAnti.setOperation(new BuchiInclusionASCCAntichain(taskAsccAnti, pair.getFstElement(), pair.getSndElement()));
+						taskAsccAnti.setOperation(new BuchiInclusionASCCAntichain(pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskAsccAnti);
 						
 						
 						TaskInclusion taskAscc = new TaskInclusion(f.getName());
-						taskAscc.setOperation(new BuchiInclusionASCC(taskAscc, pair.getFstElement(), pair.getSndElement()));
+						taskAscc.setOperation(new BuchiInclusionASCC(pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskAscc);
 
 						TaskInclusion taskRabit = new TaskInclusion(f.getName());
-						taskRabit.setOperation(new BuchiInclusionRABIT(taskRabit, pair.getFstElement(), pair.getSndElement()));
+						taskRabit.setOperation(new BuchiInclusionRABIT(pair.getFstElement(), pair.getSndElement()));
 						tasks.add(taskRabit);
 						
 						for(TaskInclusion task : tasks) {

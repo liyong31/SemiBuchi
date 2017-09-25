@@ -1,7 +1,7 @@
 package main;
 
-import operation.inclusion.BuchiInclusionRABIT;
-import operation.inclusion.IBuchiInclusion;
+import operation.inclusion.wa.BuchiInclusionRABIT;
+import operation.inclusion.wa.IBuchiInclusion;
 import util.Timer;
 import util.UtilIntSet;
 

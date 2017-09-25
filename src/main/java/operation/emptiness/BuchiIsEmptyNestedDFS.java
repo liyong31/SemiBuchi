@@ -3,9 +3,9 @@ package operation.emptiness;
 import java.util.BitSet;
 import java.util.List;
 
-import automata.BuchiWa;
-import automata.IBuchiWa;
-import automata.IStateWa;
+import automata.wa.BuchiWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;

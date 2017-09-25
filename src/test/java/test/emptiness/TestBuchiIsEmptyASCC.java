@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import operation.emptiness.BuchiIsEmptyASCC;
 import test.BAStore;
 
