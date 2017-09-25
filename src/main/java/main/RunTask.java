@@ -26,8 +26,9 @@ public class RunTask {
 	public void execute() {
 		ResultValue resultValue = null;
         final ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<ResultValue> f = null;
         try {
-            final Future<ResultValue> f = service.submit(new Task(mTask));
+            f = service.submit(new Task(mTask));
             resultValue = f.get(mTimeBound, TimeUnit.MILLISECONDS);
         } catch (final TimeoutException e) {
         	resultValue = ResultValue.EXE_TIMEOUT;
@@ -40,7 +41,9 @@ public class RunTask {
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
-            service.shutdown();
+        	while(!f.isCancelled()) f.cancel(true);
+            service.shutdownNow();
+            Thread.currentThread().interrupt();
         }
         
         // set result value

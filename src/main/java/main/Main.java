@@ -87,6 +87,8 @@ public class Main {
 			computeDifference(args, time);
 		}
 		
+		// force to exit
+		System.exit(0);
 	}
 
 
@@ -162,6 +164,10 @@ public class Main {
 				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
 			}else {
 				System.out.println(task.toString());
+			}
+			
+			if(Options.verbose) {
+				System.out.println(task.getOperation().getResult().toDot());
 			}
 		}
 		

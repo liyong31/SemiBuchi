@@ -84,9 +84,13 @@ public interface IBuchi<S extends IState> {
 		out.print("digraph {\n");
 		Collection<S> states = getStates();
 		for(S state : states) {
+			IntSet labels = getAcceptance().getLabels(state.getId());
 			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
             if(isFinal(state.getId())) out.print(", shape = doublecircle");
-            else out.print(", shape = circle");
+            else if(! labels.isEmpty()) {
+            	out.print(", shape = box" + ", " + labels);
+            }else out.print(", shape = circle");
+            
             out.print("];\n");
             state.toDot(out, alphabet);
         }	

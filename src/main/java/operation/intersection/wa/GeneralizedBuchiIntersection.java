@@ -124,6 +124,17 @@ public class GeneralizedBuchiIntersection extends BuchiWa implements IBuchiWaInt
 		public List<IntSet> getAccs() {
 			return Collections.unmodifiableList(accs);
 		}
+
+		@Override
+		public IntSet getLabels(int state) {
+			IntSet labels = UtilIntSet.newIntSet();
+			for(int i = 0; i < accs.size(); i ++) {
+				if(accs.get(i).get(state)) {
+					labels.set(i);
+				}
+			}
+			return labels;
+		}
 	}
 
 	@Override
