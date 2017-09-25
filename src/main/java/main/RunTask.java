@@ -37,13 +37,17 @@ public class RunTask {
         } catch (final OutOfMemoryError e) {
         	resultValue = ResultValue.EXE_MEMOOUT;
         } catch (final ExecutionException | InterruptedException e) {
-        	if(e.getCause() instanceof OutOfMemoryError) {
+        	if(e.getCause() instanceof OutOfMemoryError
+        	|| e.getCause() instanceof StackOverflowError) {
         		resultValue = ResultValue.EXE_MEMOOUT;
+        	}else if(e.getCause() instanceof TimeoutException){
+        		resultValue = ResultValue.EXE_TIMEOUT;
         	}else {
+        		e.printStackTrace();
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
-        	while(!f.isCancelled()) f.cancel(true);
+//        	while(!f.isCancelled()) f.cancel(true);
             service.shutdownNow();
             Thread.currentThread().interrupt();
         }
@@ -62,11 +66,13 @@ public class RunTask {
 		}
 
 		@Override
-		public ResultValue call() throws OutOfMemoryError {
+		public ResultValue call() throws Exception,OutOfMemoryError, StackOverflowError {
 			try {
 				mTask.runTask();
-			}catch (final OutOfMemoryError e) {
-	            throw new OutOfMemoryError();
+			}catch (final OutOfMemoryError | StackOverflowError e) {
+	            throw e;
+	        }catch (final Exception e) {
+	        	throw e;
 	        }
 			return mTask.getResultValue();
 		}
