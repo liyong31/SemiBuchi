@@ -43,7 +43,7 @@ public class RunTask {
         	}else if(e.getCause() instanceof TimeoutException){
         		resultValue = ResultValue.EXE_TIMEOUT;
         	}else {
-        		e.printStackTrace();
+        		if(Options.verbose) e.printStackTrace();
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
