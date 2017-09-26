@@ -1,20 +1,18 @@
 package operation.inclusion.wa;
 
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.IState;
 import automata.wa.BuchiWa;
 import automata.wa.IBuchiWa;
 import automata.wa.IStateWa;
 import complement.wa.BuchiWaComplement;
 import complement.wa.IBuchiWaComplement;
 import complement.wa.StateWaNCSB;
-import main.TaskInclusion;
-import util.IntIterator;
+import util.IntSet;
+import util.UtilIntSet;
 
 
 public abstract class BuchiInclusion implements IBuchiInclusion{
@@ -35,12 +33,8 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 	
 	private void computeInitalStates() {
-		IntIterator fstIter = mFstOperand.getInitialStates().iterator();
-		while(fstIter.hasNext()) {
-		    int fst = fstIter.next();
-		    IntIterator sndIter = mSndComplement.getInitialStates().iterator();
-		    while(sndIter.hasNext()) {
-		    	int snd = sndIter.next();
+		for(final Integer fst : mFstOperand.getInitialStates().iterable()) {
+		    for(final Integer snd : mSndComplement.getInitialStates().iterable()) {
 				StateWaNCSB sndState = (StateWaNCSB)mSndComplement.getState(snd);
 				InclusionPairNCSB pair = new InclusionPairNCSB(fst, sndState);
 				IStateWa state = getOrAddState(pair);
@@ -50,8 +44,8 @@ public abstract class BuchiInclusion implements IBuchiInclusion{
 	}
 
 	protected final Map<InclusionPairNCSB, IStateWa> mPairStateMap = new HashMap<>();
-	protected final BitSet mFstFinalStates = new BitSet();
-	protected final BitSet mSndFinalStates = new BitSet();
+	protected final IntSet mFstFinalStates = UtilIntSet.newIntSet();
+	protected final IntSet mSndFinalStates = UtilIntSet.newIntSet();
 	protected final List<InclusionPairNCSB> mPairNCSBArray = new ArrayList<>();
 	
 	protected IStateWa getOrAddState(InclusionPairNCSB pair) {
