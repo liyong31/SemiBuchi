@@ -85,10 +85,11 @@ public interface IBuchi<S extends IState> {
 		Collection<S> states = getStates();
 		for(S state : states) {
 			IntSet labels = getAcceptance().getLabels(state.getId());
-			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
-            if(isFinal(state.getId())) out.print(", shape = doublecircle");
+//			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
+			out.print("  " + state.getId());
+            if(isFinal(state.getId())) out.print(" [label=\"" +  state.getId() + "\"" + ", shape = doublecircle");
             else if(! labels.isEmpty()) {
-            	out.print(", shape = box" + ", " + labels);
+            	out.print(" [label=\"" +  state.getId() + " " +  labels + "\"" + ", shape = box");
             }else out.print(", shape = circle");
             
             out.print("];\n");
