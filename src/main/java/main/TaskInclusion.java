@@ -30,12 +30,7 @@ public class TaskInclusion extends GenericBinaryTask {
 	
 	@Override
 	public void runTask() {
-		Boolean result = null;
-		Timer timer = new Timer();
-		timer.start();
-		result = mInclusionChecker.isIncluded();
-		timer.stop();
-		mRunTime = timer.getTimeElapsed();
+		Boolean result = mInclusionChecker.isIncluded();
 		if(result == null) {
 			mResultValue = ResultValue.NULL;
 		}else if(result.booleanValue()) {
@@ -43,9 +38,6 @@ public class TaskInclusion extends GenericBinaryTask {
 		}else {
 			mResultValue = ResultValue.FALSE;
 		}
-		// first get the used transition in mSndOperation
-//		if(mChecker.getSndBuchiComplement() != null)
-//			mNumTransUsedInSndBuchi = mChecker.getSndBuchiComplement().getNumUsedOpTransition();
 		// get sizes
 		mLHSStateNum = mInclusionChecker.getFstBuchi().getStateSize();
 		mRHSStateNum = mInclusionChecker.getSndBuchi().getStateSize();

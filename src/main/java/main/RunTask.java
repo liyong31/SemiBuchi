@@ -47,7 +47,6 @@ public class RunTask {
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
-//        	while(!f.isCancelled()) f.cancel(true);
             service.shutdownNow();
             Thread.currentThread().interrupt();
         }

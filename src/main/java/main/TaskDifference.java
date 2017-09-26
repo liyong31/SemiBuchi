@@ -14,12 +14,7 @@ public class TaskDifference extends GenericBinaryTask {
 	
 	@Override
 	public void runTask() {
-		Boolean result = null;
-		Timer timer = new Timer();
-		timer.start();
-		result = mDifferenceOprator.isIncluded();
-		timer.stop();
-		mRunTime = timer.getTimeElapsed();
+		Boolean result = mDifferenceOprator.isIncluded();
 		if(result == null) {
 			mResultValue = ResultValue.NULL;
 		}else if(result.booleanValue()) {
@@ -27,7 +22,6 @@ public class TaskDifference extends GenericBinaryTask {
 		}else {
 			mResultValue = ResultValue.FALSE;
 		}
-
 		// get sizes
 		mLHSStateNum = mDifferenceOprator.getFirstOperand().getStateSize();
 		mRHSStateNum = mDifferenceOprator.getSecondOperand().getStateSize();
@@ -50,6 +44,5 @@ public class TaskDifference extends GenericBinaryTask {
 	public IBuchiWaDifference getOperation() {
 		return mDifferenceOprator;
 	}
-
 	
 }

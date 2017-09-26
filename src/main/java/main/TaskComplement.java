@@ -1,7 +1,6 @@
 package main;
 
 import complement.wa.BuchiWaComplement;
-import util.Timer;
 import util.UtilIntSet;
 
 public class TaskComplement extends GenericUnaryTask {
@@ -15,12 +14,7 @@ public class TaskComplement extends GenericUnaryTask {
 	@Override
 	public void runTask() {
 		mResultValue = ResultValue.EXE_UNKNOWN;
-		
-		Timer timer = new Timer();
-		timer.start();
 		mComplement.explore();
-		timer.stop();
-		mRunTime = timer.getTimeElapsed();
 		mResultValue = ResultValue.OK;
 		// get sizes
 		mOpStateNum = mComplement.getOperand().getStateSize();
