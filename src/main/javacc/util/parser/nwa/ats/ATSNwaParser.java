@@ -3,6 +3,7 @@ package util.parser.nwa.ats;
 
 import automata.nwa.IBuchiNwa;
 import automata.nwa.IStateNwa;
+
 import util.parser.nwa.ats.ATSFileParser4Nwa;
 
 public class ATSNwaParser implements ATSNwaParserConstants {

@@ -3,8 +3,8 @@
  */options{
   JDK_VERSION = "1.8";  static = false;}PARSER_BEGIN(ATSNwaParser)package util.parser.nwa.ats;
 
-import automata.IBuchiNwa;
-import automata.IStateNwa;
+import automata.nwa.IBuchiNwa;
+import automata.nwa.IStateNwa;
 
 import util.parser.nwa.ats.ATSFileParser4Nwa;
 
