@@ -22,10 +22,7 @@ public interface IStateWa extends IState {
 	default void toBA(PrintStream printer, List<String> alphabet) {
 		Set<Integer> enabledLetters = this.getEnabledLetters();
 		for(Integer letter : enabledLetters) {
-         	IntSet succs = this.getSuccessors(letter);
-        	IntIterator iter = succs.iterator();
-        	while(iter.hasNext()) {
-        		int succ = iter.next();
+        	for(Integer succ : this.getSuccessors(letter).iterable()) {
         		printer.print(alphabet.get(letter) + ",[" + this.getId() + "]->[" + succ + "]\n");
         	}
 		}
@@ -35,10 +32,7 @@ public interface IStateWa extends IState {
 	default void toDot(PrintStream printer, List<String> alphabet) {
 		Set<Integer> enabledLetters = this.getEnabledLetters();
 		for(Integer letter : enabledLetters) {
-        	IntSet succs = this.getSuccessors(letter);
-    		IntIterator iter = succs.iterator();
-    		while(iter.hasNext()) {
-    			int succ = iter.next();
+    		for(Integer succ : this.getSuccessors(letter).iterable()) {
     			printer.print("  " + this.getId() + " -> " + succ + " [label=\"" + alphabet.get(letter) + "\"];\n");
     		}
         }

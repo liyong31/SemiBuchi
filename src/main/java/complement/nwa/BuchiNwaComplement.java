@@ -106,9 +106,8 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 	
 	protected IntSet generateDeckers(int downState, IntSet upStates) {
 		IntSet result = UtilIntSet.newIntSet();
-		IntIterator iter = upStates.iterator();
-		while(iter.hasNext()) {
-			result.set(getDoubleDeckerId(new DoubleDecker(downState, iter.next())));
+		for(final int upState : upStates.iterable()) {
+			result.set(getDoubleDeckerId(new DoubleDecker(downState, upState)));
 		}
 		return result;
 	}
@@ -123,6 +122,7 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 	
 	private boolean mExplored = false;
 	
+	// TODO: removed
 	public void explore() {
 		
 		if(mExplored) return ;

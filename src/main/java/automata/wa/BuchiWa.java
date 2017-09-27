@@ -123,11 +123,8 @@ public class BuchiWa implements IBuchiWa {
 
 	@Override
 	public void makeComplete() {
-		// TODO Auto-generated method stub
 		IStateWa deadState = addState();
-		Iterator<IStateWa> iter = mStates.iterator();
-		while(iter.hasNext()) {
-			IStateWa state = iter.next();
+		for(final IStateWa state : mStates) {
             for (int letter = 0; letter < getAlphabetSize(); letter ++) {
             	IntSet succs = state.getSuccessors(letter);
             	if(succs.cardinality() == 0) {

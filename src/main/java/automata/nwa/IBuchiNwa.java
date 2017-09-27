@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import automata.IBuchi;
-import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -30,10 +29,8 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	default public IntSet getSuccessorsInternal(IntSet states, int letter) {
 		assert getAlphabetInternal().get(letter);
 		IntSet result = UtilIntSet.newIntSet();
-		IntIterator iter = states.iterator();
-		while(iter.hasNext()) {
-			int n = iter.next();
-			result.or(getSuccessorsInternal(n, letter));
+		for(final Integer state : states.iterable()) {
+			result.or(getSuccessorsInternal(state, letter));
 		}
 		return result;
 	}
@@ -41,10 +38,8 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	default public IntSet getSuccessorsCall(IntSet states, int letter) {
 		assert getAlphabetCall().get(letter);
 		IntSet result = UtilIntSet.newIntSet();
-		IntIterator iter = states.iterator();
-		while(iter.hasNext()) {
-			int n = iter.next();
-			result.or(getSuccessorsCall(n, letter));
+		for(final Integer state : states.iterable()) {
+			result.or(getSuccessorsCall(state, letter));
 		}
 		return result;
 	}
@@ -52,12 +47,10 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	default public IntSet getSuccessorsReturn(IntSet states, int letter) {
 		assert getAlphabetReturn().get(letter);
 		IntSet result = UtilIntSet.newIntSet();
-		IntIterator iter = states.iterator();
-		while(iter.hasNext()) {
-			int n = iter.next();
-			Set<Integer> enabledHiers = getState(n).getEnabledHiersReturn(letter);
+		for(final Integer state : states.iterable()) {
+			Set<Integer> enabledHiers = getState(state).getEnabledHiersReturn(letter);
 			for(Integer hier : enabledHiers) {
-				result.or(getState(n).getSuccessorsReturn(hier, letter));
+				result.or(getState(state).getSuccessorsReturn(hier, letter));
 			}
 		}
 		return result;
@@ -76,28 +69,21 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 		final String BLOCK_END = "\n" + PRE_BLANK + "},";
 		final String TRANS_PRE_BLANK = PRE_BLANK + "   "; 
 		out.println("NestedWordAutomaton result = (");
-		
         
-        IntIterator iter = getAlphabetCall().iterator();
         out.print(PRE_BLANK + "callAlphabet = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getAlphabetCall().iterable()) {
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
         out.println(LINE_END);
         
-        iter = getAlphabetInternal().iterator();
         out.print(PRE_BLANK + "internalAlphabet = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getAlphabetInternal().iterable()) {
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
         out.println(LINE_END);
         
-        iter = getAlphabetReturn().iterator();
         out.print(PRE_BLANK + "returnAlphabet = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getAlphabetReturn().iterable()) {
         	out.print(alphabet.get(id) + ITEM_BLANK);
         }
         out.println(LINE_END);
@@ -110,21 +96,15 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
         }	
         out.println(LINE_END);
         // initial states
-        IntSet initialStates = getInitialStates();
-        iter = initialStates.iterator();
         out.print(PRE_BLANK + "initialStates = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getInitialStates().iterable()) {
         	out.print("s" + id + ITEM_BLANK);
         }
         out.println(LINE_END);
         
         // final states
-        IntSet finalStates = getFinalStates();
-        iter = finalStates.iterator();
         out.print(PRE_BLANK + "finalStates = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getFinalStates().iterable()) {
         	out.print("s" + id + ITEM_BLANK);
         }
         out.println(LINE_END);
@@ -132,13 +112,8 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
         // call transitions
         out.print(PRE_BLANK + "callTransitions = {");
 		for(IStateNwa state : states) {
-			iter = getAlphabetCall().iterator();
-            while(iter.hasNext()) {
-            	int letter = iter.next();
-            	IntSet succs = state.getSuccessorsCall(letter);
-            	IntIterator iterInner = succs.iterator();
-            	while(iterInner.hasNext()) {
-            		int succ = iterInner.next();
+			for(final Integer letter : state.getEnabledLettersCall()) {
+            	for(final Integer succ : state.getSuccessorsCall(letter).iterable()) {
             		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
             	}
             }
@@ -148,13 +123,8 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
         // internal transitions
         out.print(PRE_BLANK + "internalTransitions = {");
 		for(IStateNwa state : states) {
-			iter = getAlphabetInternal().iterator();
-            while(iter.hasNext()) {
-            	int letter = iter.next();
-            	IntSet succs = state.getSuccessorsInternal(letter);
-            	IntIterator iterInner = succs.iterator();
-            	while(iterInner.hasNext()) {
-            		int succ = iterInner.next();
+			for(final Integer letter : state.getEnabledLettersInternal()) {
+            	for(final Integer succ : state.getSuccessorsInternal(letter).iterable()) {
             		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
             	}
             }
@@ -164,21 +134,14 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
         // return transitions
         out.print(PRE_BLANK + "returnTransitions = {");
 		for(IStateNwa state : states) {
-			iter = getAlphabetReturn().iterator();
-            while(iter.hasNext()) {
-            	int letter = iter.next();
-            	if(!state.getEnabledLettersReturn().contains(letter)) continue; 
+			for(final Integer letter : state.getEnabledLettersReturn()) {
             	Set<Integer> enabledHiers = state.getEnabledHiersReturn(letter);
             	for(Integer hier : enabledHiers) {
             		if(hier < 0) continue;
-                	IntSet succs = state.getSuccessorsReturn(hier, letter);
-                	IntIterator iterInner = succs.iterator();
-                	while(iterInner.hasNext()) {
-                		int succ = iterInner.next();
+                	for(Integer succ : state.getSuccessorsReturn(hier, letter).iterable()) {
                 		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " s" + hier + " " + alphabet.get(letter) + " s" + succ + ")" );
                 	}
             	}
-
             }
         }
 		out.println("\n" + PRE_BLANK + "}");

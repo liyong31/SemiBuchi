@@ -111,9 +111,7 @@ public class StateWaNCSB extends StateWa implements IStateWaComplement {
 	
 	private SuccessorResult collectSuccessors(IntSet states, int letter, boolean testTrans) {
 		SuccessorResult result = new SuccessorResult();
-		IntIterator iter = states.iterator();
-		while(iter.hasNext()) {
-			int state = iter.next();
+		for(final int state : states.iterable()) {
 			IntSet succs = mOperand.getSuccessors(state, letter);
 			if (testTrans && noTransitionAssertion_MinusF(state, succs)) {
 				result.hasSuccessor = false;

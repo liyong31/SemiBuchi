@@ -242,11 +242,9 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 
 	private SuccessorResult computeSuccDoubleDeckers_Return(IntSet predDoubleDecker, TIntObjectMap<List<Integer>> predHierDoubleDeckerMap, int letter, boolean testTransition) {
 		SuccessorResult succResult = new SuccessorResult();
-		IntIterator iterDoubleDecker = predDoubleDecker.iterator();
-		while(iterDoubleDecker.hasNext()) {
-			int doubleDecker = iterDoubleDecker.next();
-			int downState = mComplement.getDownState(doubleDecker);
-			int upState = mComplement.getUpState(doubleDecker);
+		for(final int doubleDecker : predDoubleDecker.iterable()) {
+			final int downState = mComplement.getDownState(doubleDecker);
+			final int upState = mComplement.getUpState(doubleDecker);
 			// predHier should contain all downState as its upState
 			if(! predHierDoubleDeckerMap.containsKey(downState)) {
 				succResult.hasSuccessor = false;
@@ -261,7 +259,7 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 			
 			List<Integer> downHiers = predHierDoubleDeckerMap.get(downState);
 			// put (upHier, succ)
-			for(Integer downHier : downHiers) {
+			for(final Integer downHier : downHiers) {
 				IntSet succDeckers = mComplement.generateDeckers(downHier, upStateSuccs);
 				succResult.mSuccs.or(succDeckers);
 				if(testTransition) {
@@ -285,14 +283,12 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	
 	private TIntObjectMap<List<Integer>> doubleDeckerSetToMap(IntSet doubleDeckerSet, boolean keyIsDownState) {
 		TIntObjectMap<List<Integer>> doubleDeckerMap = new TIntObjectHashMap<>();
-		IntIterator iterDoubleDecker = doubleDeckerSet.iterator();
-		while(iterDoubleDecker.hasNext()) {
-			int doubleDecker = iterDoubleDecker.next();
-			int downState = mComplement.getDownState(doubleDecker);
-			int upState   = mComplement.getUpState(doubleDecker);
+		for(final int doubleDecker : doubleDeckerSet.iterable()) {
+			final int downState = mComplement.getDownState(doubleDecker);
+			final int upState   = mComplement.getUpState(doubleDecker);
 			List<Integer> temp = null;
-			int key   = keyIsDownState  ? downState : upState;
-			int value = !keyIsDownState ? downState : upState;
+			final int key   = keyIsDownState  ? downState : upState;
+			final int value = !keyIsDownState ? downState : upState;
 			if(doubleDeckerMap.containsKey(key)) {
 				temp = doubleDeckerMap.get(key);
 			}else {

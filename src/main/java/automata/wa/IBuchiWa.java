@@ -97,34 +97,24 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
         }	
         out.println(LINE_END);
         // initial states
-        IntSet initialStates = getInitialStates();
-        IntIterator iter = initialStates.iterator();
         out.print(PRE_BLANK + "initialStates = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getInitialStates().iterable()) {
         	out.print("s" + id + ITEM_BLANK);
         }
         out.println(LINE_END);
         
         // final states
-        IntSet finalStates = getFinalStates();
-        iter = finalStates.iterator();
         out.print(PRE_BLANK + "finalStates = {");
-        while(iter.hasNext()) {
-        	int id = iter.next();
+        for(final Integer id : getFinalStates().iterable()) {
         	out.print("s" + id + ITEM_BLANK);
         }
         out.println(LINE_END);
         
         // call transitions
         out.print(PRE_BLANK + "transitions = {");
-		for(IStateWa state : states) {
-			Set<Integer> letters = state.getEnabledLetters();
-			for(Integer letter : letters) {
-				IntSet succs = state.getSuccessors(letter);
-            	IntIterator iterInner = succs.iterator();
-            	while(iterInner.hasNext()) {
-            		int succ = iterInner.next();
+		for(final IStateWa state : states) {
+			for(Integer letter : state.getEnabledLetters()) {
+            	for(final Integer succ : state.getSuccessors(letter).iterable()) {
             		out.print("\n" + TRANS_PRE_BLANK + "(s" + state.getId() + " " + alphabet.get(letter) + " s" + succ + ")" );
             	}
             }

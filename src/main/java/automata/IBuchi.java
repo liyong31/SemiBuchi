@@ -96,10 +96,7 @@ public interface IBuchi<S extends IState> {
             state.toDot(out, alphabet);
         }	
 		out.print("  " + states.size() + " [label=\"\", shape = plaintext];\n");
-        IntSet initialStates = getInitialStates();
-        IntIterator iter = initialStates.iterator();
-        while(iter.hasNext()) {
-        	int init = iter.next();
+        for(final Integer init : getInitialStates().iterable()) {
         	out.print("  " + states.size() + " -> " + init + " [label=\"\"];\n");
         }
         

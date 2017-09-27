@@ -140,9 +140,8 @@ public class NCSB {
 	private int hashValue(IntSet set) {
 		final int prime = 31;
         int result = 1;
-        IntIterator iter = set.iterator();
-        while(iter.hasNext()) {
-        	result = prime * result + iter.next();
+        for(final int n : set.iterable()) {
+        	result = prime * result + n;
         }
         return result;
 	}

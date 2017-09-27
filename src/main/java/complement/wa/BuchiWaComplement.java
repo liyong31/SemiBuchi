@@ -1,9 +1,9 @@
 package complement.wa;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.LinkedList;
-import java.util.List;
+//import java.util.List;
 
 import automata.wa.BuchiWa;
 import automata.wa.IBuchiWa;
@@ -23,16 +23,15 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 
 	private final IBuchiWa mOperand;
 	
-	private final List<IntSet> mOpTransUsed;
+//	private final List<IntSet> mOpTransUsed;
 	
 	public BuchiWaComplement(IBuchiWa buchi) {
 		super(buchi.getAlphabetSize());
-		// TODO Auto-generated constructor stub
 		this.mOperand = buchi;
-		this.mOpTransUsed = new ArrayList<>();
-		for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
-			this.mOpTransUsed.add(UtilIntSet.newIntSet());
-		}
+//		this.mOpTransUsed = new ArrayList<>();
+//		for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
+//			this.mOpTransUsed.add(UtilIntSet.newIntSet());
+//		}
 		computeInitialStates();
 	}
 	
@@ -119,25 +118,25 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 	}
 
 
-	@Override
-	public void useOpTransition(int letter, IntSet states) {
-		this.mOpTransUsed.get(letter).or(states);
-	}
+//	@Override
+//	public void useOpTransition(int letter, IntSet states) {
+//		this.mOpTransUsed.get(letter).or(states);
+//	}
 
 
-	@Override
-	public int getNumUsedOpTransition() {
-		// TODO Auto-generated method stub
-		int num = 0;
-		for(int i = 0; i < mOpTransUsed.size(); i ++) {
-			IntSet sources = mOpTransUsed.get(i);
-			IntIterator iter = sources.iterator();
-			while(iter.hasNext()) {
-				num += mOperand.getState(iter.next()).getSuccessors(i).cardinality();
-			}
-		}
-		return num;
-	}
+//	@Override
+//	public int getNumUsedOpTransition() {
+//		// TODO Auto-generated method stub
+//		int num = 0;
+//		for(int i = 0; i < mOpTransUsed.size(); i ++) {
+//			IntSet sources = mOpTransUsed.get(i);
+//			IntIterator iter = sources.iterator();
+//			while(iter.hasNext()) {
+//				num += mOperand.getState(iter.next()).getSuccessors(i).cardinality();
+//			}
+//		}
+//		return num;
+//	}
 	
 	
 }
