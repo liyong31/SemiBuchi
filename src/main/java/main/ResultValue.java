@@ -36,5 +36,18 @@ public enum ResultValue {
 		}
 		return null;
 	}
+	
+	public boolean isNormal() {
+        switch (this) {
+        case OK:
+            return true;
+        case FALSE:
+            return true;
+        case TRUE:
+            return true;
+        default:
+            return false;
+        }
+	}
 
 }

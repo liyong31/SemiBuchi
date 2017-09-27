@@ -166,7 +166,7 @@ public class Main {
 				System.out.println(task.toString());
 			}
 			
-			if(Options.verbose) {
+			if(Options.verbose && task.getResultValue().isNormal()) {
 				System.out.println(task.getOperation().getResult().toDot());
 			}
 		}
@@ -271,7 +271,7 @@ public class Main {
 		}else {
 			System.out.print(task.toString());
 		}
-		if(fileOut == null) return;
+		if(fileOut == null || !(task.getResultValue().isNormal())) return;
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
 			buchiComplement.toBA(out, parser.getAlphabet());
