@@ -54,7 +54,7 @@ public class TestComplement {
 //		System.out.println("complement BA: \n" + buchiComplement.toBA());
 		System.out.println("complement ATS: \n");
 		buchiComplement.toATS(System.out, parser.getAlphabet());
-		System.out.println("\n\nNCSB" + (!Options.lazyB ? "+dc": "") + (Options.lazyS? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getNumTransition());
+		System.out.println("\n\nNCSB" + (!Options.lazyB ? "+dc": "") + (Options.lazyS? "+opt" : "") + "," + buchiComplement.getStateSize() + "," + buchiComplement.getTransitionSize());
 		
 	}
 

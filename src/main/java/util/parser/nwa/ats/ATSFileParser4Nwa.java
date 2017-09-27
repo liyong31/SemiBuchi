@@ -139,7 +139,7 @@ public class ATSFileParser4Nwa {
 		Options.lazyB = true;
 		
 		complement.explore();
-		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
+		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getTransitionSize());
 		complement.toATS(System.out, parser.getAlphabet());
 		complement.toDot(System.out, parser.getAlphabet());
 	}

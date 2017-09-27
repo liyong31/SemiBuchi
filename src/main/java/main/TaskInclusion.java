@@ -41,8 +41,8 @@ public class TaskInclusion extends GenericBinaryTask {
 		// get sizes
 		mLHSStateNum = mInclusionChecker.getFstBuchi().getStateSize();
 		mRHSStateNum = mInclusionChecker.getSndBuchi().getStateSize();
-		mLHSTransNum = mInclusionChecker.getFstBuchi().getNumTransition();
-		mRHSTransNum = mInclusionChecker.getSndBuchi().getNumTransition();
+		mLHSTransNum = mInclusionChecker.getFstBuchi().getTransitionSize();
+		mRHSTransNum = mInclusionChecker.getSndBuchi().getTransitionSize();
 		mAlphabetSize = mInclusionChecker.getFstBuchi().getAlphabetSize();
 		mResultStateSize = mInclusionChecker.getBuchiDifference().getStateSize();
 //		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();

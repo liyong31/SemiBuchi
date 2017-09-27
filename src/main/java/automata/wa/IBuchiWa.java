@@ -59,7 +59,7 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
         }
 	}
 	
-	default int getNumTransition() {
+	default int getTransitionSize() {
 		int num = 0;
 		for(IStateWa s : getStates()) {
 			for(Integer letter : s.getEnabledLetters()) {

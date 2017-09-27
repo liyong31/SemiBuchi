@@ -616,7 +616,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		
 		BuchiNwaExploration reach = new BuchiNwaExploration(complement);
 		reach.explore();
-		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
+		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getTransitionSize());
 		System.out.println(reach.getNumTrans());
 		complement.toATS(System.out, parser.getAlphabet());
 		complement.toDot(System.out, parser.getAlphabet());
@@ -631,7 +631,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		complement = new BuchiNwaComplement(buchi);
 
 		complement.explore();
-		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getNumTransition());
+		System.out.println("#states: " + complement.getStateSize() + ", #trans: " + complement.getTransitionSize());
 		complement.toATS(System.out, parser.getAlphabet());
 	}
 

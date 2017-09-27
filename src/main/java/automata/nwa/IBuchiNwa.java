@@ -150,7 +150,7 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	}
 	
 	
-	default int getNumTransition() {
+	default int getTransitionSize() {
 		int num = 0;
 		for(IStateNwa s : getStates()) {
 			// call 

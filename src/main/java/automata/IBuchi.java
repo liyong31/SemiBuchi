@@ -60,7 +60,7 @@ public interface IBuchi<S extends IState> {
 	
 	int getAlphabetSize();
 		
-	int getNumTransition();
+	int getTransitionSize();
 	// printer
 	
 	default public String toDot() {

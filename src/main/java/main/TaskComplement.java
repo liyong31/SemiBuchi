@@ -18,7 +18,7 @@ public class TaskComplement extends GenericUnaryTask {
 		mResultValue = ResultValue.OK;
 		// get sizes
 		mOpStateNum = mComplement.getOperand().getStateSize();
-		mOpTransNum = mComplement.getOperand().getNumTransition();
+		mOpTransNum = mComplement.getOperand().getTransitionSize();
 		mAlphabetSize = mComplement.getOperand().getAlphabetSize();
 		mResultStateSize = mComplement.getStateSize();
 	}

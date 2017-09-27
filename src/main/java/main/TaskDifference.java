@@ -25,8 +25,8 @@ public class TaskDifference extends GenericBinaryTask {
 		// get sizes
 		mLHSStateNum = mDifferenceOprator.getFirstOperand().getStateSize();
 		mRHSStateNum = mDifferenceOprator.getSecondOperand().getStateSize();
-		mLHSTransNum = mDifferenceOprator.getFirstOperand().getNumTransition();
-		mRHSTransNum = mDifferenceOprator.getSecondOperand().getNumTransition();
+		mLHSTransNum = mDifferenceOprator.getFirstOperand().getTransitionSize();
+		mRHSTransNum = mDifferenceOprator.getSecondOperand().getTransitionSize();
 		mAlphabetSize = mDifferenceOprator.getFirstOperand().getAlphabetSize();
 		mResultStateSize = mDifferenceOprator.getResult().getStateSize();
 //		mIsLHSSemiDet = mChecker.getFstBuchi().isSemiDeterministic();
