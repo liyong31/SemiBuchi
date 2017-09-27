@@ -1,7 +1,6 @@
 package main;
 
 import operation.difference.wa.IBuchiWaDifference;
-import util.Timer;
 import util.UtilIntSet;
 
 public class TaskDifference extends GenericBinaryTask {
