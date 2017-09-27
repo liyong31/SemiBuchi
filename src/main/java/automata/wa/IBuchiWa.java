@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import automata.IBuchi;
 import util.IntIterator;
@@ -19,10 +18,8 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
 	
 	default public IntSet getSuccessors(IntSet states, int letter) {
 		IntSet result = UtilIntSet.newIntSet();
-		IntIterator iter = states.iterator();
-		while(iter.hasNext()) {
-			int n = iter.next();
-			result.or(getSuccessors(n, letter));
+		for(final int state : states.iterable()) {
+			result.or(getSuccessors(state, letter));
 		}
 		return result;
 	}
@@ -43,10 +40,8 @@ public interface IBuchiWa extends IBuchi<IStateWa> {
 		for(IStateWa state : states) {
             state.toBA(out, alphabet);
         }	
-        IntSet finStates = getFinalStates();
-        iter = finStates.iterator();
-        while(iter.hasNext()) {
-        	out.print("[" + iter.next() + "]\n");
+        for(final int fin : getFinalStates().iterable()) {
+        	out.print("[" + fin + "]\n");
         }
 	}
 	

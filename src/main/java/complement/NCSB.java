@@ -1,6 +1,5 @@
 package complement;
 
-import util.IntIterator;
 import util.IntSet;
 import util.UtilIntSet;
 

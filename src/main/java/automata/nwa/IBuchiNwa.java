@@ -173,19 +173,17 @@ public interface IBuchiNwa extends IBuchi<IStateNwa> {
 	
 	@Override
 	default public void makeComplete() {
-		assert false : "unsupported function in nested word automata" ;
+		throw new UnsupportedOperationException("unsupported function in nested word automata");
 	}
 
 	@Override
 	default public boolean isSemiDeterministic() {
-		assert false : "unsupported function in nested word automata" ;
-		return false;
+		throw new UnsupportedOperationException("unsupported function in nested word automata");
 	}
 
 	@Override
 	default public boolean isDeterministic(int state) {
-		assert false : "unsupported function in nested word automata" ;
-		return false;
+		throw new UnsupportedOperationException("unsupported function in nested word automata");
 	}
 	
 	

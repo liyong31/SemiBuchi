@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import automata.IState;
-import util.IntIterator;
 import util.IntSet;
 
 /**
