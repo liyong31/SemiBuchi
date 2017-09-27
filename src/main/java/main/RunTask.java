@@ -33,20 +33,23 @@ public class RunTask {
             f = service.submit(new Task(mTask));
             resultValue = f.get(mTimeBound, TimeUnit.MILLISECONDS);
         } catch (final TimeoutException e) {
+            if(Options.verbose) e.printStackTrace();
         	resultValue = ResultValue.EXE_TIMEOUT;
         } catch (final OutOfMemoryError e) {
+            if(Options.verbose) e.printStackTrace();
         	resultValue = ResultValue.EXE_MEMOOUT;
         } catch (final ExecutionException | InterruptedException e) {
+            if(Options.verbose) e.printStackTrace();
         	if(e.getCause() instanceof OutOfMemoryError
         	|| e.getCause() instanceof StackOverflowError) {
         		resultValue = ResultValue.EXE_MEMOOUT;
         	}else if(e.getCause() instanceof TimeoutException){
         		resultValue = ResultValue.EXE_TIMEOUT;
         	}else {
-        		if(Options.verbose) e.printStackTrace();
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
+            f.cancel(true);
             service.shutdownNow();
             Thread.currentThread().interrupt();
         }

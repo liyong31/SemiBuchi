@@ -88,7 +88,7 @@ public class Main {
 		}
 		
 		// force to exit
-		System.exit(0);
+		System.exit(-1);
 	}
 
 
