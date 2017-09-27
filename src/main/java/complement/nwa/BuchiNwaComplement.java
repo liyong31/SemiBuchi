@@ -51,7 +51,7 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 		IntSet N = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upN);
 		IntSet C = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upC);
 		NCSB ncsb = new NCSB(N, C, UtilIntSet.newIntSet(), C);
-	    StateNwaNCSB state = new StateNwaNCSB(this, 0, ncsb);
+		StateNwaNCSB state = new StateNwaNCSB(this, 0, ncsb);
 		if(C.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
