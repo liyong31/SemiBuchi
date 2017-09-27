@@ -20,17 +20,12 @@ public class StateNwaNCSB extends StateNwa implements IStateNwaComplement {
 	
 	private final BuchiNwaComplement mComplement;
 	private final IBuchiNwa mOperand;
+	private final NCSB mNCSB;
 	
-	private NCSB mNCSB;
-	
-	public StateNwaNCSB(BuchiNwaComplement complement, int id) {
+	public StateNwaNCSB(BuchiNwaComplement complement, int id, NCSB ncsb) {
 		super(complement, id);
 		this.mComplement = complement;
 		this.mOperand = complement.getOperand();
-		this.mNCSB = new NCSB();
-	}
-	
-	public void setNCSB(NCSB ncsb) {
 		this.mNCSB = ncsb;
 	}
 	

@@ -5,6 +5,7 @@ import util.UtilIntSet;
 
 /**
  * NCSB tuple 
+ * TODO: in order to make it unmodifiable
  * */
 public class NCSB {
 	

@@ -22,52 +22,41 @@ import util.UtilIntSet;
 public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 
 	private final IBuchiWa mOperand;
-	
-//	private final List<IntSet> mOpTransUsed;
-	
+		
 	public BuchiWaComplement(IBuchiWa buchi) {
 		super(buchi.getAlphabetSize());
 		this.mOperand = buchi;
-//		this.mOpTransUsed = new ArrayList<>();
-//		for(int i = 0; i < mOperand.getAlphabetSize(); i ++) {
-//			this.mOpTransUsed.add(UtilIntSet.newIntSet());
-//		}
 		computeInitialStates();
 	}
 	
-	private final TObjectIntMap<StateWaNCSB> mState2Int = new TObjectIntHashMap<>();
+	private final TObjectIntMap<StateWaNCSB> mStateIndices = new TObjectIntHashMap<>();
 
 	private void computeInitialStates() {
-		StateWaNCSB state = new StateWaNCSB(0, this);
 		IntSet C = mOperand.getInitialStates().clone();
 		C.and(mOperand.getFinalStates()); // goto C
 		IntSet N = mOperand.getInitialStates().clone();
 		N.andNot(C);
 		NCSB ncsb = new NCSB(N, C, UtilIntSet.newIntSet(), C);
-		state.setNCSB(ncsb);
+		StateWaNCSB state = new StateWaNCSB(this, 0, ncsb);
 		if(C.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
-		mState2Int.put(state, id);
+		mStateIndices.put(state, id);
 	}
 	
 
 	protected StateWaNCSB addState(NCSB ncsb) {
 		
-		StateWaNCSB state = new StateWaNCSB(0, this);
-		state.setNCSB(ncsb);
+		StateWaNCSB state = new StateWaNCSB(this, 0, ncsb);
 		
-		if(mState2Int.containsKey(state)) {
-			return (StateWaNCSB) getState(mState2Int.get(state));
+		if(mStateIndices.containsKey(state)) {
+			return (StateWaNCSB) getState(mStateIndices.get(state));
 		}else {
 			int index = getStateSize();
-			StateWaNCSB newState = new StateWaNCSB(index, this);
-			newState.setNCSB(ncsb);
+			StateWaNCSB newState = new StateWaNCSB(this, index, ncsb);
 			int id = this.addState(newState);
-			mState2Int.put(newState, id);
-			
+			mStateIndices.put(newState, id);
 			if(ncsb.getBSet().isEmpty()) setFinal(index);
-			
 			return newState;
 		}
 	}
@@ -77,7 +66,7 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 		return mOperand;
 	}
 	
-	
+	// ---------------- following is not needed 
 	private boolean mExplored = false;
 	
 	public void explore() {

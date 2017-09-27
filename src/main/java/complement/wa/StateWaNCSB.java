@@ -6,26 +6,22 @@ import complement.NCSB;
 import complement.SuccessorGenerator;
 import complement.SuccessorResult;
 import main.Options;
-import util.IntIterator;
+
 import util.IntSet;
 import util.UtilIntSet;
 
 public class StateWaNCSB extends StateWa implements IStateWaComplement {
 
 
-	private NCSB mNCSB;
+	private final NCSB mNCSB;
 	
 	private final IBuchiWa mOperand;
 	private final BuchiWaComplement mComplement;
 	
-	public StateWaNCSB(int id, BuchiWaComplement complement) {
+	public StateWaNCSB(BuchiWaComplement complement, int id, NCSB ncsb) {
 		super(id);
 		this.mComplement = complement;
 		this.mOperand = complement.getOperand();
-		this.mNCSB = new NCSB();
-	}
-	
-	public void setNCSB(NCSB ncsb) {
 		this.mNCSB = ncsb;
 	}
 	

@@ -29,11 +29,13 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 	private final TObjectIntMap<DoubleDecker> mDeckerMap;
 	private final List<DoubleDecker> mDeckerList;
 	
-	private final TObjectIntMap<StateNwaNCSB> mState2Int = new TObjectIntHashMap<>();
+	private final TObjectIntMap<StateNwaNCSB> mStateIndices = new TObjectIntHashMap<>();
 	private final IntSet mFinalDeckers;
 	
 	public BuchiNwaComplement(IBuchiNwa buchi) {
-		super(buchi.getAlphabetCall(), buchi.getAlphabetInternal(), buchi.getAlphabetReturn());
+		super(buchi.getAlphabetCall()
+		        , buchi.getAlphabetInternal()
+		        , buchi.getAlphabetReturn());
 		this.mOperand = buchi;
 		this.mDeckerMap = new TObjectIntHashMap<>();
 		this.mDeckerList = new ArrayList<>();
@@ -42,35 +44,32 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 	}
 
 	private void computeInitialStates() {
-		StateNwaNCSB state = new StateNwaNCSB(this, 0);
 		IntSet upC = mOperand.getInitialStates().clone();
 		upC.and(mOperand.getFinalStates()); // goto C
 		IntSet upN = mOperand.getInitialStates().clone();
 		upN.andNot(upC);
 		IntSet N = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upN);
 		IntSet C = generateDeckers(DoubleDecker.EMPTY_DOWN_STATE, upC);
-		state.setNCSB(new NCSB(N, C, UtilIntSet.newIntSet(), C));
+		NCSB ncsb = new NCSB(N, C, UtilIntSet.newIntSet(), C);
+	    StateNwaNCSB state = new StateNwaNCSB(this, 0, ncsb);
 		if(C.isEmpty()) this.setFinal(0);
 		this.setInitial(0);
 		int id = this.addState(state);
-		mState2Int.put(state, id);
+		mStateIndices.put(state, id);
 	}
 	
 	protected StateNwaNCSB addState(NCSB ncsb) {
 		
-		StateNwaNCSB state = new StateNwaNCSB(this, 0);
-		state.setNCSB(ncsb);
+		StateNwaNCSB state = new StateNwaNCSB(this, 0, ncsb);
 		
-		if(mState2Int.containsKey(state)) {
-			return (StateNwaNCSB) getState(mState2Int.get(state));
+		if(mStateIndices.containsKey(state)) {
+			return (StateNwaNCSB) getState(mStateIndices.get(state));
 		}else {
 			int index = getStateSize();
-			StateNwaNCSB newState = new StateNwaNCSB(this, index);
-			newState.setNCSB(ncsb);
+			StateNwaNCSB newState = new StateNwaNCSB(this, index, ncsb);
 			int id = this.addState(newState);
-			mState2Int.put(newState, id);
+			mStateIndices.put(newState, id);
 			if(ncsb.getBSet().isEmpty()) setFinal(index);
-			
 			return newState;
 		}
 	}
@@ -120,6 +119,8 @@ public class BuchiNwaComplement extends BuchiNwa implements IBuchiNwaComplement 
 		return getDoubleDecker(decker).getDownState();
 	}
 	
+	
+	// ------------------- following is not needed
 	private boolean mExplored = false;
 	
 	// TODO: removed
