@@ -19,7 +19,6 @@ import operation.inclusion.wa.BuchiInclusionASCCAntichain;
 import operation.inclusion.wa.BuchiInclusionComplement;
 import operation.inclusion.wa.BuchiInclusionRABIT;
 import util.PairXX;
-import util.Timer;
 
 import util.parser.ParserType;
 import util.parser.SingleParser;
@@ -152,23 +151,11 @@ public class Main {
 				System.exit(-1);
 			}
 			
-			if(Options.verbose)  System.out.println("Computing Difference by ALGORITHM " + task.getOperationName() + " ...");
-			Timer timer = new Timer();
+            final String opName = "Computing Difference";
+            printTaskBegin(opName, task);
 			RunTask runTask = new RunTask(task, time);
-			timer.start();
-			runTask.execute();
-			timer.stop();
-			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperationName() + " ...");
-			if(Options.verbose)  {
-				System.out.println("\n" + task.toStringVerbose());
-				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
-			}else {
-				System.out.println(task.toString());
-			}
-			
-			if(Options.verbose && task.getResultValue().isNormal()) {
-				System.out.println(task.getOperation().getResult().toDot());
-			}
+            runTask.execute();
+            printTaskEnd(task);
 		}
 		
 	}
@@ -220,18 +207,12 @@ public class Main {
 					task.setOperation(new BuchiInclusionASCC(pair.getFstElement(), pair.getSndElement()));
 				}
 			}
-			if(Options.verbose)  System.out.println("Checking inclusion by ALGORITHM " + task.getOperation().getName() + " ...");
-			Timer timer = new Timer();
-			timer.start();
-			task.runTask();
-			timer.stop();
-			if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperation().getName() + " ...");
-			if(Options.verbose)  {
-				System.out.println("\n" + task.toStringVerbose());
-				System.out.println("TotalTime = " + timer.getTimeElapsed() + " ms");
-			}else {
-				System.out.println(task.toString());
-			}
+			
+			RunTask runTask = new RunTask(task, time);
+	        final String opName = "Checking inclusion";
+	        printTaskBegin(opName, task);
+	        runTask.execute();
+	        printTaskEnd(task);
 
 		}
 		
@@ -239,7 +220,7 @@ public class Main {
 	
 	
 	private static void complementBuchi(String[] args, String fileOut, long time) {
-		// TODO Auto-generated method stub
+	    
 		File fileIn = null;
 		SingleParser parser = null;
 		for(int i = 0; i < args.length; i ++) {
@@ -262,15 +243,11 @@ public class Main {
 		TaskComplement task = new TaskComplement(fileIn.getName());
 		task.setOperation(buchiComplement);
 		RunTask runTask = new RunTask(task, time);
-		if(Options.verbose)  System.out.println("Computing complement by ALGORITHM " + task.getOperationName() + " ...");
+		final String opName = "Computing complement";
+		printTaskBegin(opName, task);
 		runTask.execute();
-		if(Options.verbose)  System.out.println("Task completed by ALGORITHM " + task.getOperationName() + " ...");
+		printTaskEnd(task);
 
-		if(Options.verbose) {
-			System.out.print(task.toStringVerbose());
-		}else {
-			System.out.print(task.toString());
-		}
 		if(fileOut == null || !(task.getResultValue().isNormal())) return;
 		try {
 			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
@@ -364,5 +341,22 @@ public class Main {
 		
 	}
 	
+	
+	private static void printTaskBegin(String op, ITask task) {
+        if(Options.verbose)  System.out.println(op + " by ALGORITHM " + task.getOperationName() + " ...");
+	}
+	
+	private static void printTaskEnd(ITask task) {
+        if (Options.verbose) {
+            if (task.getResultValue().isNormal()) {
+                System.out.println("Task completed by ALGORITHM " + task.getOperationName() + " ...");
+            } else {
+                System.out.println("Task failed by ALGORITHM " + task.getOperationName() + " ...");
+            }
+            System.out.println("\n" + task.toStringVerbose());
+        }else {
+            System.out.println(task.toString());
+        }
+	}
 
 }
