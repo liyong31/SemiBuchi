@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import automata.IBuchi;
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import util.PairXX;
 import util.parser.ats.ATSFileParser;
 

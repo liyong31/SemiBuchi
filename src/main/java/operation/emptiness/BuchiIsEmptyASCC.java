@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import automata.IBuchi;
-import automata.IBuchiWa;
 import automata.IState;
-import automata.IStateWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
 import util.IPair;
 import util.IntIterator;
 import util.IntSet;

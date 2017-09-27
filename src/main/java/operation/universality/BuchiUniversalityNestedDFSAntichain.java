@@ -3,9 +3,9 @@ package operation.universality;
 import java.util.BitSet;
 import java.util.List;
 
-import automata.IBuchiWa;
-import automata.IStateWa;
-import complement.StateWaNCSB;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
+import complement.wa.StateWaNCSB;
 import gnu.trove.set.TIntSet;
 import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;

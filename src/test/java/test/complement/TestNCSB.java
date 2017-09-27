@@ -2,10 +2,10 @@ package test.complement;
 
 import java.util.List;
 
-import automata.BuchiWa;
-import automata.IBuchiWa;
-import automata.IStateWa;
-import complement.BuchiWaComplement;
+import automata.wa.BuchiWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
+import complement.wa.BuchiWaComplement;
 import main.Options;
 import util.PairXX;
 import util.parser.ats.ATSFileParser;

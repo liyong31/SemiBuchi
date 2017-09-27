@@ -1,8 +1,9 @@
 package complement;
 
-import automata.IBuchiWa;
-import automata.StateWa;
-
+import automata.wa.IBuchiWa;
+import automata.wa.StateWa;
+import complement.wa.BuchiWaComplement;
+import complement.wa.IStateWaComplement;
 import main.Options;
 import util.IntIterator;
 import util.IntSet;
@@ -183,9 +184,9 @@ public class StateNCSB1 extends StateWa implements IStateWaComplement {
 		IntSet BSuccs = mOperand.getSuccessors(currBSet, letter);
 		
 		// record used transition (NOT necessary in complement)
-		mComplement.useOpTransition(letter, currNSet);
-		mComplement.useOpTransition(letter, currCSet);
-		mComplement.useOpTransition(letter, currSSet);
+//		mComplement.useOpTransition(letter, currNSet);
+//		mComplement.useOpTransition(letter, currCSet);
+//		mComplement.useOpTransition(letter, currSSet);
 		/* ------------------------------------------------*/
 		F = mOperand.getFinalStates(); // should update accepting states after getSuccessors method
 		// N successors
@@ -294,9 +295,9 @@ public class StateNCSB1 extends StateWa implements IStateWaComplement {
 		IntSet BSuccs = mOperand.getSuccessors(currBSet, letter);
 		
 		// record used transition (NOT necessary in complement)
-		mComplement.useOpTransition(letter, currNSet);
-		mComplement.useOpTransition(letter, currCSet);
-		mComplement.useOpTransition(letter, currSSet);
+//		mComplement.useOpTransition(letter, currNSet);
+//		mComplement.useOpTransition(letter, currCSet);
+//		mComplement.useOpTransition(letter, currSSet);
 		/* ------------------------------------------------*/
 		F = mOperand.getFinalStates(); // should update accepting states after getSuccessors method
 		boolean bIsEmpty = currBSet.isEmpty();

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import operation.universality.BuchiUniversalityNestedDFS;
 import test.BAStore;
 

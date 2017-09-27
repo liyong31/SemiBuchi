@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import util.IntIterator;
 import util.IntSet;
 
 /**
@@ -84,17 +83,19 @@ public interface IBuchi<S extends IState> {
 		out.print("digraph {\n");
 		Collection<S> states = getStates();
 		for(S state : states) {
-			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
-            if(isFinal(state.getId())) out.print(", shape = doublecircle");
-            else out.print(", shape = circle");
+			IntSet labels = getAcceptance().getLabels(state.getId());
+//			out.print("  " + state.getId() + " [label=\"" +  state.getId() + "\"");
+			out.print("  " + state.getId());
+            if(isFinal(state.getId())) out.print(" [label=\"" +  state.getId() + "\"" + ", shape = doublecircle");
+            else if(! labels.isEmpty()) {
+            	out.print(" [label=\"" +  state.getId() + " " +  labels + "\"" + ", shape = box");
+            }else out.print(", shape = circle");
+            
             out.print("];\n");
             state.toDot(out, alphabet);
         }	
 		out.print("  " + states.size() + " [label=\"\", shape = plaintext];\n");
-        IntSet initialStates = getInitialStates();
-        IntIterator iter = initialStates.iterator();
-        while(iter.hasNext()) {
-        	int init = iter.next();
+        for(final Integer init : getInitialStates().iterable()) {
         	out.print("  " + states.size() + " -> " + init + " [label=\"\"];\n");
         }
         

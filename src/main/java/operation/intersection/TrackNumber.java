@@ -1,6 +1,6 @@
 package operation.intersection;
 
-enum TrackNumber {
+public enum TrackNumber {
 	TRACK_ONE,
 	TRACK_TWO;
 	

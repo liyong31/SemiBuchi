@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+
 public class RunTask {
 	
 	private final long mTimeBound;
@@ -26,25 +27,36 @@ public class RunTask {
 	public void execute() {
 		ResultValue resultValue = null;
         final ExecutorService service = Executors.newSingleThreadExecutor();
+        Future<ResultValue> f = null;
+        long duration = System.currentTimeMillis();
         try {
-            final Future<ResultValue> f = service.submit(new Task(mTask));
+            f = service.submit(new Task(mTask));
             resultValue = f.get(mTimeBound, TimeUnit.MILLISECONDS);
         } catch (final TimeoutException e) {
+            if(Options.verbose) e.printStackTrace();
         	resultValue = ResultValue.EXE_TIMEOUT;
         } catch (final OutOfMemoryError e) {
+            if(Options.verbose) e.printStackTrace();
         	resultValue = ResultValue.EXE_MEMOOUT;
         } catch (final ExecutionException | InterruptedException e) {
-        	if(e.getCause() instanceof OutOfMemoryError) {
+            if(Options.verbose) e.printStackTrace();
+        	if(e.getCause() instanceof OutOfMemoryError
+        	|| e.getCause() instanceof StackOverflowError) {
         		resultValue = ResultValue.EXE_MEMOOUT;
+        	}else if(e.getCause() instanceof TimeoutException){
+        		resultValue = ResultValue.EXE_TIMEOUT;
         	}else {
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
-            service.shutdown();
+            f.cancel(true);
+            service.shutdownNow();
+            Thread.currentThread().interrupt();
         }
-        
+        duration = System.currentTimeMillis() - duration;
         // set result value
         mTask.setResultValue(resultValue);
+        mTask.setRunningTime(duration);
 	}
 	
 	private class Task implements Callable<ResultValue> {
@@ -56,11 +68,13 @@ public class RunTask {
 		}
 
 		@Override
-		public ResultValue call() throws OutOfMemoryError {
+		public ResultValue call() throws Exception,OutOfMemoryError, StackOverflowError {
 			try {
 				mTask.runTask();
-			}catch (final OutOfMemoryError e) {
-	            throw new OutOfMemoryError();
+			}catch (final OutOfMemoryError | StackOverflowError e) {
+	            throw e;
+	        }catch (final Exception e) {
+	        	throw e;
 	        }
 			return mTask.getResultValue();
 		}

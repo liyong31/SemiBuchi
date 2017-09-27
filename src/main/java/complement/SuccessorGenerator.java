@@ -4,7 +4,7 @@ import main.Options;
 import util.IntSet;
 import util.PowerSet;
 
-class SuccessorGenerator {
+public class SuccessorGenerator {
 	
 	private boolean mIsCurrBEmpty;
 	private final NCSB mSuccNCSB;

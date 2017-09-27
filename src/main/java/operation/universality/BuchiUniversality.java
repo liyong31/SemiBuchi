@@ -3,8 +3,8 @@ package operation.universality;
 
 import java.util.List;
 
-import automata.IBuchiWa;
-import complement.BuchiWaComplement;
+import automata.wa.IBuchiWa;
+import complement.wa.BuchiWaComplement;
 import operation.emptiness.BuchiIsEmptyASCC;
 import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;

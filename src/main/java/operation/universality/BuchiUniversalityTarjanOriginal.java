@@ -1,7 +1,7 @@
 package operation.universality;
 
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 import operation.emptiness.BuchiIsEmptyTarjanOriginal;
 
 public class BuchiUniversalityTarjanOriginal extends BuchiUniversality {

@@ -1,7 +1,7 @@
 package test;
 
-import automata.BuchiWa;
-import automata.IStateWa;
+import automata.wa.BuchiWa;
+import automata.wa.IStateWa;
 
 public class BAStore {
 	

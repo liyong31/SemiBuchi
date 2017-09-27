@@ -1,6 +1,6 @@
 package operation;
 
-import automata.IBuchiWa;
+import automata.wa.IBuchiWa;
 
 public interface IBuchiWaUnaryOperation<O> extends IUnaryOperation<IBuchiWa, O> {
 

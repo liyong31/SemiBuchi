@@ -4,9 +4,9 @@ import java.util.BitSet;
 import java.util.List;
 
 import automata.IBuchi;
-import automata.IBuchiWa;
 import automata.IState;
-import automata.IStateWa;
+import automata.wa.IBuchiWa;
+import automata.wa.IStateWa;
 import operation.emptiness.IBuchiWaIsEmpty;
 import util.IPair;
 import util.IntArray;

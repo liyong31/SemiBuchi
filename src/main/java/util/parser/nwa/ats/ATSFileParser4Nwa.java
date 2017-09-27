@@ -9,10 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import automata.BuchiNwa;
-import automata.IBuchiNwa;
-import complement.BuchiNwaComplement;
-import complement.DoubleDecker;
+import automata.nwa.BuchiNwa;
+import automata.nwa.IBuchiNwa;
+import complement.nwa.BuchiNwaComplement;
+import complement.nwa.DoubleDecker;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectIntHashMap;
 import main.Options;

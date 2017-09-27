@@ -3,12 +3,12 @@ package complement;
 import util.IntSet;
 import util.UtilIntSet;
 
-class SuccessorResult {
+public class SuccessorResult {
 	
-	protected IntSet mSuccs ;
-	protected IntSet mMinusFSuccs ;
-	protected IntSet mInterFSuccs ;
-	protected boolean hasSuccessor ;
+	public IntSet mSuccs ;
+	public IntSet mMinusFSuccs ;
+	public IntSet mInterFSuccs ;
+	public boolean hasSuccessor ;
 	
 	public SuccessorResult() {
 		mSuccs = UtilIntSet.newIntSet();

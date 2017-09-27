@@ -10,4 +10,6 @@ public interface Acc {
 	
 	List<IntSet> getAccs();
 	
+	IntSet getLabels(int state);
+	
 }
