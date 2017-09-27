@@ -49,7 +49,7 @@ public class RunTask {
         		resultValue = ResultValue.EXE_UNKNOWN;
         	}
         } finally {
-            f.cancel(true);
+            if(f != null) f.cancel(true);
             service.shutdownNow();
             Thread.currentThread().interrupt();
         }
