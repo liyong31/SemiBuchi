@@ -258,11 +258,7 @@ public class Main {
 			PrintStream out = new PrintStream(new FileOutputStream(fileOut));
 			buchiComplement.toBA(out, parser.getAlphabet());
 			out.close();
-//			writer = new FileWriter(new File("orig.ba"));
-//			writer.write(buchi.toBA());
-//			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

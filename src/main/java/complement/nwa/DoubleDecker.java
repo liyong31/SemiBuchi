@@ -2,8 +2,8 @@ package complement.nwa;
 
 public class DoubleDecker {
 	
-	private int mDownState;
-	private int mUpState;
+	private final int mDownState;
+	private final int mUpState;
 		
 	public DoubleDecker(int down, int up) {
 		this.mDownState = down;
