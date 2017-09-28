@@ -1,10 +1,12 @@
 package operation.exploration.wa;
 
 import java.util.ArrayList;
-
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 import automata.AccGenBuchi;
@@ -12,8 +14,10 @@ import automata.wa.GeneralizedBuchiWa;
 import automata.wa.IBuchiWa;
 import automata.wa.IStateWa;
 import complement.wa.BuchiWaComplement;
+import complement.wa.StateWaNCSB;
 import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
+import main.Options;
 import util.IntSet;
 import util.MarkedIntStack;
 
@@ -142,7 +146,7 @@ public class AntichainDifferenceExploration {
                 IStateWa fstState = mFstOperand.getState(pair.getFirstState());
                 for(int fstSucc : fstState.getSuccessors(letter).iterable()) {
                     IStateWa sndState = mSndComplement.getState(pair.getSecondState());
-                    for(int sndSucc : sndState.getSuccessors(letter).iterable()) {            
+                    for(int sndSucc : orderComplementSuccessors(sndState.getSuccessors(letter))) {            
                         // pair (X, Y)
                         DifferencePair pairSucc = new DifferencePair(mSndComplement, fstSucc, sndSucc);
                         IStateWa succState = getOrAddState(pairSucc);
@@ -203,6 +207,48 @@ public class AntichainDifferenceExploration {
             }
         }
         
+    }
+    
+    // smaller NCS first
+    private Iterable<Integer> orderComplementSuccessors(IntSet succs) {
+        
+        if(! Options.smallerNCS || succs.isEmpty()) return succs.iterable();
+        
+        // we use PriorityQueue here
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(
+                succs.cardinality()
+                , new Comparator<Integer>() {
+                    @Override
+                    public int compare(Integer fst, Integer snd) {
+                        StateWaNCSB fstState = (StateWaNCSB) mSndComplement.getState(fst);
+                        StateWaNCSB sndState = (StateWaNCSB) mSndComplement.getState(snd);
+                        if(fst == snd) {
+                            return 0;
+                        } // never happen
+                        if(fstState.getNCSB().subsetOf(sndState.getNCSB())) {
+                            return -1;
+                        }else {
+                            return 1;
+                        }
+                    }
+                });
+        
+        for(final Integer succ : succs.iterable()) {
+            queue.add(succ);
+        }
+        
+        return () -> new Iterator<Integer>() {
+            @Override
+            public boolean hasNext() {
+                return !queue.isEmpty();
+            }
+
+            @Override
+            public Integer next() {
+                return queue.poll();
+            }
+            
+        }; 
     }
 
     

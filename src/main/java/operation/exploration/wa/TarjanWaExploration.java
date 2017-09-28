@@ -38,7 +38,7 @@ public class TarjanWaExploration {
 
 	private void tarjan() {
 		mIndex = 0;
-		for (final Integer init : mBuchi.getInitialStates().iterable()) {
+		for (final int init : mBuchi.getInitialStates().iterable()) {
 			if (!mIndexMap.containsKey(init)) {
 				strongConnect(init);
 			}

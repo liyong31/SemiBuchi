@@ -37,7 +37,8 @@ public class TaskDifference extends GenericBinaryTask {
 		this.mOperationName = checker.getOperationName();
 		this.mOperationName += "+" + UtilIntSet.getSetType() + (Options.lazyS ? "+lazyS" : "")
 				                                         + (Options.lazyB ? "+lazyB" : "")
-				                                         + (Options.useGBA ? "+GBA" : "+BA");
+				                                         + (Options.useGBA ? "+GBA" : "+BA")
+				                                         + (Options.smallerNCS ? "+ncs" : "");
 	}
 	
 	public IBuchiWaDifference getOperation() {

@@ -106,6 +106,24 @@ public class NCSB {
 		return true;
 	}
 	
+	private IntSet mAllSets = null; 
+	
+	private void initializeAllSets() {
+	    mAllSets = copyNSet();
+	    mAllSets.or(mCSet);
+	    mAllSets.or(mSSet);
+	}
+	
+	public boolean subsetOf(NCSB other) {
+	    if(mAllSets == null) {
+	        initializeAllSets();
+	    }
+	    if(other.mAllSets == null) {
+	        other.initializeAllSets();
+	    }
+        return mAllSets.subsetOf(other.mAllSets);
+	}
+	
 	@Override
 	public NCSB clone() {
 		return new NCSB(mNSet.clone(), mCSet.clone(), mSSet.clone(), mBSet.clone());

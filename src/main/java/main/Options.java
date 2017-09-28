@@ -16,5 +16,8 @@ public class Options {
 	public static boolean lazyB = false;
 	
 	public static boolean useGBA = false;
+	
+	// N\/C\/S smaller first
+	public static boolean smallerNCS = false;
 
 }

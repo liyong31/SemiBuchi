@@ -111,6 +111,7 @@ public class Main {
 		System.out.println("-ac: Use Antichain optimization");
 		System.out.println("-dfs: Use Double DFS algorithm");
 		System.out.println("-diff: Compute Difference of two automata");
+		System.out.println("-ncs: Prefer smaller N\\/C\\/S ");
 		System.out.println("-incl: Check inclusion of two automata");
 		System.out.println("-gba: Use generalized Buchi automata");
 		System.out.println("-to k: Limit execution in k seconds (20 secs by default)");
@@ -135,7 +136,9 @@ public class Main {
 				tarjan = true;
 			}else if(args[i].equals("-ac")) {
 			    antichain = true;
-			}
+			}else if(args[i].equals("-ncs")) {
+                Options.smallerNCS = true;
+            }
 		}
 		
 		assert file != null;
