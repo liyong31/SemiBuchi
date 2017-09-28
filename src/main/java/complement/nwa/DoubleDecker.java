@@ -31,11 +31,11 @@ public class DoubleDecker {
 	
 	@Override
 	public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + this.mDownState;
-        result = prime * result + this.mUpState;
-        return result;
+	    final int prime = 31;
+	    int result = 1;
+	    result = prime * result + this.mDownState;
+	    result = prime * result + this.mUpState;
+	    return result;
 	}
 	
 	@Override
