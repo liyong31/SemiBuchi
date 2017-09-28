@@ -1,16 +1,18 @@
 package operation.difference.wa;
 
-import automata.wa.GeneralizedBuchiWa;
 import automata.wa.IBuchiWa;
+import operation.exploration.wa.AntichainDifferenceExploration;
 
 
 public class BuchiWaDifferenceAntichain extends AbstractBuchiWaDifference {
     
     private final IBuchiWa mDifference;
+    private final AntichainDifferenceExploration mAntichain;
 
     public BuchiWaDifferenceAntichain(IBuchiWa fstOp, IBuchiWa sndOp) {
         super(fstOp, sndOp);
-        this.mDifference = new GeneralizedBuchiWa(fstOp.getAlphabetSize());
+        this.mAntichain = new AntichainDifferenceExploration(fstOp, mSndComplement);
+        mDifference = mAntichain.getDifference();
     }
 
     @Override
@@ -26,7 +28,7 @@ public class BuchiWaDifferenceAntichain extends AbstractBuchiWaDifference {
 
     @Override
     public Boolean isIncluded() {
-        return null;
+        return mAntichain.isEmpty();
     }
 
 }

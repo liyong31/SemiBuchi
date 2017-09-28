@@ -14,6 +14,7 @@ import java.util.List;
 import automata.wa.IBuchiWa;
 import complement.wa.BuchiWaComplement;
 import operation.difference.wa.BuchiWaDifference;
+import operation.difference.wa.BuchiWaDifferenceAntichain;
 import operation.inclusion.wa.BuchiInclusionASCC;
 import operation.inclusion.wa.BuchiInclusionASCCAntichain;
 import operation.inclusion.wa.BuchiInclusionComplement;
@@ -125,13 +126,15 @@ public class Main {
 		File file = null;
 		TaskDifference task = null;
 		
-		boolean tarjan = false;
+		boolean tarjan = false, antichain = false;
 		for(int i = 0; i < args.length; i ++) {
 			
 			if(args[i].endsWith(FILE_EXT)) {
 				file = new File(args[i]);
 			}if(args[i].equals("-tarjan")) {
 				tarjan = true;
+			}else if(args[i].equals("-ac")) {
+			    antichain = true;
 			}
 		}
 		
@@ -146,9 +149,11 @@ public class Main {
 			task = new TaskDifference(file.getName());
 			if(tarjan) {
 				task.setOperation(new BuchiWaDifference(pair.getFstElement(), pair.getSndElement()));
+			}else if(antichain) {
+			    task.setOperation(new BuchiWaDifferenceAntichain(pair.getFstElement(), pair.getSndElement()));
 			}else {
-				System.err.println("Other algorithms not support yet");
-				System.exit(-1);
+	             System.err.println("Other algorithms not support yet");
+	             System.exit(-1);
 			}
 			
             final String opName = "Computing Difference";

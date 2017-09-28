@@ -1,7 +1,7 @@
 package operation.exploration.wa;
 
 import java.util.ArrayList;
-import java.util.BitSet;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import util.IntSet;
 import util.MarkedIntStack;
-import util.PairXY;
+
 
 import util.UtilIntSet;
 
@@ -26,6 +26,7 @@ public class AntichainDifferenceExploration {
     private final IBuchiWa mFstOperand;
     private final BuchiWaComplement mSndComplement;
     private final AccGenBuchi mAcceptance;
+    private AntichainASCCExploration mAntichainExploration;
     
     public AntichainDifferenceExploration(IBuchiWa fstOp, BuchiWaComplement sndComplement) {
         mFstOperand = fstOp;
@@ -46,7 +47,17 @@ public class AntichainDifferenceExploration {
     }
 
     public IBuchiWa getDifference() {
+        if(mAntichainExploration == null) {
+            mAntichainExploration = new AntichainASCCExploration();
+        }
         return mDifference;
+    }
+    
+    public Boolean isEmpty() {
+        if(mAntichainExploration == null) {
+            mAntichainExploration = new AntichainASCCExploration();
+        }
+        return mAntichainExploration.mIsEmpty;
     }
     
     protected final Map<DifferencePair, IStateWa> mPairStateMap = new HashMap<>();
@@ -72,6 +83,10 @@ public class AntichainDifferenceExploration {
         if(mSndComplement.isFinal(pair.getSecondState())) {
             mAcceptance.setLabel(state, mFstOperand.getAcceptance().getAccSize());
         }
+    }
+    
+    private boolean isAccepting(IntSet labels) {
+        return labels.cardinality() == mFstOperand.getAcceptance().getAccSize() + 1;
     }
     
     // generalized Buchi exploration
@@ -164,7 +179,7 @@ public class AntichainDifferenceExploration {
                                 StackPair p = mRootsStack.pop();
                                 B.or(p.getLabels());
                                 u = p.getFirstState();
-                                if(B.cardinality() == mFstOperand.getAcceptance().getAccSize()) {
+                                if(isAccepting(B)) {
                                     mIsEmpty = false;
                                 }
                             }while(mDfsNum.get(u) > mDfsNum.get(succState.getId()));
