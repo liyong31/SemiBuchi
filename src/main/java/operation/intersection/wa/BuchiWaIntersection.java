@@ -106,14 +106,16 @@ public class BuchiWaIntersection extends BuchiWa implements IBuchiWaIntersection
 			return "(" + mFstState + "," + mSndState + "):" + mTrack;
 		}
 		
-		int hashCode;
+		int hashCode = 1;
 		boolean hasCode = false;
 		@Override
 		public int hashCode() {
 			if(hasCode) return hashCode;
 			else {
 				hasCode = true;
-				hashCode = mFstState * mFstOperand.getStateSize() + mSndState;
+		        final int prime = 31;
+		        hashCode = prime * hashCode + mFstState;
+		        hashCode = prime * hashCode + mSndState;
 				hashCode += mTrack == TrackNumber.TRACK_ONE ? 1 : 2;
 			}
 			return hashCode;

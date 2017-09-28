@@ -12,4 +12,8 @@ public interface Acc {
 	
 	IntSet getLabels(int state);
 	
+	default int getAccSize() {
+	    return getAccs().size();
+	}
+	
 }

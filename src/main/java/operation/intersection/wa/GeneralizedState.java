@@ -37,7 +37,11 @@ public class GeneralizedState extends StateWa {
 	
 	@Override
 	public int hashCode() {
-		return mLeft * mBuchi.getFirstOperand().getStateSize() + mRight;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + mLeft;
+        result = prime * result + mRight;
+        return result;
 	}
 	
 	public int getLeft() {
