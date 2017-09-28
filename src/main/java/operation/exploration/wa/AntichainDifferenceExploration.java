@@ -91,27 +91,10 @@ public class AntichainDifferenceExploration {
     
     // generalized Buchi exploration
     
-    private class StackPair {
-        final int mState;
-        final IntSet mLabels;
-        StackPair(int state, IntSet labels) {
-            mState = state;
-            mLabels = labels;
-        }
-        
-        int getFirstState() {
-            return mState;
-        }
-        
-        IntSet getLabels() {
-            return mLabels;
-        }
-    }
-    
     private class AntichainASCCExploration {
         
         private int mIndex=0;
-        private final Stack<StackPair> mRootsStack ;
+        private final Stack<AsccStackPair> mRootsStack ;
         private final TIntIntMap mDfsNum;
         private final MarkedIntStack mActiveStack ;
         private final IntSet mCurrent;
@@ -153,7 +136,7 @@ public class AntichainDifferenceExploration {
             if(mSndComplement.isFinal(pair.getSecondState())) {
                 labels.set(mFstOperand.getAcceptance().getAccSize());
             }
-            mRootsStack.push(new StackPair(s, labels));
+            mRootsStack.push(new AsccStackPair(s, labels));
             
             for(int letter = 0; letter < mFstOperand.getAlphabetSize(); letter ++) {
                 IStateWa fstState = mFstOperand.getState(pair.getFirstState());
@@ -176,14 +159,14 @@ public class AntichainDifferenceExploration {
                             IntSet B = UtilIntSet.newIntSet();
                             int u;
                             do {
-                                StackPair p = mRootsStack.pop();
+                                AsccStackPair p = mRootsStack.pop();
                                 B.or(p.getLabels());
                                 u = p.getFirstState();
                                 if(isAccepting(B)) {
                                     mIsEmpty = false;
                                 }
                             }while(mDfsNum.get(u) > mDfsNum.get(succState.getId()));
-                            mRootsStack.push(new StackPair(u, B));
+                            mRootsStack.push(new AsccStackPair(u, B));
                         }
                     }
                 }

@@ -75,15 +75,10 @@ public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 		mCurrent.set(n);
 		
 		IStateWa state = mBuchi.getState(n);
-		//TODO only get enabled letters
 		for(int letter = 0; letter < mBuchi.getAlphabetSize(); letter ++) {
-			IntSet succs = state.getSuccessors(letter);
-			IntIterator iter = succs.iterator();
-			while(iter.hasNext()) {
-				int succ = iter.next();
+			for(int succ : state.getSuccessors(letter).iterable()) {
 				if(! mDfsNum.containsKey(succ)) {
 					dfs(succ);
-					if(mIsEmpty == null || mIsEmpty.booleanValue() == false) return;
 				}else if(mCurrent.get(succ)) {
 					// we have already seen it before, there is a loop
 					while(true) {
