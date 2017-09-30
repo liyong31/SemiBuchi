@@ -51,9 +51,6 @@ public class AntichainDifferenceExploration {
     }
 
     public IBuchiWa getDifference() {
-        if(mAntichainExploration == null) {
-            mAntichainExploration = new AntichainASCCExploration();
-        }
         return mDifference;
     }
     

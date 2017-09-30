@@ -6,17 +6,19 @@ import operation.exploration.wa.AntichainDifferenceExploration;
 
 public class BuchiWaDifferenceAntichain extends AbstractBuchiWaDifference {
     
-    private final IBuchiWa mDifference;
+    private IBuchiWa mDifference;
     private final AntichainDifferenceExploration mAntichain;
 
     public BuchiWaDifferenceAntichain(IBuchiWa fstOp, IBuchiWa sndOp) {
         super(fstOp, sndOp);
         this.mAntichain = new AntichainDifferenceExploration(fstOp, mSndComplement);
-        mDifference = mAntichain.getDifference();
     }
 
     @Override
     public IBuchiWa getResult() {
+        if(mDifference == null) {
+            mDifference = mAntichain.getDifference();
+        }
         return mDifference;
     }
 
