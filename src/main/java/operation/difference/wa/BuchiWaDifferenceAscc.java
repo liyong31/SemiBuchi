@@ -4,7 +4,6 @@ import automata.wa.IBuchiWa;
 
 import operation.exploration.wa.AsccWaExploration;
 
-
 public class BuchiWaDifferenceAscc extends BuchiWaDifference {
 	
 	public BuchiWaDifferenceAscc(IBuchiWa fstOp, IBuchiWa sndOp) {

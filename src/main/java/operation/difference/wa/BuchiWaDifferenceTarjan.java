@@ -2,11 +2,7 @@ package operation.difference.wa;
 
 import automata.wa.IBuchiWa;
 
-import main.Options;
 import operation.exploration.wa.TarjanWaExploration;
-import operation.intersection.wa.BuchiWaIntersection;
-import operation.intersection.wa.GeneralizedBuchiIntersection;
-
 
 public class BuchiWaDifferenceTarjan extends BuchiWaDifference {
 	
