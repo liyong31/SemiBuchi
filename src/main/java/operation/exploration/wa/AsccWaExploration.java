@@ -11,7 +11,7 @@ import util.IntStack;
 import util.UtilIntSet;
 
 
-public class AsccWaExploration {
+public class AsccWaExploration implements EmptinessExploration{
     
 	private final IBuchiWa mBuchi;
 	private Ascc mAscc;
@@ -20,6 +20,7 @@ public class AsccWaExploration {
 		mBuchi = buchi;
 	}
 	
+	@Override
 	public Boolean isEmpty() {
 	    if(mAscc == null) {
 	        mAscc = new Ascc();

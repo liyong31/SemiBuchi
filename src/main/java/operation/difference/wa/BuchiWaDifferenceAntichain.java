@@ -6,7 +6,6 @@ import operation.exploration.wa.AntichainDifferenceExploration;
 
 public class BuchiWaDifferenceAntichain extends AbstractBuchiWaDifference {
     
-    private IBuchiWa mDifference;
     private final AntichainDifferenceExploration mAntichain;
 
     public BuchiWaDifferenceAntichain(IBuchiWa fstOp, IBuchiWa sndOp) {
@@ -30,6 +29,9 @@ public class BuchiWaDifferenceAntichain extends AbstractBuchiWaDifference {
 
     @Override
     public Boolean isIncluded() {
+        if(mDifference == null) {
+            mDifference = mAntichain.getDifference();
+        }
         return mAntichain.isEmpty();
     }
 

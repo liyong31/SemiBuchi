@@ -8,28 +8,15 @@ import operation.intersection.wa.BuchiWaIntersection;
 import operation.intersection.wa.GeneralizedBuchiIntersection;
 
 
-public class BuchiWaDifferenceTarjan extends AbstractBuchiWaDifference {
-	
-	private TarjanWaExploration mTarjan; 
+public class BuchiWaDifferenceTarjan extends BuchiWaDifference {
 	
 	public BuchiWaDifferenceTarjan(IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(fstOp, sndOp);
-		if(Options.useGBA) {
-			mDifference = new GeneralizedBuchiIntersection(fstOp, mSndComplement);
-		}else {
-			mDifference = new BuchiWaIntersection(fstOp, mSndComplement);
-		}
 	}
 	
-	private void initializeTarjan() {
-		mTarjan = new TarjanWaExploration(mDifference);
-	}
-
 	@Override
-	public Boolean isIncluded() {
-		if(mTarjan == null) 
-			initializeTarjan();
-		return mTarjan.isEmpty();
+	protected void initializeExplorer() {
+	    mExplorer = new TarjanWaExploration(mDifference);
 	}
 
 	@Override

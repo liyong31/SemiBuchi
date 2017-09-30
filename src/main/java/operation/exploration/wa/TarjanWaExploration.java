@@ -11,7 +11,7 @@ import util.IntSet;
 import util.MarkedIntStack;
 import util.UtilIntSet;
 
-public class TarjanWaExploration {
+public class TarjanWaExploration implements EmptinessExploration {
 	
 	private int mIndex;
 	private final MarkedIntStack mStateStack;

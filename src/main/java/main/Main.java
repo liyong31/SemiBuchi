@@ -159,7 +159,7 @@ public class Main {
 			    task.setOperation(new BuchiWaDifferenceAntichain(pair.getFstElement(), pair.getSndElement()));
 			}else if(ascc){
 			    task.setOperation(new BuchiWaDifferenceAscc(pair.getFstElement(), pair.getSndElement()));
-			}{
+			}else{
 	             System.err.println("Other algorithms not support yet");
 	             System.exit(-1);
 			}
