@@ -13,8 +13,9 @@ import java.util.List;
 
 import automata.wa.IBuchiWa;
 import complement.wa.BuchiWaComplement;
-import operation.difference.wa.BuchiWaDifference;
+import operation.difference.wa.BuchiWaDifferenceTarjan;
 import operation.difference.wa.BuchiWaDifferenceAntichain;
+import operation.difference.wa.BuchiWaDifferenceAscc;
 import operation.inclusion.wa.BuchiInclusionASCC;
 import operation.inclusion.wa.BuchiInclusionASCCAntichain;
 import operation.inclusion.wa.BuchiInclusionComplement;
@@ -127,7 +128,7 @@ public class Main {
 		File file = null;
 		TaskDifference task = null;
 		
-		boolean tarjan = false, antichain = false;
+		boolean tarjan = false, antichain = false, ascc = false;
 		for(int i = 0; i < args.length; i ++) {
 			
 			if(args[i].endsWith(FILE_EXT)) {
@@ -138,6 +139,8 @@ public class Main {
 			    antichain = true;
 			}else if(args[i].equals("-ncs")) {
                 Options.smallerNCS = true;
+            }else if(args[i].equals("-ascc")) {
+                ascc = true;
             }
 		}
 		
@@ -151,10 +154,12 @@ public class Main {
 		for(PairXX<IBuchiWa> pair : pairs) {
 			task = new TaskDifference(file.getName());
 			if(tarjan) {
-				task.setOperation(new BuchiWaDifference(pair.getFstElement(), pair.getSndElement()));
+				task.setOperation(new BuchiWaDifferenceTarjan(pair.getFstElement(), pair.getSndElement()));
 			}else if(antichain) {
 			    task.setOperation(new BuchiWaDifferenceAntichain(pair.getFstElement(), pair.getSndElement()));
-			}else {
+			}else if(ascc){
+			    task.setOperation(new BuchiWaDifferenceAscc(pair.getFstElement(), pair.getSndElement()));
+			}{
 	             System.err.println("Other algorithms not support yet");
 	             System.exit(-1);
 			}

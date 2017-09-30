@@ -8,12 +8,11 @@ import operation.intersection.wa.BuchiWaIntersection;
 import operation.intersection.wa.GeneralizedBuchiIntersection;
 
 
-public class BuchiWaDifference extends AbstractBuchiWaDifference {
+public class BuchiWaDifferenceTarjan extends AbstractBuchiWaDifference {
 	
-	private final IBuchiWa mDifference;
 	private TarjanWaExploration mTarjan; 
 	
-	public BuchiWaDifference(IBuchiWa fstOp, IBuchiWa sndOp) {
+	public BuchiWaDifferenceTarjan(IBuchiWa fstOp, IBuchiWa sndOp) {
 		super(fstOp, sndOp);
 		if(Options.useGBA) {
 			mDifference = new GeneralizedBuchiIntersection(fstOp, mSndComplement);
@@ -24,13 +23,6 @@ public class BuchiWaDifference extends AbstractBuchiWaDifference {
 	
 	private void initializeTarjan() {
 		mTarjan = new TarjanWaExploration(mDifference);
-	}
-
-	@Override
-	public IBuchiWa getResult() {
-		if(mTarjan == null) 
-			initializeTarjan();
-		return mDifference;
 	}
 
 	@Override

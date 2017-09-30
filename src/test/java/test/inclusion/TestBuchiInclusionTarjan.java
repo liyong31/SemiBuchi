@@ -6,7 +6,7 @@ import automata.IBuchi;
 import automata.wa.IBuchiWa;
 import main.Options;
 import main.TaskInclusion;
-import operation.difference.wa.BuchiWaDifference;
+import operation.difference.wa.BuchiWaDifferenceTarjan;
 import operation.inclusion.wa.BuchiInclusionComplement;
 import util.PairXX;
 import util.parser.ats.ATSFileParser;
@@ -26,7 +26,7 @@ public class TestBuchiInclusionTarjan {
 			System.out.println("IsIncluded: " + complement.isIncluded() + "");
 			//System.out.println(complement.getBuchiDifference().toDot());
 			Options.verbose = false;
-			BuchiWaDifference difference = new BuchiWaDifference(pair.getFstElement(), pair.getSndElement());
+			BuchiWaDifferenceTarjan difference = new BuchiWaDifferenceTarjan(pair.getFstElement(), pair.getSndElement());
 			System.out.println("IsIncluded: " + difference.isIncluded() + "");
 		}
 		
