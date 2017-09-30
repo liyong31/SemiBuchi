@@ -32,6 +32,7 @@ public class TarjanWaExploration implements EmptinessExploration {
 		tarjan();
 	}
 	
+	@Override
 	public Boolean isEmpty() {
 		return mIsEmpty;
 	}
