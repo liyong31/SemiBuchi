@@ -602,7 +602,7 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 	//----------------------------------------------------------------
 	
 	public static void main(String[] args) {
-		String file = "/home/liyong/workspace-neon/SemiBuchi/test4.ats";
+		String file = "/home/liyong/workspace-neon/SemiBuchi/bug1.ats";
 
 		ATSFileParser4Nwa parser = new ATSFileParser4Nwa();
 		parser.parse(file);
@@ -610,8 +610,8 @@ public final class BuchiNwaExploration extends BuchiExploration<IBuchiNwa>{
 		buchi.toATS(System.out, parser.getAlphabet());
 		Options.setChoice = 3;
 		BuchiNwaComplement complement = new BuchiNwaComplement(buchi);
-		Options.verbose = false;
-		Options.lazyS = false;
+		Options.verbose = true;
+		Options.lazyS = true;
 		Options.lazyB = true;
 		
 		BuchiNwaExploration reach = new BuchiNwaExploration(complement);

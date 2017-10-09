@@ -107,7 +107,7 @@ public class SuccessorGenerator {
 				// as usual S and C
 				CP = mMustIn.clone();
 				CP.or(left); // C' get extra
-				if(Options.lazyB) {
+				if(!Options.lazyB) {
 					BP = CP;
 				}else {
 					// following is d(C) /\ C'
@@ -130,7 +130,7 @@ public class SuccessorGenerator {
 			CP.or(left);
 			SP.or(toS);
 			if(mIsCurrBEmpty) {
-				if(Options.lazyB) {
+				if(!Options.lazyB) {
 					BP = CP;
 				}else {
 					BP = mSuccNCSB.copyCSet();
