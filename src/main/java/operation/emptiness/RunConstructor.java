@@ -1,7 +1,6 @@
 package operation.emptiness;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 import automata.wa.IBuchiWa;
@@ -11,7 +10,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 import util.IntSet;
 import util.UtilIntSet;
 
-public class RunConstructor {
+class RunConstructor {
     
     private final IBuchiWa mBuchi;
     private final IntSet mSources;
