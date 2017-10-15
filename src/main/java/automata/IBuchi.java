@@ -89,7 +89,7 @@ public interface IBuchi<S extends IState> {
             if(isFinal(state.getId())) out.print(" [label=\"" +  state.getId() + "\"" + ", shape = doublecircle");
             else if(! labels.isEmpty()) {
             	out.print(" [label=\"" +  state.getId() + " " +  labels + "\"" + ", shape = box");
-            }else out.print(", shape = circle");
+            }else out.print(" [label=\"" +  state.getId() + "\"" + ", shape = circle");
             
             out.print("];\n");
             state.toDot(out, alphabet);
