@@ -169,6 +169,14 @@ public class ATSParser implements ATSParserConstants {
     jj_consume_token(LEFTCURLY);
     label_6:
     while (true) {
+      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+      case LEFTPARA:
+        ;
+        break;
+      default:
+        jj_la1[5] = jj_gen;
+        break label_6;
+      }
       jj_consume_token(LEFTPARA);
       sourceStr = jj_consume_token(STRING);
       sourceId = parser.getStateId(sourceStr.toString());
@@ -179,14 +187,6 @@ public class ATSParser implements ATSParserConstants {
       IStateWa state = buchi.getState(sourceId);
       state.addSuccessor(letter, targetId);
       jj_consume_token(RIGHTPARA);
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case LEFTPARA:
-        ;
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        break label_6;
-      }
     }
     jj_consume_token(RIGHTCURLY);
   }

@@ -214,7 +214,7 @@ private void parseTransitions() :
       state.addSuccessor(letter, targetId);
     }
     <RIGHTPARA>
-  )+
+  )*
   
   <RIGHTCURLY>
 }

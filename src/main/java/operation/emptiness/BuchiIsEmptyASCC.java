@@ -114,13 +114,11 @@ public class BuchiIsEmptyASCC implements IBuchiWaIsEmpty {
 
 	@Override
 	public Boolean getResult() {
-		// TODO Auto-generated method stub
 		return mIsEmpty;
 	}
 
 	@Override
 	public IPair<List<Integer>, List<Integer>> getAcceptingWord() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
