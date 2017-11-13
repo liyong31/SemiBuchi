@@ -16,11 +16,11 @@ do
     NUM=$(echo $case | sed 's/[^0-9]*//g')
     echo "$NUM"
 	# NCSB
-	command="timeout $time java -jar SemiBuchi-0.0.1.jar -complement easy0.ba $case -set 3 >> result-complement-easy.csv";
+	command="timeout $time java -jar SemiBuchi-0.0.1.jar -complement easy.ba $case -set 3 >> result-complement-easy.csv";
 	echo $command
 	eval $command
 	# optimized NCSB
-	command="timeout $time java -jar SemiBuchi-0.0.1.jar -opt -complement easy0-opt.ba $case -set 3 >> result-complement-easy.csv";
+	command="timeout $time java -jar SemiBuchi-0.0.1.jar -opt -complement easy-opt.ba $case -set 3 >> result-complement-easy.csv";
 	echo $command
 	eval $command
 done
