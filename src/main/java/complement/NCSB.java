@@ -1,5 +1,6 @@
 package complement;
 
+import main.Options;
 import util.IntSet;
 import util.UtilIntSet;
 
@@ -85,6 +86,9 @@ public class NCSB {
 	
 
 	public boolean coveredBy(NCSB other) {
+	    if(Options.lazyS && ! other.mBSet.subsetOf(mBSet)) {
+	        return false;
+	    }
 		if(! other.mNSet.subsetOf(mNSet)
 		|| ! other.mCSet.subsetOf(mCSet)
 		|| ! other.mSSet.subsetOf(mSSet)) {
