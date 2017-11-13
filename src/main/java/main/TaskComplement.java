@@ -21,6 +21,7 @@ public class TaskComplement extends GenericUnaryTask {
 		mOpTransNum = mComplement.getOperand().getTransitionSize();
 		mAlphabetSize = mComplement.getOperand().getAlphabetSize();
 		mResultStateSize = mComplement.getStateSize();
+		mResultTransSize = mComplement.getTransitionSize();
 	}
 	
 	public void setOperation(BuchiWaComplement complement) {

@@ -5,7 +5,7 @@ public class Options {
 	public static boolean verbose = false;
 	
 	// 0 for BitSet, 1 for SparseBitSet, 2 for TInSet, 3 for TreeSet, and 4 for HashSet 
-	public static int setChoice = 0;
+	public static int setChoice = 3;
 	
 	// whether to enable optimized version of NCSB
 	// delay the word from C (newly incomers from N) to S 
