@@ -29,7 +29,8 @@ public class TaskComplement extends GenericUnaryTask {
 		this.mOperationName = "Complement";
 		this.mOperationName += "+" + UtilIntSet.getSetType() + (Options.lazyS ? "+lazyS" : "")
 				                                         + (Options.lazyB ? "+lazyB" : "")
-				                                         + (Options.useGBA ? "+GBA" : "+BA");
+				                                         + (Options.useGBA ? "+GBA" : "+BA")
+				                                         + (Options.ondraExplore? "+antichain" : "");
 	}
 
 }
