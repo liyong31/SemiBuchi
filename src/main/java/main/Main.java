@@ -75,7 +75,9 @@ public class Main {
 				inclusion = true;
 			}else if(args[i].equals("-gba")) {
 				Options.useGBA = true;
-			}
+			}else if(args[i].equals("-oe")) {
+                Options.ondraExplore = true;
+            }
 		}
 		time = time * 1_000; // miliseconds
 		if(test) {
@@ -112,6 +114,7 @@ public class Main {
 		System.out.println("-ac: Use Antichain optimization");
 		System.out.println("-dfs: Use Double DFS algorithm");
 		System.out.println("-diff: Compute Difference of two automata");
+		System.out.println("-oe: Explore complement automata using algorithm proposed Ondra");
 		System.out.println("-ncs: Prefer smaller N\\/C\\/S ");
 		System.out.println("-incl: Check inclusion of two automata");
 		System.out.println("-gba: Use generalized Buchi automata");

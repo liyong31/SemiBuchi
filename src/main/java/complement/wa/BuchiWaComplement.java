@@ -75,6 +75,11 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 		
 		mExplored = true;
 		
+		if(Options.ondraExplore) {
+		    new OndraComplementExplore(this);
+		    return ;
+		}
+		
 		LinkedList<IStateWa> walkList = new LinkedList<>();
 		IntSet initialStates = getInitialStates();
 		
@@ -104,6 +109,11 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
         		}
         	}
         }
+	}
+	
+	
+	private void ondraExplore() {
+	    
 	}
 
 

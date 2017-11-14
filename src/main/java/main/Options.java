@@ -19,5 +19,8 @@ public class Options {
 	
 	// N\/C\/S smaller first
 	public static boolean smallerNCS = false;
+	
+	// Ondra exploration
+	public static boolean ondraExplore = false;
 
 }
