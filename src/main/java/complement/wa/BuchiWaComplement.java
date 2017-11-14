@@ -29,6 +29,18 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
 		computeInitialStates();
 	}
 	
+	@Override
+	public int getTransitionSize() {
+	    return mTransitions;
+	}
+	
+	protected void increaseTransition() {
+	    ++ mTransitions;
+	}
+
+	
+	private int mTransitions;
+	
 	private final TObjectIntMap<StateWaNCSB> mStateIndices = new TObjectIntHashMap<>();
 
 	private void computeInitialStates() {
@@ -102,6 +114,7 @@ public class BuchiWaComplement extends BuchiWa implements IBuchiWaComplement {
         		iter = succs.iterator();
         		while(iter.hasNext()) {
         			int n = iter.next();
+                    this.increaseTransition();
         			if(Options.verbose) System.out.println(" s"+ s.getId() + ": " + s.toString() + "- L" + i + " -> s" + n + ": " + getState(n));
         			if(! visited.get(n)) {
         				walkList.addFirst(getState(n));

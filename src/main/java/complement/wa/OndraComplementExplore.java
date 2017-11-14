@@ -19,10 +19,7 @@ public class OndraComplementExplore {
     IntSet mQPrime;
     BuchiWaComplement mOperand;
     Boolean mIsEmpty;
-    
-    int numOfStates = 0;
-    int numOfTrans = 0;
-    
+        
     public OndraComplementExplore(BuchiWaComplement operand) {
         mOperand = operand;
         
@@ -107,6 +104,7 @@ public class OndraComplementExplore {
                 }else if(mEmp.covers(getStateWaNCSB(t))) {
                     continue;
                 }else if(! mAct.contains(t)) {
+                    mOperand.increaseTransition();
                     boolean result = construct(t);
                     is_nemp = result || is_nemp;
                 }else {
