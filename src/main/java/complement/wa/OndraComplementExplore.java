@@ -99,12 +99,12 @@ public class OndraComplementExplore {
         boolean is_nemp = false;
         for(int letter = 0; letter < mOperand.getAlphabetSize(); letter ++) {
             for(final int t : state.getSuccessors(letter).iterable()) {
+                mOperand.increaseTransition();
                 if(mQPrime.get(t)) {
                     is_nemp = true;
                 }else if(mEmp.covers(getStateWaNCSB(t))) {
                     continue;
                 }else if(! mAct.contains(t)) {
-                    mOperand.increaseTransition();
                     boolean result = construct(t);
                     is_nemp = result || is_nemp;
                 }else {
