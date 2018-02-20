@@ -15,22 +15,23 @@ do
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -complement easy.ba $case -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
+	# NCSB + Antichain
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -complement easye.ba $case -oe -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
-	# optimized NCSB
+	# NCSB + LazyS
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -lazys -complement easy-opt.ba $case -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
-		# optimized NCSB
+    # NCSB + LazyS + Antichain
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -lazys -complement easy-opte.ba $case -oe -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
-	# optimized NCSB
+	# NCSB + LazyS + LazyB
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -lazys -lazyb -complement easy-opt1.ba $case -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
-	# optimized NCSB
+	# NCSB + LazyS + LazyB + Antichain
 	command="timeout $time java -jar SemiBuchi-0.0.1.jar -to 300 -lazys -lazyb -complement easy-opte1.ba $case -oe -set 3 >> result-complement-all-eo.csv";
 	echo $command
 	eval $command
