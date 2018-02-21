@@ -1,1 +1,0 @@
-AliasDarteFeautrierGonnord-SAS2010-Fig2b_true-termination.c_SUNFLOWER-INTSET_LAZY3_Iteration2.ats GBA saves two states for lazyS
