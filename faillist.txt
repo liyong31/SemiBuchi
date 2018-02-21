@@ -1,0 +1,15 @@
+TerminationNcsbComparison
+TerminationNcsbComparison
+I:svcomp/c/recursive-simple/fibo_2calls_2_false-unreach-call_true-termination.c S:settings/buchiAutomizer/ncsb/SUNFLOWER-ORIGINAL.epf T:toolchains/BuchiAutomizerCInline.xml(de.uni_freiburg.informatik.ultimate.ultimatetest.suites.traceabstraction.TerminationNcsbComparison)
+de.uni_freiburg.informatik.ultimate.test.UltimateTestFailureException: ExpectedResult: TERMINATING UltimateResult: EXCEPTION_OR_ERROR   [de.uni_freiburg.informatik.ultimate.plugins.generator.buchiautomizer: AssertionError: buchiDifferenceNCSB wrong result!: de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.AbstractBuchiDifference.checkAcceptance(AbstractBuchiDifference.java:179)]
+	at de.uni_freiburg.informatik.ultimate.test.test(UltimateTestCase.java)
+
+I:svcomp/c/recursive-simple/fibo_2calls_2_true-unreach-call_true-termination.c S:settings/buchiAutomizer/ncsb/SUNFLOWER-ORIGINAL.epf T:toolchains/BuchiAutomizerCInline.xml(de.uni_freiburg.informatik.ultimate.ultimatetest.suites.traceabstraction.TerminationNcsbComparison)
+de.uni_freiburg.informatik.ultimate.test.UltimateTestFailureException: ExpectedResult: TERMINATING UltimateResult: EXCEPTION_OR_ERROR   [de.uni_freiburg.informatik.ultimate.plugins.generator.buchiautomizer: AssertionError: buchiDifferenceNCSB wrong result!: de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.AbstractBuchiDifference.checkAcceptance(AbstractBuchiDifference.java:179)]
+	at de.uni_freiburg.informatik.ultimate.test.test(UltimateTestCase.java)
+
+I:svcomp/c/recursive-simple/fibo_2calls_4_false-unreach-call_true-termination.c S:settings/buchiAutomizer/ncsb/SUNFLOWER-ORIGINAL.epf T:toolchains/BuchiAutomizerCInline.xml(de.uni_freiburg.informatik.ultimate.ultimatetest.suites.traceabstraction.TerminationNcsbComparison)
+de.uni_freiburg.informatik.ultimate.test.UltimateTestFailureException: ExpectedResult: TERMINATING UltimateResult: EXCEPTION_OR_ERROR   [de.uni_freiburg.informatik.ultimate.plugins.generator.buchiautomizer: AssertionError: buchiDifferenceNCSB wrong result!: de.uni_freiburg.informatik.ultimate.automata.nestedword.buchi.AbstractBuchiDifference.checkAcceptance(AbstractBuchiDifference.java:179)]
+	at de.uni_freiburg.informatik.ultimate.test.test(UltimateTestCase.java)
+
+
