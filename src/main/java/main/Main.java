@@ -1,6 +1,7 @@
 package main;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ public class Main {
 		boolean complement = false;
 		boolean inclusion = false;
 		boolean difference = false;
+		boolean convert = false;
 		String fileOut = null;
 		for(int i = 0; i < args.length; i ++) {
 			if(args[i].equals("-test")) {
@@ -77,6 +79,8 @@ public class Main {
 				Options.useGBA = true;
 			}else if(args[i].equals("-oe")) {
                 Options.ondraExplore = true;
+            }else if(args[i].equals("-convert")) {
+            	convert = true;
             }
 		}
 		time = time * 1_000; // miliseconds
@@ -88,10 +92,59 @@ public class Main {
 			checkInclusion(args, time);
 		}else if(difference) {
 			computeDifference(args, time);
+		}else if(convert) {
+			convertFiles(args);
 		}
 		
 		// force to exit
 		System.exit(-1);
+	}
+
+
+	private static void convertFiles(String[] args) {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(Options.verbose) System.out.println("Time stamp: " + dateFormat.format(new Date()));
+		
+		File file = null;		
+		for(int i = 0; i < args.length; i ++) {
+			if(args[i].endsWith("-path")) {
+				file = new File(args[i + 1]);
+				++ i;
+			}
+		}
+		
+		assert file != null;
+		
+		for(File f: file.listFiles()) {
+			if(f.isDirectory()) {
+				continue;
+			}else if(f.getName().endsWith(FILE_EXT)) {
+				System.out.println("Parsing file " + f.getName() + " ....");
+				ATSFileParser atsParser =  new ATSFileParser();
+				atsParser.parse(f.getAbsolutePath());
+				List<PairXX<IBuchiWa>> pairs = atsParser.getBuchiPairs();
+				
+				String pathName = f.getAbsolutePath();
+				System.out.println("Absolute path of " + f.getName() + " is " + pathName);
+				int index = pathName.indexOf(".ats");
+				String newFileName = pathName.substring(0, index);
+				System.out.println("new File name: " + newFileName);
+				for(PairXX<IBuchiWa> pair : pairs) {
+					IBuchiWa A = pair.getFstElement();
+					IBuchiWa B = pair.getSndElement();
+					try {
+						A.toBA(new PrintStream(new FileOutputStream(newFileName + "_A.ba")), atsParser.getAlphabet());
+						B.toBA(new PrintStream(new FileOutputStream(newFileName + "_B.ba")), atsParser.getAlphabet());
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		
+		
 	}
 
 
@@ -120,6 +173,7 @@ public class Main {
 		System.out.println("-gba: Use generalized Buchi automata");
 		System.out.println("-to k: Limit execution in k seconds (20 secs by default)");
 		System.out.println("-complement <file-out>: Output complement of the last automaton");
+		System.out.println("-convert: Convert two automata to BA format");
 		
 	}
 	
